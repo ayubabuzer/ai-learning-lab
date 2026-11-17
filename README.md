@@ -2,9 +2,11 @@
 
 **English** | [العربية](README.ar.md)
 
-Free, bilingual, hands-on AI education for learners aged 8–18.
+**Understand AI. Build AI. Share Knowledge.**
 
-> **Our mission:** Help young people understand how AI works—not just how to use it—through small, interactive projects they can explore, change, and share.
+Free, bilingual, hands-on AI education for learners of all ages and backgrounds. No prior AI experience required.
+
+> **Our mission:** Help everyone understand how AI works—not just how to use it—through small, interactive projects they can explore, change, and share.
 
 ## How learning works
 
@@ -12,11 +14,11 @@ Free, bilingual, hands-on AI education for learners aged 8–18.
 
 Each lesson begins with an interactive demonstration, introduces one concept, and offers optional challenges for different experience levels.
 
-- **Explorer (8–11):** Try the activity, change examples, and describe what happened.
-- **Builder (12–15):** Inspect the logic, modify inputs, and test predictions.
-- **Inventor (16–18):** Extend the code, evaluate results, and investigate limitations.
+- **Explorer (no coding required):** Try the activity, change examples, and describe what happened.
+- **Builder (some coding):** Inspect the logic, modify inputs, and test predictions.
+- **Innovator (advanced):** Extend the code, evaluate results, and investigate limitations.
 
-These are suggested pathways, not strict age limits.
+Choose a pathway based on your experience and interests, not your age.
 
 ## Learning roadmap
 
@@ -39,7 +41,7 @@ These are suggested pathways, not strict age limits.
 4. Change an example, make a prediction, and test what happens.
 5. Explain what you discovered and what the demonstration cannot do.
 
-Younger pupils can use the demonstrations without a GitHub account. Educators should follow their school's safeguarding and account policies.
+Anyone can try public browser-based demonstrations without a GitHub account. Educators working with children should follow their institution's safeguarding and account policies.
 
 ## Languages and accessibility
 
