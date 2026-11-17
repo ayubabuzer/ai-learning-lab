@@ -1,4 +1,4 @@
-# AI Learning Lab | مختبر تعلم الذكاء الاصطناعي
+# AI Learning Lab
 
 **English** | [العربية](README.ar.md)
 
