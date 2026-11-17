@@ -1,3 +1,12 @@
+## Unreleased — Lesson 01 readability and RTL correction
+
+- Removed the token-count guessing field; learners now explore editable English and Arabic sentences directly.
+- Replaced raw Qwen token-string display with decoder-based Unicode-safe readable groups while preserving every original Qwen token ID.
+- Corrected the description from WordPiece to byte-level BPE.
+- Ensured Arabic token order and layout use RTL and numerical IDs remain legible.
+- Made byte-mode output readable and updated bilingual pupil and teacher guidance.
+- Live model loading must be rechecked on the deployed site; no live Hugging Face network access was available in the build environment.
+
 ## 2026-11-17 — Qwen tokenizer alignment (Lesson 01)
 - Switched the real tokenizer demonstration from multilingual BERT to the Qwen3 0.6B tokenizer, connecting it to the model family planned for later lessons.
 - Kept the existing website design, bilingual classroom material and offline byte-mode experiment.

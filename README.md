@@ -10,7 +10,7 @@ AI Learning Lab is a free, open-source, bilingual learning journey for learners 
 
 ### [How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) — Published
 
-**What happens to a sentence before an AI model can process it?** Learners type any English or Arabic text, guess how many pieces it becomes, run the **real Qwen3 0.6B tokenizer**, click colourful tokens to inspect their **actual numerical IDs**, and compare the result with a clearly labelled offline UTF‑8 byte tokenizer. They experiment with emojis, punctuation, different languages and spelling, and explain surprises.
+**What happens to a sentence before an AI model can process it?** Learners type any English or Arabic text, run the **real Qwen3 0.6B tokenizer**, click colourful tokens to inspect their **actual numerical IDs**, and compare the result with a clearly labelled offline UTF‑8 byte tokenizer. They experiment with emojis, punctuation, different languages and spelling, and explain surprises.
 
 Real model-tokeniser mode requires an internet connection initially for free tokenizer files. Offline byte mode is not a pretrained model vocabulary. No text-generation model runs in this lesson. Token IDs are not embeddings; this is introduced in Lesson 02.
 
@@ -49,3 +49,6 @@ Report ideas and issues in the repository. Respect the existing repository licen
 ## Why Qwen tokenisation?
 
 Lesson 01 uses the tokenizer files of the actual Qwen3 0.6B model, but **does not load Qwen model weights or generate answers**. These are two separate stages: tokenisation is lightweight; language generation is introduced in Lesson 03. A small first-time download of tokenizer files is needed. The classroom byte mode remains available without model downloads.
+
+
+**Arabic display fix:** Real Qwen byte-level BPE token IDs are preserved. Adjacent token IDs may be grouped into readable Unicode spans, so a displayed piece is not necessarily a single token. The inspector shows every original ID. Arabic layouts use RTL, and byte mode decodes valid UTF-8 sequences for display.

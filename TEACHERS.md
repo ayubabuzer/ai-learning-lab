@@ -11,7 +11,7 @@
 
 | Minutes | Activity | Teacher prompt |
 |---|---|---|
-| 0–5 | Guess | “Is *unbelievable!* one piece, several pieces, or many?” Record guesses. |
+| 0–5 | Explore | Change one letter in a sample and ask pupils to describe the difference. |
 | 5–12 | Token detectives | Pairs type English or Arabic sentences and choose **Reveal real tokens**; click pieces to see IDs. |
 | 12–19 | Surprise challenge | Teams try punctuation, spaces, emojis or invented words; share the most surprising difference. |
 | 19–23 | Compare | Switch the *same text* to byte mode. Ask why numbers and token counts change. |
@@ -26,8 +26,11 @@
 
 ### Class play ideas
 
-**Token Tournament:** Teams forecast token counts before revealing them; award points for explaining *why* rather than closest guesses only. **Two-language detectives:** Give groups semantically similar English and Arabic sentences and compare different splits, without suggesting the languages must produce the same number of pieces. **Emoji challenge:** Explore why one visible emoji can correspond to multiple bytes.
+**Token Detectives:** Teams change one letter, punctuation mark or emoji, then explain what changed in the real token IDs. Award points for explanations, not guesses. **Two-language detectives:** Give groups semantically similar English and Arabic sentences and compare different splits, without suggesting the languages must produce the same number of pieces. **Emoji challenge:** Explore why one visible emoji can correspond to multiple bytes.
 
 **Assessment:** Ask pupils to explain an unexpected result and identify something they cannot infer from token IDs.
 
 **Next lesson (planned):** How Does AI Connect Words? — embeddings and similarity, not just identifiers.
+
+
+**Arabic display fix:** Real Qwen byte-level BPE token IDs are preserved. Adjacent token IDs may be grouped into readable Unicode spans, so a displayed piece is not necessarily a single token. The inspector shows every original ID. Arabic layouts use RTL, and byte mode decodes valid UTF-8 sequences for display.

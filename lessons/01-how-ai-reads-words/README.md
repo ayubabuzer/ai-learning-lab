@@ -4,14 +4,14 @@
 
 ## Discover
 
-AI language systems do not directly work with written sentences. Their tokenizer turns text into pieces called **tokens**, and each token has an **ID**. Try English, Arabic, punctuation and emoji. Predict the token count before revealing the real output.
+AI language systems do not directly work with written sentences. Their tokenizer turns text into pieces called **tokens**, and each token has an **ID**. Try English, Arabic, punctuation and emoji. Explore what changes when you edit your sentence.
 
 ## Try it yourself
 
 1. Enter any sentence (avoid private information).
-2. Guess how many tokens will appear.
-3. Choose **Reveal real tokens** to load the free Qwen3 0.6B WordPiece tokenizer, or the explicitly labelled **UTF‑8 byte mode** for offline use.
-4. Click a coloured token to see its actual ID.
+2. Click **Reveal real tokens** and examine the readable pieces.
+3. Choose **Explore byte tokens (offline)** to compare a different method, if useful.
+4. Click a coloured piece to see one or more original token IDs.
 5. Change one letter, a space, or the language; run again and explain the difference.
 
 ## What is real?
@@ -31,3 +31,6 @@ Open the **Teacher’s guide** panel in the page or read [TEACHERS.md](../../TEA
 ## Technical notes
 
 Static GitHub Pages HTML, JavaScript and CSS. No account, paid inference, API key or personal data upload. External CDN and pretrained tokenizer files require network access; offline byte mode works without those dependencies. User input is processed locally and not uploaded by our code. External dependencies are subject to their own licensing and hosting terms.
+
+
+**Arabic display fix:** Real Qwen byte-level BPE token IDs are preserved. Adjacent token IDs may be grouped into readable Unicode spans, so a displayed piece is not necessarily a single token. The inspector shows every original ID. Arabic layouts use RTL, and byte mode decodes valid UTF-8 sequences for display.
