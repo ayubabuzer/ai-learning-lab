@@ -17,11 +17,19 @@ Type an English sentence or choose an English example, split it into readable pi
 | Lesson | Concept | Status |
 |---|---|---|
 | **[01 — How Does AI Read Our Words?](lessons/01-how-ai-reads-words/)** | Text pieces and local classroom IDs | **Lightweight version ready** |
-| 02 — How Does AI Connect Words? | Pretrained embeddings, word similarity, vectors | Planned |
+| **[02 — How Does AI Connect Words?](lessons/02-word-embeddings/)** | Editable context vectors, numerical similarity and interactive word map | **Lightweight version ready** |
 | 03 — How Does AI Predict What Comes Next? | Context and next-token generation | Planned |
 | 04 — Does AI Really Remember? | Editable context, open-ended questions, temporary memory | Planned |
 | 05 — How Does AI Find Information? | Keyword and semantic retrieval | Planned |
 | 06 — Build Your Own AI Digital Twin | Gradio, `.txt` retrieval, grounded answers | Planned capstone |
+
+## Lesson 02 — How Does AI Connect Words?
+
+**[Open the interactive word playground](lessons/02-word-embeddings/)** · [Lesson guide](lessons/02-word-embeddings/README.md)
+
+Enter any two words **present in the editable examples**, compare their numerical context vectors, see their shared-context similarity score and explore a calculated 2D word map. Add or change sentences and rebuild to see the result change. English mode uses English examples; Arabic mode uses Arabic examples and RTL layout. A short, **static and explicitly illustrative** king − man + woman ≈ queen example is included.
+
+**Model honesty:** This is a real calculation from learner-editable sentences using word co-occurrence counts and cosine similarity. It is **not a pretrained embedding model or Qwen** and does not predict the next token. It works offline on ordinary school computers. Arbitrary typed words must be present in the example text; otherwise pupils are invited to add examples and rebuild.
 
 ## For teachers
 

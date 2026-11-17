@@ -1,6 +1,6 @@
 # AI Learning Lab — Teacher's Guide
 
-[العربية](TEACHERS.ar.md) · [Lesson 01](lessons/01-how-ai-reads-words/)
+[العربية](TEACHERS.ar.md) · [Lesson 01](lessons/01-how-ai-reads-words/) · [Lesson 02](lessons/02-word-embeddings/)
 
 ## Lesson 01: How Does AI Read Our Words?
 
@@ -28,3 +28,28 @@ This lesson is **not running Qwen**. It is a lightweight teaching tokenizer usin
 **Safeguarding:** Ask pupils to use imaginary stories, animals or fictional characters instead of personal details.
 
 **Exit question:** “Can the numbers alone tell us the meaning of a sentence?” Expected answer: no — numerical encoding is a first step, not understanding.
+
+---
+
+## Lesson 02: How Does AI Connect Words?
+
+**Length:** 25 minutes. **Audience:** All ages, pairs/groups. **Equipment:** Normal web browser; projector optional. **Account/network:** None required for the downloaded lesson.
+
+**Objective:** Pupils see that words can be represented by lists of numbers describing the words that appeared around them in examples. They can compare the numerical patterns and explain how adding examples changes the outcome.
+
+| Time | Classroom game | Teacher actions |
+|---|---|---|
+| 0–5 min | Which words belong together? | Ask pupils to predict whether `cat/dog` or `cat/banana` will have more context in common. Show each result. |
+| 5–12 min | Find a close pair | Pairs enter words **from the example sentences**, click Compare, inspect the number table, and explore a dot on the map. |
+| 12–20 min | Change the evidence | Each pair adds a sentence featuring a target word, clicks Rebuild word map and compares before/after scores. |
+| 20–25 min | Explain the surprise | Invite pairs to share one result and explain which shared clue words produced it. |
+
+**Teaching prompt:** "Why might *cat* and *dog* have similar context counts? What would happen if we only supplied sentences about cats?"
+
+**Common misconceptions:** Similarity is **not** a probability that two words mean the same thing. This simple experiment computes co-occurrence context vectors from short editable examples; it is not Qwen and not a pretrained neural embedding model. The 2D graph is an approximate projection; the similarity score uses all context clues. The **king − man + woman ≈ queen** numbers are invented for illustration, not model output; vector arithmetic is not how a language model directly predicts its next token.
+
+**Safeguarding:** Use fictional and classroom-safe sentences, not personal data. For Arabic, switch the interface so Arabic examples and proper RTL ordering appear.
+
+**Exit question:** "If I add new example sentences, can the numbers change? Why?" Expected answer: yes, because the numbers are calculated from the words found together in the current examples.
+
+---

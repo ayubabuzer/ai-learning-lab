@@ -1,5 +1,25 @@
 # Changelog | سجل التغييرات
 
+## 2026-11-17 — Lesson 02: classroom word vectors and similarity
+
+### English
+- Published **Lesson 02 — How Does AI Connect Words?** in its single permanent folder `lessons/02-word-embeddings/`.
+- Added learner-controlled word pairs, editable example sentences, actual co-occurrence vector counts, computed cosine similarity, nearest neighbours and a 2D projection generated from those vectors.
+- Included a static, explicitly illustrative king − man + woman ≈ queen example with teaching numbers; no invented numbers are presented as trained-model outputs.
+- Added English-only and Arabic-only examples according to the selected language, Arabic RTL throughout, a 25-minute teacher game and bilingual guides.
+- The lightweight model is a genuine classroom calculation, **not pretrained Qwen embeddings or LLM inference**. It needs no network connection or model download.
+- Updated the root homepage, both root READMEs and both teacher guides. Lesson 01 files are unchanged and are not bundled as duplicates.
+
+### العربية
+- نشر **الدرس الثاني — كيف يربط الذكاء الاصطناعي الكلمات؟** في مجلده الدائم الوحيد `lessons/02-word-embeddings/`.
+- إضافة مقارنة كلمتين، وتعديل جمل الأمثلة، وحساب متجهات السياق والتشابه فعلياً، وعرض الكلمات القريبة وخريطة محسوبة ثنائية الأبعاد.
+- تضمين مثال ثابت للملك والرجل والمرأة والملكة بأرقام تعليمية واضحة، دون تقديمها على أنها نتائج نموذج مدرَّب.
+- دعم أمثلة عربية خاصة بالواجهة العربية واتجاه من اليمين إلى اليسار، مع دليل المعلم ونشاط مدته ٢٥ دقيقة.
+- هذه تجربة حسابية تعليمية خفيفة **وليست متجهات Qwen المدرَّبة أو تشغيل نموذج لغوي كبير**.
+- تحديث الصفحة الرئيسية وملفات القراءة وأدلة المعلمين مع إبقاء ملفات الدرس الأول دون تعديل أو نسخ مكرر.
+
+---
+
 ## 2026-11-17 — Lesson 01 clarity and language-specific examples
 
 ### English

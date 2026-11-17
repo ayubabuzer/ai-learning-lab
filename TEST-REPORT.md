@@ -1,20 +1,30 @@
-# Lesson 01 clarity update — test report
+# Lesson 02 — Local validation report
 
-Local tests: 2026-11-17.
+**Date:** 2026-11-17  
+**Test environment:** Local Linux Chromium (`/usr/bin/chromium`) controlled through Playwright, desktop viewport 1280 × 900 and mobile viewport 375 × 820.  
+**Result:** 30 / 30 automated checks passed.  
+**Not tested:** The deployed GitHub Pages site and specific pupils' school computers.
 
-## Verified
+## Checks completed
 
-- JavaScript syntax of homepage and Lesson 01 scripts (`node --check`).
-- Interactive browser tests in headless Chromium at 1280 × 900 and 375 × 812, injecting the exact HTML as a document (direct navigation was blocked in this environment).
-- English-mode example buttons contain only English text; switching to Arabic shows Arabic-only example sentences and challenges, and switches the input default.
-- Arabic interface `lang=ar`, `dir=rtl`, RTL token row, correct reconstruction of custom Arabic plus emoji input.
-- Click-to-inspect displays classroom ID and explanation, with no piece-type, UTF-8 byte or hexadecimal output.
-- Editing an English sentence and an Arabic sentence, example button selection, no JavaScript errors, no mobile horizontal overflow.
-- Only one Lesson 01 folder exists within this release.
+- English `cat/dog` yields a calculated shared-context score of **67%** for the included English examples; `cat/banana` initially yields **0%**.
+- Adding two English example sentences linking `cat` and `banana`, then rebuilding, changes that score to **30%**.
+- Clicking preset pairs, editing the corpus, rebuilding, resetting, inspecting the numeric vector table and displaying the word map work in Chromium.
+- An unknown input (`unicorn`) receives clear guidance to add examples, rather than an invented score.
+- Arabic switches the whole page to `lang=ar` and `dir=rtl`; the Arabic examples are in Arabic only. The included `القطة/الكلب` example scores **78%** with the supplied Arabic corpus.
+- Unknown Arabic words receive Arabic guidance. The king/queen analogy labels switch to Arabic.
+- The Arabic mobile view does not overflow horizontally at 375 px width.
+- The homepage displays a working Lesson 02 link in both English and Arabic, with no captured JavaScript errors.
+- The incremental package includes only the new permanent `lessons/02-word-embeddings/` folder. Lesson 01 is **not modified**.
+- Root English and Arabic READMEs, teacher guides, and changelog were synchronised.
 
-## Limitations
+## Model disclosure
 
-- This is a **classroom text splitter** with locally assigned IDs. It is not a real Qwen tokenizer or LLM, and the displayed IDs are not real Qwen IDs.
-- Actual GitHub Pages deployment has not been verified in this test.
-- School-managed browsers, accessibility assistive technologies and other devices may differ from our local Chromium checks.
-- The ZIP must be reviewed before replacing any customized repository files.
+The lesson runs a **real local co-occurrence calculation** over its editable example sentences and computes cosine similarity from numeric vectors. The graph is a 2D approximate projection. This is **not** a pretrained neural embedding model, Qwen, or live LLM inference. The king–queen arithmetic uses invented teaching coordinates, explicitly marked as such.
+
+## Deployment checklist (still to do)
+
+1. Review root file changes against the current GitHub repository before uploading.
+2. Upload the new lesson directory and root documentation/homepage updates, preserving all Lesson 01 files and your `LICENSE`.
+3. After GitHub Pages deploys, open `https://ayubabuzer.github.io/ai-learning-lab/lessons/02-word-embeddings/` and check both languages, mobile behaviour, inputs, vectors, similarity and data editing.
+4. Test on at least one ordinary school computer and resolve any environmental differences before declaring the lesson classroom-ready.

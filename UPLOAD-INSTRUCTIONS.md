@@ -1,15 +1,17 @@
-# Lesson 01 — Simplified bilingual interface update
+# Lesson 02 release — upload instructions
 
-This update ZIP contains only **one permanent Lesson 01 folder**: `lessons/01-how-ai-reads-words/`, plus the related root documentation and homepage.
+This ZIP is an **incremental update** for `https://github.com/ayubabuzer/ai-learning-lab`. It does **not** contain Lesson 01. Keep the existing Lesson 01 folder and `LICENSE` as they are.
 
-1. Back up the corresponding current repository files before replacing anything.
-2. Review `index.html`, `README.md`, `README.ar.md`, `TEACHERS.md`, `TEACHERS.ar.md`, and `CHANGELOG.md` and upload them to the repository root.
-3. Update the files in the existing `lessons/01-how-ai-reads-words/` folder. Do not create another folder for Lesson 01.
-4. Keep the existing `LICENSE` and any other unrelated files. This ZIP does not automatically remove older prototype directories.
-5. Test the pupil examples in English mode and Arabic mode, including right-to-left order, after GitHub Pages deploys.
+## Add or replace exactly these files
 
-Suggested Git commit:
+- Replace root `index.html`, `README.md`, `README.ar.md`, `TEACHERS.md`, `TEACHERS.ar.md`, `CHANGELOG.md`.
+- Add one new folder: `lessons/02-word-embeddings/`, containing `index.html`, `README.md`, `README.ar.md`.
+- `TEST-REPORT.md` is optional and can be uploaded to root as evidence of checks.
 
-`refactor(lesson-01): simplify token IDs and localize examples`
+Do **not** delete or rename `lessons/01-how-ai-reads-words/` or any files you have personally added. Back up changes to root docs before overwriting them; this package is based on the last Lesson 01 simplified release, not a fresh GitHub checkout. Review the changes before committing.
 
-This is a **lightweight teaching tokenizer**, not Qwen. Classroom IDs are only teaching labels. No backend or API key is required.
+**Commit suggestion:** `feat(lesson-02): publish bilingual word-similarity playground`
+
+After GitHub Pages deploys, test: `https://ayubabuzer.github.io/ai-learning-lab/lessons/02-word-embeddings/`.
+
+Check English and Arabic examples, right-to-left layout, `cat/dog` and `القطة/الكلب` results, the word map, editable training examples and unknown-word guidance. A local browser test does not replace checking the deployed website.
