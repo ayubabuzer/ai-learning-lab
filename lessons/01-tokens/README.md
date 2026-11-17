@@ -4,6 +4,12 @@
 
 **Goal:** See how text can be divided into pieces called tokens, without mathematics or programming.
 
+## A simple explanation
+
+When you type a sentence, a language model first separates the text into smaller pieces called **tokens**. These pieces can be entire words, word fragments, or punctuation. For instance, “I love AI!” can be shown as `I | love | AI | !` in our classroom demonstration. Different models may divide that sentence differently.
+
+The point is to **see** the pieces, not memorize technical terms. You can learn by experimenting, without maths or programming.
+
 ## Try it
 
 1. Type an English sentence.

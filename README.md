@@ -2,38 +2,41 @@
 
 **English** | [العربية](README.ar.md) · [Live website](https://ayubabuzer.github.io/ai-learning-lab/)
 
-**Understand how AI works — one playful idea at a time.**
+**Learn what happens inside AI by playing with it — no maths or coding required.**
 
-AI Learning Lab is a free, open-source, bilingual (English/Arabic) collection of small, hands-on AI learning activities for beginners of all ages. No maths, coding experience or paid API is needed for the introductory browser lessons.
+AI Learning Lab is a free, open-source, bilingual English/Arabic set of hands-on lessons for learners of all ages. The browser lessons work without a paid model, login or API key.
 
-## Start here: Lesson 01
+## Start here — Lesson 01: Inside AI, from words to predictions
 
-**[How AI Reads Text — Tokens](lessons/01-tokens/)** is our first lesson. Type text in English or Arabic, switch between simple splitting rules and explore colourful pieces. It explains the difference between a classroom demonstration and real model tokenizers.
+**[Open the interactive lesson](lessons/01-inside-ai/)**
 
-An [earlier Next Word Predictor experiment](lessons/01-next-word/) remains in the repository as an **optional bonus**, not Lesson 01 in the current learning sequence. Its historical folder name is preserved to avoid breaking existing links.
+What happens when you type “The cat drinks …” into an AI system? This lesson connects four ideas into one visual journey:
 
-## Our seven-lesson path
+1. **Text:** change a sentence yourself.
+2. **Tokens and IDs:** see text split into pieces and assigned simple numbers; view illustrative vectors.
+3. **Word map:** explore similarities and the well-known `king − man + woman ≈ queen` analogy on an explicitly illustrative 2D map.
+4. **Prediction:** edit example sentences and watch the next-word counts and percentages change.
 
-| No. | Topic | Status |
+Try the Explorer, Builder and Innovator challenges. The page explains the difference between its classroom examples and a real trained language model. **This lesson does not claim that its invented vectors are trained embeddings**, and its predictor is a transparent word-count demo, not a neural LLM.
+
+## Learning path
+
+| Lesson | Question | Status |
 |---|---|---|
-| [01](lessons/01-tokens/) | How AI Reads Text — tokens | **Published** |
-| 02 | How Words Become Numbers — token IDs | Planned |
-| 03 | The AI Word Map — vectors and embeddings | Planned |
-| 04 | Guess the Next Word — prediction | Planned (older bonus demo available) |
-| 05 | How AI Learns — examples and patterns | Planned |
-| 06 | Why AI Gets Things Wrong — limitations and checking evidence | Planned |
-| 07 | Build Your AI Digital Twin — text retrieval and Gradio | Planned capstone |
+| [01 — Inside AI](lessons/01-inside-ai/) | How does text become a prediction? | **Published** |
+| 02 — The Secret World of Word Vectors | How do words become related in numerical space? | Planned |
+| 03 — How AI Learns Relationships | How do examples shape what a model learns? | Planned |
+| 04 — How AI Predicts the Next Word | How do context and probabilities affect predictions? | Planned |
+| 05 — How AI Uses Context | Why does the surrounding text matter? | Planned |
+| 06 — Why AI Can Be Wrong | Why must answers be checked? | Planned |
+| 07 — Build Your Digital Twin | How can an assistant retrieve answers from a text file using Gradio? | Planned capstone |
 
-We publish and test **one lesson at a time**. The final Gradio capstone will need a Python environment; GitHub Pages hosts the static learning website.
+Older standalone activities are kept at [tokens](lessons/01-tokens/) and [next-word predictor](lessons/01-next-word/) to avoid breaking links. Their historical folder names do **not** indicate the current lesson numbering.
 
-## How pupils learn
+## Our teaching approach
 
-**See → Try → Understand → Challenge → Connect.** Each lesson starts with an interactive demonstration, gives plain-language explanations and offers Explorer, Builder and Innovator challenges. Code is optional. Activities work locally in a browser where possible, with genuine Arabic text and right-to-left layouts.
+**See → Play → Change → Explain.** Every lesson has simple language, genuine English/Arabic content, optional challenges and clear limits to its models. No difficult maths or data science prerequisites.
 
-## Privacy and accuracy
+## Privacy, deployment and contributing
 
-Use fictional examples or non-sensitive text. Pupils should not publish real personal profiles. Early activities are teaching analogies rather than complete neural language models; limitations are stated clearly.
-
-## Contributing and license
-
-Feedback, accessibility improvements and translations are welcome through GitHub Issues. [Project source](https://github.com/ayubabuzer/ai-learning-lab). MIT license; see [LICENSE](LICENSE). See [CHANGELOG.md](CHANGELOG.md) for changes.
+The lesson runs locally in a modern browser and can be hosted on GitHub Pages. No personal data needs to be uploaded. Use fictional or non-sensitive sentences. The final Gradio capstone will run separately in a Python environment. Contributions and suggestions are welcome through [the repository](https://github.com/ayubabuzer/ai-learning-lab). MIT licence; see `LICENSE`. Changes: [CHANGELOG.md](CHANGELOG.md).
