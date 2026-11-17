@@ -1,9 +1,14 @@
-# Upload Lesson 01 fix
+# AI Learning Lab — Lesson 01 lightweight release
 
-1. Back up your current repository.
-2. Extract the ZIP into the root of `ai-learning-lab`, preserving folders.
-3. Upload only the relevant updated files (the lesson page, root `index.html`, bilingual READMEs, teacher guides, changelog and lesson READMEs). Keep your LICENSE and existing experiments.
-4. Commit: `fix(lesson-01): make Qwen Arabic tokens readable and RTL`
-5. Open `https://ayubabuzer.github.io/ai-learning-lab/lessons/01-how-ai-reads-words/`. Select Arabic, try `أنا أحب تعلم الذكاء الاصطناعي! 🤖`, click Run and verify text is readable, chips flow RTL, and clicking a chip shows original IDs. Test mixed Arabic-English, punctuation, emoji and editing the input.
+This ZIP contains **exactly one lesson folder**: `lessons/01-how-ai-reads-words/`.
 
-**Important:** The live Qwen tokenizer network load cannot be confirmed in this package build environment. Source-level and offline rendering tests are provided; verify online inference after upload.
+1. Back up your current repository first, especially any homepage edits.
+2. Review `index.html`, `README.md`, `README.ar.md`, `TEACHERS.md`, `TEACHERS.ar.md` and `CHANGELOG.md` before replacing the corresponding files in the repository root.
+3. Replace the files inside `lessons/01-how-ai-reads-words/` using the matching paths. Do **not** create a second Lesson 01 folder.
+4. Keep your existing `LICENSE` and other unrelated files.
+5. Commit with `feat(lesson-01): add lightweight bilingual text-to-numbers playground`.
+6. Test the English and Arabic activities after GitHub Pages deploys.
+
+**Important:** This version intentionally uses a *lightweight classroom tokenizer*, **not Qwen**. It requires no model download or API key. Its UTF-8 numbers are real; local IDs are lesson labels.
+
+Old prototype folders, if present, are NOT included in this ZIP and are NOT deleted automatically. Review old inbound links before removing them later. Do not overwrite unrelated live edits blindly.

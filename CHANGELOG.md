@@ -1,38 +1,25 @@
-## Unreleased — Lesson 01 readability and RTL correction
-
-- Removed the token-count guessing field; learners now explore editable English and Arabic sentences directly.
-- Replaced raw Qwen token-string display with decoder-based Unicode-safe readable groups while preserving every original Qwen token ID.
-- Corrected the description from WordPiece to byte-level BPE.
-- Ensured Arabic token order and layout use RTL and numerical IDs remain legible.
-- Made byte-mode output readable and updated bilingual pupil and teacher guidance.
-- Live model loading must be rechecked on the deployed site; no live Hugging Face network access was available in the build environment.
-
-## 2026-11-17 — Qwen tokenizer alignment (Lesson 01)
-- Switched the real tokenizer demonstration from multilingual BERT to the Qwen3 0.6B tokenizer, connecting it to the model family planned for later lessons.
-- Kept the existing website design, bilingual classroom material and offline byte-mode experiment.
-- No full language-model inference is included in Lesson 01.
-
 # Changelog | سجل التغييرات
 
-The changelog records work delivered in the repository rather than claiming lesson adoption or educational outcomes.
-
-## 2026-11-17 — Lesson 01 curriculum refresh
+## 2026-11-17 — Lightweight Lesson 01 classroom release
 
 ### English
-
-- Confirmed a six-lesson learning path: tokenisation → embeddings → next-token prediction → context → retrieval → digital twin.
-- Rebuilt **Lesson 01 — How Does AI Read Our Words?** as a guess-and-reveal playground with a real Qwen3 0.6B tokenizer, English/Arabic input and clickable vocabulary IDs.
-- Added a clearly identified offline UTF‑8 byte tokenizer, accessible challenges and a teacher classroom game.
-- Updated the existing homepage design and bilingual course status, both root READMEs and lesson guides.
-- Added teacher guides in English and Arabic.
-- Retained previous experimental pages for link compatibility, without listing them as current lessons.
-- Future lessons 02–06 are **planned**, not published. Live deployment has not yet been verified.
+- Replaced the unreliable real-tokenizer loading step with a self-contained classroom text-to-numbers experiment for normal school computers.
+- Clearly labelled the experience as **not Qwen**; classroom piece IDs are local labels, while UTF-8 byte values are genuine.
+- Added click-to-inspect pieces, English/Arabic examples, RTL layout, before/after comparison, three classroom missions and a teacher guide.
+- Preserved the existing homepage visual design and updated root READMEs and teacher guides.
+- Packaged only the permanent `lessons/01-how-ai-reads-words/` folder; other historical folders are not bundled or deleted.
+- Planned lessons 02–06 remain unpublished. Browser tests are documented in the release report; GitHub Pages deployment is not yet verified.
 
 ### العربية
+- استبدال تحميل المُقسِّم السابق بتجربة تعليمية خفيفة تعمل مباشرة على الحواسيب المدرسية المعتادة.
+- توضيح أن التجربة **ليست Qwen** وأن المعرّفات محلية، بينما بايتات UTF-8 المعروضة حقيقية.
+- إضافة أجزاء قابلة للنقر وأمثلة عربية وإنجليزية واتجاه RTL ومقارنة قبل التعديل وبعده وثلاث مهام صفية ودليل للمعلم.
+- الحفاظ على تصميم الصفحة الرئيسية وتحديث ملفات القراءة وأدلة المعلمين.
+- تضمين مجلد دائم واحد للدرس الأول فقط دون حذف المجلدات القديمة تلقائياً.
+- الدروس من ٠٢ إلى ٠٦ ما زالت مخططة ولم تُنشر. لم يُتحقق بعد من نشر GitHub Pages.
 
-- اعتماد مسار من ستة دروس: الرموز ← المتجهات ← التنبؤ ← السياق ← الاسترجاع ← التوأم الرقمي.
-- إعادة بناء **الدرس الأول — كيف يقرأ الذكاء الاصطناعي كلماتنا؟** كتجربة للتوقع والكشف باستخدام مُقسِّم Qwen حقيقي متعدد اللغات، مع نصوص عربية وإنجليزية ومعرّفات قابلة للفحص.
-- إضافة وضع بايتات UTF‑8 دون إنترنت مع توضيح اختلافه، وتحديات تفاعلية ولعبة صفية.
-- تحديث الصفحة الرئيسية مع الاحتفاظ بتصميمها، وتحديث أدلة القراءة باللغتين وإضافة دليلين للمعلمين.
-- الاحتفاظ بالتجارب السابقة للتوافق دون عدّها دروساً منشورة في المسار الحالي.
-- الدروس ٠٢ إلى ٠٦ **مخططة** وليست منشورة؛ لم يُتحقق من النشر الحي بعد.
+---
+
+## Earlier development history
+
+Prior releases explored Qwen tokenizer integration and Arabic readability, but live tokenizer loading was not fully verified and its presentation caused problems in practice. The lightweight release above supersedes those prototypes without misrepresenting its outputs as pretrained-model results.

@@ -2,35 +2,29 @@
 
 [العربية](TEACHERS.ar.md) · [Lesson 01](lessons/01-how-ai-reads-words/)
 
-## Lesson 01: How Does AI Read Our Words? (25 minutes)
+## Lesson 01: How Does AI Read Our Words?
 
-**Audience:** Mixed-age groups, pair work, no prior coding or mathematical knowledge.
-**Learning goal:** Pupils can explain a token, a token ID, and why tokenisation can differ between tokenizers.
+**Length:** 20 minutes. **Audience:** Mixed ages, pairs or small groups. **Equipment:** An ordinary browser, projector optional. **Internet and account:** Not required once the HTML is available.
 
-**Before class:** Open Lesson 01 on the projector. Click **Reveal real tokens** once to check that the Hugging Face tokenizer files load over your school network; first download requires internet. If blocked, use **Explore byte tokens (offline)** and explain clearly that byte tokenisation is different. Do not enter pupil names, contact details or other personal information.
+**Learning objective:** Pupils can explain that text can be split into pieces and represented numerically, and distinguish classroom IDs from the token IDs of a real LLM.
 
-| Minutes | Activity | Teacher prompt |
+| Time | Activity | Teacher instructions |
 |---|---|---|
-| 0–5 | Explore | Change one letter in a sample and ask pupils to describe the difference. |
-| 5–12 | Token detectives | Pairs type English or Arabic sentences and choose **Reveal real tokens**; click pieces to see IDs. |
-| 12–19 | Surprise challenge | Teams try punctuation, spaces, emojis or invented words; share the most surprising difference. |
-| 19–23 | Compare | Switch the *same text* to byte mode. Ask why numbers and token counts change. |
-| 23–25 | Exit ticket | Each pair explains: “A token is …; a token ID is …; an ID does not tell us …” |
+| 0–4 min | Show it | Enter “The cat drinks milk!” and click a piece. Ask what the local ID means. |
+| 4–10 min | Change it | In pairs, change “cat” to “elephant”; compare the pieces and numbers. |
+| 10–16 min | Investigate | Try Arabic, punctuation and emoji; discuss why byte numbers differ. |
+| 16–20 min | Explain it | Ask pupils to explain the difference between a text piece, a local ID and UTF-8 bytes. |
 
-### Common misconceptions
+### Suggested challenges
 
-- **A token is always a whole word:** False. Some tokenizers use subwords, punctuation and other pieces.
-- **A token ID is a meaning score:** False. It is an identifier in a particular tokenizer vocabulary.
-- **This model understands our sentence:** Not in this activity. We load a pretrained **tokenizer**, not a language model that predicts or generates.
-- **Byte mode is a backup Qwen model:** False. It shows how UTF‑8 bytes can be used as real token units without downloading a model.
+- **Change one thing:** Which IDs stay the same if a single word is replaced?
+- **Arabic detectives:** Type `أنا أحب التعلم!` and check that the text remains readable and right-to-left.
+- **Emoji detectives:** Inspect the decimal byte numbers for `🤖` and compare with `A`.
 
-### Class play ideas
+### Essential teacher notes
 
-**Token Detectives:** Teams change one letter, punctuation mark or emoji, then explain what changed in the real token IDs. Award points for explanations, not guesses. **Two-language detectives:** Give groups semantically similar English and Arabic sentences and compare different splits, without suggesting the languages must produce the same number of pieces. **Emoji challenge:** Explore why one visible emoji can correspond to multiple bytes.
+This lesson is **not running Qwen**. It is a lightweight teaching tokenizer using a Unicode-aware splitting rule. The lesson assigns local IDs and displays *real UTF-8 bytes* for each piece. A real LLM uses a model-specific tokenizer and a fixed vocabulary, and may split words differently. Tokens and byte values are not learned embeddings. Lesson 02 will explore vectors; Lesson 03 covers prediction.
 
-**Assessment:** Ask pupils to explain an unexpected result and identify something they cannot infer from token IDs.
+**Safeguarding:** Ask pupils to use imaginary stories, animals or fictional characters instead of personal details.
 
-**Next lesson (planned):** How Does AI Connect Words? — embeddings and similarity, not just identifiers.
-
-
-**Arabic display fix:** Real Qwen byte-level BPE token IDs are preserved. Adjacent token IDs may be grouped into readable Unicode spans, so a displayed piece is not necessarily a single token. The inspector shows every original ID. Arabic layouts use RTL, and byte mode decodes valid UTF-8 sequences for display.
+**Exit question:** “Can the numbers alone tell us the meaning of a sentence?” Expected answer: no — numerical encoding is a first step, not understanding.
