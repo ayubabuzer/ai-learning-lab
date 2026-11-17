@@ -1,47 +1,29 @@
+## 2026-11-17 — Qwen tokenizer alignment (Lesson 01)
+- Switched the real tokenizer demonstration from multilingual BERT to the Qwen3 0.6B tokenizer, connecting it to the model family planned for later lessons.
+- Kept the existing website design, bilingual classroom material and offline byte-mode experiment.
+- No full language-model inference is included in Lesson 01.
+
 # Changelog | سجل التغييرات
 
-## 2026-11-17 — Lesson 01 redesign: Inside AI, from words to predictions
+The changelog records work delivered in the repository rather than claiming lesson adoption or educational outcomes.
 
-- Rebuilt Lesson 01 as one interactive four-stage learning journey: sentence → tokens and IDs → illustrative vectors and word map → evidence-based next-word prediction.
-- Added editable English/Arabic examples, word-map exploration, approximate king–queen analogy, adjustable training sentences, probabilities and learner challenges.
-- Clearly distinguished the classroom tokenizer and illustrative vectors from real neural language models.
-- Kept the existing dark homepage design, bilingual switch, bonus playground and older lesson links.
-- Updated both root READMEs, new lesson guides, curriculum statuses, homepage cards and upload instructions together; other lessons remain planned.
+## 2026-11-17 — Lesson 01 curriculum refresh
 
-### بالعربية
+### English
 
-- أعدنا تصميم الدرس الأول كرحلة تفاعلية: نص ← رموز ومعرّفات ← متجهات وخريطة توضيحية ← التنبؤ بالكلمة التالية.
-- أضفنا أمثلة عربية وإنجليزية قابلة للتعديل، واستكشاف خريطة الكلمات، وعلاقة الملك والملكة التقريبية، وتجربة تغيير بيانات التنبؤ.
-- أوضحنا الفرق بين التمثيلات التعليمية والنماذج العصبية الحقيقية.
-- حافظنا على تصميم الصفحة الرئيسية الداكن وعلى الروابط القديمة، وحدّثنا أدلة الاستخدام وسجل التغييرات معاً.
+- Confirmed a six-lesson learning path: tokenisation → embeddings → next-token prediction → context → retrieval → digital twin.
+- Rebuilt **Lesson 01 — How Does AI Read Our Words?** as a guess-and-reveal playground with a real Qwen3 0.6B tokenizer, English/Arabic input and clickable vocabulary IDs.
+- Added a clearly identified offline UTF‑8 byte tokenizer, accessible challenges and a teacher classroom game.
+- Updated the existing homepage design and bilingual course status, both root READMEs and lesson guides.
+- Added teacher guides in English and Arabic.
+- Retained previous experimental pages for link compatibility, without listing them as current lessons.
+- Future lessons 02–06 are **planned**, not published. Live deployment has not yet been verified.
 
+### العربية
 
-## 2026-11-17 — Plain-language explanation refresh
-
-- Added a friendly English/Arabic “What are tokens?” introduction and relatable examples before the Lesson 01 experiment.
-- Expanded both lesson READMEs and root READMEs with simple summaries for all ages.
-- Corrected outdated Arabic homepage lesson titles, numbering, and publication statuses; kept the same visual design.
-- No changes to the next lesson or paid services.
-
-### بالعربية
-
-- أضفنا مقدمة واضحة وأمثلة بسيطة عن الرموز قبل تجربة الدرس الأول.
-- حدّثنا شرح الدرس في ملفات README بالعربية والإنجليزية.
-- صحّحنا أسماء الدروس وأرقامها وحالات نشرها على الصفحة العربية دون تغيير التصميم.
-
-## 2026-11-17 — Lesson 01: How AI Reads Text (Tokens)
-
-- Preserved the existing dark bilingual homepage design and next-word bonus playground.
-- Renumbered the interactive tokens lesson as **Lesson 01** and moved it to `lessons/01-tokens/`.
-- Updated English/Arabic lesson guides, root READMEs, home cards, and navigation to use the agreed seven-lesson path.
-- Kept the historical next-word experiment at `lessons/01-next-word/` as an optional bonus, not part of the numbered lesson sequence.
-- Marked all other curriculum lessons **planned**, not published.
-- All introductory activities remain free and client-side. No paid API or external models.
-
-## ٢٠٢٦-١١-١٧ — الدرس ٠١: كيف يقرأ الذكاء الاصطناعي النص؟
-
-- حافظنا على تصميم الصفحة الرئيسية الداكن ودعم اللغتين.
-- نقلنا درس الرموز إلى `lessons/01-tokens/` وصححنا رقمه إلى ٠١.
-- حدّثنا أدلة الدرس وملفات README والروابط وخريطة الدروس باللغتين.
-- أبقينا تجربة التنبؤ السابقة نشاطاً إضافياً اختيارياً في مسارها القديم.
-- جميع الدروس الأخرى مخطط لها ولم تُنشر بعد.
+- اعتماد مسار من ستة دروس: الرموز ← المتجهات ← التنبؤ ← السياق ← الاسترجاع ← التوأم الرقمي.
+- إعادة بناء **الدرس الأول — كيف يقرأ الذكاء الاصطناعي كلماتنا؟** كتجربة للتوقع والكشف باستخدام مُقسِّم Qwen حقيقي متعدد اللغات، مع نصوص عربية وإنجليزية ومعرّفات قابلة للفحص.
+- إضافة وضع بايتات UTF‑8 دون إنترنت مع توضيح اختلافه، وتحديات تفاعلية ولعبة صفية.
+- تحديث الصفحة الرئيسية مع الاحتفاظ بتصميمها، وتحديث أدلة القراءة باللغتين وإضافة دليلين للمعلمين.
+- الاحتفاظ بالتجارب السابقة للتوافق دون عدّها دروساً منشورة في المسار الحالي.
+- الدروس ٠٢ إلى ٠٦ **مخططة** وليست منشورة؛ لم يُتحقق من النشر الحي بعد.

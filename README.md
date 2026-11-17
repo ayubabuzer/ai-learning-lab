@@ -1,42 +1,51 @@
 # AI Learning Lab | مختبر تعلم الذكاء الاصطناعي
 
-**English** | [العربية](README.ar.md) · [Live website](https://ayubabuzer.github.io/ai-learning-lab/)
+**[English](README.md) · [العربية](README.ar.md) · [Visit website](https://ayubabuzer.github.io/ai-learning-lab/)**
 
-**Learn what happens inside AI by playing with it — no maths or coding required.**
+**Learn how AI works by playing with real experiments — no advanced maths or programming needed.**
 
-AI Learning Lab is a free, open-source, bilingual English/Arabic set of hands-on lessons for learners of all ages. The browser lessons work without a paid model, login or API key.
+AI Learning Lab is a free, open-source, bilingual learning journey for learners of all ages. Every lesson includes a pupil playground, a simple explanation, hands-on challenges and a teacher-led activity. The site uses the existing dark visual design and works on GitHub Pages.
 
-## Start here — Lesson 01: Inside AI, from words to predictions
+## Start with Lesson 01
 
-**[Open the interactive lesson](lessons/01-inside-ai/)**
+### [How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) — Published
 
-What happens when you type “The cat drinks …” into an AI system? This lesson connects four ideas into one visual journey:
+**What happens to a sentence before an AI model can process it?** Learners type any English or Arabic text, guess how many pieces it becomes, run the **real Qwen3 0.6B tokenizer**, click colourful tokens to inspect their **actual numerical IDs**, and compare the result with a clearly labelled offline UTF‑8 byte tokenizer. They experiment with emojis, punctuation, different languages and spelling, and explain surprises.
 
-1. **Text:** change a sentence yourself.
-2. **Tokens and IDs:** see text split into pieces and assigned simple numbers; view illustrative vectors.
-3. **Word map:** explore similarities and the well-known `king − man + woman ≈ queen` analogy on an explicitly illustrative 2D map.
-4. **Prediction:** edit example sentences and watch the next-word counts and percentages change.
-
-Try the Explorer, Builder and Innovator challenges. The page explains the difference between its classroom examples and a real trained language model. **This lesson does not claim that its invented vectors are trained embeddings**, and its predictor is a transparent word-count demo, not a neural LLM.
+Real model-tokeniser mode requires an internet connection initially for free tokenizer files. Offline byte mode is not a pretrained model vocabulary. No text-generation model runs in this lesson. Token IDs are not embeddings; this is introduced in Lesson 02.
 
 ## Learning path
 
-| Lesson | Question | Status |
+| Lesson | Discovery | Status |
 |---|---|---|
-| [01 — Inside AI](lessons/01-inside-ai/) | How does text become a prediction? | **Published** |
-| 02 — The Secret World of Word Vectors | How do words become related in numerical space? | Planned |
-| 03 — How AI Learns Relationships | How do examples shape what a model learns? | Planned |
-| 04 — How AI Predicts the Next Word | How do context and probabilities affect predictions? | Planned |
-| 05 — How AI Uses Context | Why does the surrounding text matter? | Planned |
-| 06 — Why AI Can Be Wrong | Why must answers be checked? | Planned |
-| 07 — Build Your Digital Twin | How can an assistant retrieve answers from a text file using Gradio? | Planned capstone |
+| [01 — How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | Tokens, token IDs and text puzzles | **Published** |
+| 02 — How Does AI Connect Words? | Enter words, view pretrained embeddings and compare similarity | Planned |
+| 03 — How Does AI Predict What Comes Next? | Change context; see real next-token predictions and generation | Planned |
+| 04 — Does AI Really Remember? | Write any text context and question; compare with/without context | Planned |
+| 05 — How Does AI Find Information? | Keyword search versus semantic retrieval from text | Planned |
+| 06 — Build Your Own AI Digital Twin | Grounded retrieval chatbot with Gradio and optional Hugging Face publishing | Planned capstone |
 
-Older standalone activities are kept at [tokens](lessons/01-tokens/) and [next-word predictor](lessons/01-next-word/) to avoid breaking links. Their historical folder names do **not** indicate the current lesson numbering.
+## For teachers
 
-## Our teaching approach
+Read [TEACHERS.md](TEACHERS.md) for a projector-friendly 25-minute classroom game, group challenges, preparation and key misconceptions. [دليل المعلم بالعربية](TEACHERS.ar.md). The lesson itself also contains a collapsible guide.
 
-**See → Play → Change → Explain.** Every lesson has simple language, genuine English/Arabic content, optional challenges and clear limits to its models. No difficult maths or data science prerequisites.
+## Principles
 
-## Privacy, deployment and contributing
+- No paid APIs, subscription or account required to use the browser lesson.
+- The site is bilingual, with meaningful Arabic examples and RTL layout.
+- Distinguish **real tokenizer/model results** from educational explanations.
+- Each lesson: predict → run → change → explain → challenge.
+- Avoid collecting pupil personal information. Use invented examples by default.
+- The final Gradio project will run locally at no cost; Hugging Face hosting availability and requirements may change, so hosting is optional rather than guaranteed.
 
-The lesson runs locally in a modern browser and can be hosted on GitHub Pages. No personal data needs to be uploaded. Use fictional or non-sensitive sentences. The final Gradio capstone will run separately in a Python environment. Contributions and suggestions are welcome through [the repository](https://github.com/ayubabuzer/ai-learning-lab). MIT licence; see `LICENSE`. Changes: [CHANGELOG.md](CHANGELOG.md).
+## Existing experiments
+
+Earlier experimental pages are retained as archives for compatibility: [Inside AI overview](lessons/01-inside-ai/), [Tokens prototype](lessons/01-tokens/), and [Next-word predictor](lessons/01-next-word/). The historical folder names do not represent the current curriculum. These are **not** part of the new six-lesson published sequence.
+
+## Contribute and license
+
+Report ideas and issues in the repository. Respect the existing repository licence. Changes to lessons should update this file, [README.ar.md](README.ar.md), homepage, teacher guidance and [CHANGELOG.md](CHANGELOG.md) together.
+
+## Why Qwen tokenisation?
+
+Lesson 01 uses the tokenizer files of the actual Qwen3 0.6B model, but **does not load Qwen model weights or generate answers**. These are two separate stages: tokenisation is lightweight; language generation is introduced in Lesson 03. A small first-time download of tokenizer files is needed. The classroom byte mode remains available without model downloads.
