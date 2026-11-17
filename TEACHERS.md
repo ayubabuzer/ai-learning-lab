@@ -12,18 +12,18 @@
 |---|---|---|
 | 0–4 min | Show it | Enter “The cat drinks milk!” and click a piece. Ask what the local ID means. |
 | 4–10 min | Change it | In pairs, change “cat” to “elephant”; compare the pieces and numbers. |
-| 10–16 min | Investigate | Try Arabic, punctuation and emoji; discuss why byte numbers differ. |
-| 16–20 min | Explain it | Ask pupils to explain the difference between a text piece, a local ID and UTF-8 bytes. |
+| 10–16 min | Investigate | Try English punctuation, spaces and emoji; discuss which pieces change. |
+| 16–20 min | Explain it | Ask pupils to explain what a text piece is, what its classroom ID means, and why real model tokens may be different. |
 
 ### Suggested challenges
 
 - **Change one thing:** Which IDs stay the same if a single word is replaced?
-- **Arabic detectives:** Type `أنا أحب التعلم!` and check that the text remains readable and right-to-left.
-- **Emoji detectives:** Inspect the decimal byte numbers for `🤖` and compare with `A`.
+- **Sentence detectives:** Try `I love building robots!` and change one word.
+- **Emoji detectives:** Add `🤖` and see whether it becomes a separate piece.
 
 ### Essential teacher notes
 
-This lesson is **not running Qwen**. It is a lightweight teaching tokenizer using a Unicode-aware splitting rule. The lesson assigns local IDs and displays *real UTF-8 bytes* for each piece. A real LLM uses a model-specific tokenizer and a fixed vocabulary, and may split words differently. Tokens and byte values are not learned embeddings. Lesson 02 will explore vectors; Lesson 03 covers prediction.
+This lesson is **not running Qwen**. It is a lightweight teaching tokenizer using a Unicode-aware splitting rule. The lesson assigns local classroom IDs to pieces. It deliberately hides low-level byte and hexadecimal details. A real LLM uses a model-specific tokenizer and a fixed vocabulary, and may split words differently. Classroom IDs are not learned embeddings and are not Qwen token IDs. Lesson 02 will explore vectors; Lesson 03 covers prediction.
 
 **Safeguarding:** Ask pupils to use imaginary stories, animals or fictional characters instead of personal details.
 

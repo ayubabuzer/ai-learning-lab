@@ -1,5 +1,25 @@
 # Changelog | سجل التغييرات
 
+## 2026-11-17 — Lesson 01 clarity and language-specific examples
+
+### English
+- Simplified the pupil-facing inspector: show the selected piece and its classroom ID, with a short explanation.
+- Removed piece-type labels, decimal UTF-8 byte values and hexadecimal output from the lesson interface.
+- English mode now offers English example sentences and English classroom challenges only; Arabic mode offers Arabic examples and Arabic challenges only.
+- Preserved Arabic right-to-left layout, original text reconstruction and edit/compare interactions.
+- Updated both READMEs, teacher guides and homepage together. No new lesson folders were created.
+- This is still a simplified classroom tokenizer, not Qwen or a pretrained AI model.
+
+### العربية
+- تبسيط عرض نتائج الدرس الأول: إظهار الجزء المختار ورقمه التعليمي مع شرح قصير.
+- إزالة نوع الجزء وأرقام بايتات UTF-8 والتفاصيل بالنظام الست عشري من واجهة التلاميذ.
+- أمثلة عربية وأنشطة عربية فقط في الواجهة العربية، وأمثلة إنجليزية وأنشطة إنجليزية فقط في الواجهة الإنجليزية.
+- الحفاظ على الاتجاه من اليمين إلى اليسار، وإعادة تركيب النص، ومقارنة النتائج قبل التعديل وبعده.
+- تحديث الصفحة الرئيسية وملفات القراءة وأدلة المعلم دون إنشاء مجلدات مكررة.
+- ما زالت التجربة مُقسِّماً تعليمياً مبسطاً، وليست نموذج Qwen أو نموذجاً مدرّباً.
+
+---
+
 ## 2026-11-17 — Lightweight Lesson 01 classroom release
 
 ### English

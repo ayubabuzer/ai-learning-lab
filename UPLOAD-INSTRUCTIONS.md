@@ -1,14 +1,15 @@
-# AI Learning Lab — Lesson 01 lightweight release
+# Lesson 01 — Simplified bilingual interface update
 
-This ZIP contains **exactly one lesson folder**: `lessons/01-how-ai-reads-words/`.
+This update ZIP contains only **one permanent Lesson 01 folder**: `lessons/01-how-ai-reads-words/`, plus the related root documentation and homepage.
 
-1. Back up your current repository first, especially any homepage edits.
-2. Review `index.html`, `README.md`, `README.ar.md`, `TEACHERS.md`, `TEACHERS.ar.md` and `CHANGELOG.md` before replacing the corresponding files in the repository root.
-3. Replace the files inside `lessons/01-how-ai-reads-words/` using the matching paths. Do **not** create a second Lesson 01 folder.
-4. Keep your existing `LICENSE` and other unrelated files.
-5. Commit with `feat(lesson-01): add lightweight bilingual text-to-numbers playground`.
-6. Test the English and Arabic activities after GitHub Pages deploys.
+1. Back up the corresponding current repository files before replacing anything.
+2. Review `index.html`, `README.md`, `README.ar.md`, `TEACHERS.md`, `TEACHERS.ar.md`, and `CHANGELOG.md` and upload them to the repository root.
+3. Update the files in the existing `lessons/01-how-ai-reads-words/` folder. Do not create another folder for Lesson 01.
+4. Keep the existing `LICENSE` and any other unrelated files. This ZIP does not automatically remove older prototype directories.
+5. Test the pupil examples in English mode and Arabic mode, including right-to-left order, after GitHub Pages deploys.
 
-**Important:** This version intentionally uses a *lightweight classroom tokenizer*, **not Qwen**. It requires no model download or API key. Its UTF-8 numbers are real; local IDs are lesson labels.
+Suggested Git commit:
 
-Old prototype folders, if present, are NOT included in this ZIP and are NOT deleted automatically. Review old inbound links before removing them later. Do not overwrite unrelated live edits blindly.
+`refactor(lesson-01): simplify token IDs and localize examples`
+
+This is a **lightweight teaching tokenizer**, not Qwen. Classroom IDs are only teaching labels. No backend or API key is required.

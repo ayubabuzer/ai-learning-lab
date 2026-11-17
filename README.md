@@ -8,15 +8,15 @@ Free, bilingual, hands-on AI education for all ages. No programming, advanced ma
 
 **[Open the interactive lesson](lessons/01-how-ai-reads-words/)**
 
-Type any English or Arabic sentence, split it into readable pieces, click a piece to see its classroom ID and **actual UTF-8 byte numbers**, then change the text and compare the results. The lesson includes three pupil missions and a 20-minute teacher activity.
+Type an English sentence or choose an English example, split it into readable pieces, click a piece to see its classroom ID, then change the text and compare the results. In Arabic mode, pupils see Arabic examples and a full right-to-left interface. The lesson includes three pupil missions and a 20-minute teacher activity.
 
-**Important model explanation:** This first lightweight release is a **classroom simulation of tokenisation**, not a Qwen model or a genuine Qwen tokenizer. Its numeric IDs are assigned locally to pieces created by a simple Unicode splitting rule. Its UTF-8 byte values are real. It does not produce embeddings, trained predictions or LLM responses. We deliberately chose a small, instant and fully offline learning experience for ordinary school computers. The difference between classroom pieces and real model tokens is explained in the lesson.
+**Important model explanation:** This first lightweight release is a **classroom simulation of tokenisation**, not a Qwen model or a genuine Qwen tokenizer. Its numeric IDs are assigned locally to pieces created by a simple Unicode splitting rule. They are classroom labels, not genuine model token IDs. It does not produce embeddings, trained predictions or LLM responses. We deliberately chose a small, instant and fully offline learning experience for ordinary school computers. The difference between classroom pieces and real model tokens is explained in the lesson.
 
 ## Learning path
 
 | Lesson | Concept | Status |
 |---|---|---|
-| **[01 — How Does AI Read Our Words?](lessons/01-how-ai-reads-words/)** | Text pieces, local IDs, actual UTF-8 numbers | **Lightweight version ready** |
+| **[01 — How Does AI Read Our Words?](lessons/01-how-ai-reads-words/)** | Text pieces and local classroom IDs | **Lightweight version ready** |
 | 02 — How Does AI Connect Words? | Pretrained embeddings, word similarity, vectors | Planned |
 | 03 — How Does AI Predict What Comes Next? | Context and next-token generation | Planned |
 | 04 — Does AI Really Remember? | Editable context, open-ended questions, temporary memory | Planned |
