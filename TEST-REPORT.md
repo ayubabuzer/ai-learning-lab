@@ -1,30 +1,31 @@
-# Lesson 02 — Local validation report
+# Test report — Lessons 03–06 combined release
 
-**Date:** 2026-11-17  
-**Test environment:** Local Linux Chromium (`/usr/bin/chromium`) controlled through Playwright, desktop viewport 1280 × 900 and mobile viewport 375 × 820.  
-**Result:** 30 / 30 automated checks passed.  
-**Not tested:** The deployed GitHub Pages site and specific pupils' school computers.
+**Tested locally on 2026-11-17.** This report covers a static offline browser package and the optional Gradio source project. It does **not** verify that your public GitHub Pages deployment has been updated.
 
-## Checks completed
+## Verified
 
-- English `cat/dog` yields a calculated shared-context score of **67%** for the included English examples; `cat/banana` initially yields **0%**.
-- Adding two English example sentences linking `cat` and `banana`, then rebuilding, changes that score to **30%**.
-- Clicking preset pairs, editing the corpus, rebuilding, resetting, inspecting the numeric vector table and displaying the word map work in Chromium.
-- An unknown input (`unicorn`) receives clear guidance to add examples, rather than an invented score.
-- Arabic switches the whole page to `lang=ar` and `dir=rtl`; the Arabic examples are in Arabic only. The included `القطة/الكلب` example scores **78%** with the supplied Arabic corpus.
-- Unknown Arabic words receive Arabic guidance. The king/queen analogy labels switch to Arabic.
-- The Arabic mobile view does not overflow horizontally at 375 px width.
-- The homepage displays a working Lesson 02 link in both English and Arabic, with no captured JavaScript errors.
-- The incremental package includes only the new permanent `lessons/02-word-embeddings/` folder. Lesson 01 is **not modified**.
-- Root English and Arabic READMEs, teacher guides, and changelog were synchronised.
+- **78 checks passed**, using headless Chromium with page content loaded locally, plus static link/file tests and direct Python checks for the optional Gradio app.
+- Homepage shows six interactive lesson cards, links to all six canonical folders and switches to Arabic RTL.
+- Existing Lesson 01 present; no new or duplicate Lesson 01 folder.
+- Lesson 02 includes the revised static 2D king/man/woman/queen axes map, shown arithmetic with invented coordinates, English/Arabic labels and the honesty note. Main existing vector comparison left in place.
+- Lesson 03: genuine 66.7%/33.3% sample counts, recalculation after training changes, source lines, no-match behavior and Arabic RTL.
+- Lesson 04: evidence extraction from user context, context on/off, exact input display, fresh-session clearing, Arabic RTL.
+- Lesson 05: distinct results for keyword versus tiny concept-aware vector matching, arbitrary document editing, Arabic output.
+- Lesson 06: quoted evidence and source line, correct refusal when an unsupported fact is asked about, Arabic example response and mobile horizontal-overflow check.
+- Optional Python Gradio app: imported successfully with Gradio 6.5.1; confirmed supported, unsupported and Arabic question outputs.
+- A further **6 dependency-free Python unittest structural checks passed** (`python -m unittest discover -s tests -v`). The test source is included in `tests/`.
+- Node.js `node --check` verified syntax of the seven JavaScript scripts (homepage plus Lessons 01–06).
+- Link targets checked for each HTML page. Exactly one directory for each of Lessons 01–06.
 
-## Model disclosure
+## Design choices and limitations
 
-The lesson runs a **real local co-occurrence calculation** over its editable example sentences and computes cosine similarity from numeric vectors. The graph is a 2D approximate projection. This is **not** a pretrained neural embedding model, Qwen, or live LLM inference. The king–queen arithmetic uses invented teaching coordinates, explicitly marked as such.
+- No pretrained Qwen tokenizer, embedding model or generative LLM is running in this lightweight release. No generated percentages have been attributed to a pretrained model.
+- The first five lessons use tiny illustrative or calculated algorithms; Lesson 06 uses extractive document matching. Their limitations are stated prominently in pupil and teacher content.
+- Tests used the local HTML content in Chromium; real school computers and deployed GitHub Pages may behave differently. The public website still needs post-deployment checking.
+- Gradio was tested as an importable app and with its answer function; no public Hugging Face Space was created or tested.
+- Network behavior and platform quotas are not involved in the browser lessons.
+- The root `LICENSE` isn't bundled (previous partial packages did not include it). **Keep the existing LICENSE and any unrelated repository files.**
 
-## Deployment checklist (still to do)
+## Reproduce
 
-1. Review root file changes against the current GitHub repository before uploading.
-2. Upload the new lesson directory and root documentation/homepage updates, preserving all Lesson 01 files and your `LICENSE`.
-3. After GitHub Pages deploys, open `https://ayubabuzer.github.io/ai-learning-lab/lessons/02-word-embeddings/` and check both languages, mobile behaviour, inputs, vectors, similarity and data editing.
-4. Test on at least one ordinary school computer and resolve any environmental differences before declaring the lesson classroom-ready.
+Open each `lessons/NN-.../index.html` in a modern browser or serve the folder using a basic local static HTTP server. Switch between English and Arabic and try the sample challenges. For Gradio, follow `lessons/06-digital-twin/gradio-app/README.md`.

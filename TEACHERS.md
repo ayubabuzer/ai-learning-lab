@@ -1,55 +1,35 @@
-# AI Learning Lab — Teacher's Guide
+# AI Learning Lab — Teacher guide (English)
 
-[العربية](TEACHERS.ar.md) · [Lesson 01](lessons/01-how-ai-reads-words/) · [Lesson 02](lessons/02-word-embeddings/)
+Six connected lessons for pupils, including beginners and younger learners. Use fictional text. Each page is bilingual, browser-based and designed for ordinary school computers. Lessons 01–06 use **small teaching algorithms**, not pretrained Qwen. For deeper explanations see each lesson's README.
 
-## Lesson 01: How Does AI Read Our Words?
+## Lesson 01 — Text pieces (20 minutes)
 
-**Length:** 20 minutes. **Audience:** Mixed ages, pairs or small groups. **Equipment:** An ordinary browser, projector optional. **Internet and account:** Not required once the HTML is available.
+Pupils type and change English words, punctuation and emojis. Click pieces and inspect classroom IDs. Ask whether those local IDs are genuine Qwen tokenizer IDs (**no**). In Arabic mode, use the corresponding Arabic examples. Leave UTF-8 byte/hex representations out of the beginner activity.
 
-**Learning objective:** Pupils can explain that text can be split into pieces and represented numerically, and distinguish classroom IDs from the token IDs of a real LLM.
+## Lesson 02 — Context vectors (25 minutes)
 
-| Time | Activity | Teacher instructions |
-|---|---|---|
-| 0–4 min | Show it | Enter “The cat drinks milk!” and click a piece. Ask what the local ID means. |
-| 4–10 min | Change it | In pairs, change “cat” to “elephant”; compare the pieces and numbers. |
-| 10–16 min | Investigate | Try English punctuation, spaces and emoji; discuss which pieces change. |
-| 16–20 min | Explain it | Ask pupils to explain what a text piece is, what its classroom ID means, and why real model tokens may be different. |
+Compare `cat`/`dog` and `cat`/`banana`; edit the example sentences and rebuild. Ask why a similarity score changed. Point to the **separate illustrative** king/man/woman/queen axes map and perform `[3,1] − [1,1] + [1,3] = [3,3]`. Explain that the numbers are invented, and real embeddings are more complex.
 
-### Suggested challenges
+## Lesson 03 — Prediction detectives (25 minutes)
 
-- **Change one thing:** Which IDs stay the same if a single word is replaced?
-- **Sentence detectives:** Try `I love building robots!` and change one word.
-- **Emoji detectives:** Add `🤖` and see whether it becomes a separate piece.
+Ask pupils what might follow `The cat drinks`. Show the example sentences, predict the bars, then add `The cat drinks water` and click **Teach**. Explain *learned patterns* using books, websites, stories, articles and other written material as examples of large training corpora. Our classroom counts are not an LLM. Ask why a new sentence starter changes the result and show the matching evidence sentences.
 
-### Essential teacher notes
+## Lesson 04 — Context versus memory (20 minutes)
 
-This lesson is **not running Qwen**. It is a lightweight teaching tokenizer using a Unicode-aware splitting rule. The lesson assigns local classroom IDs to pieces. It deliberately hides low-level byte and hexadecimal details. A real LLM uses a model-specific tokenizer and a fixed vocabulary, and may split words differently. Classroom IDs are not learned embeddings and are not Qwen token IDs. Lesson 02 will explore vectors; Lesson 03 covers prediction.
+Invent a planet, character or robot in the context box; ask any question. Toggle **Include context** off, then on. Discuss what is visible in the received-input panel, and what happens when a fresh session starts. The mini reader quotes a likely related sentence, **not a generated answer**. Distinguish permanent model weights, temporary input and app storage.
 
-**Safeguarding:** Ask pupils to use imaginary stories, animals or fictional characters instead of personal details.
+## Lesson 05 — Finding evidence (20–25 minutes)
 
-**Exit question:** “Can the numbers alone tell us the meaning of a sentence?” Expected answer: no — numerical encoding is a first step, not understanding.
+Show a sentence using `researcher` and ask about a `scientist`. Compare keyword search against small concept-aware vector matching. Change a document and see if the retrieved source changes. Explain that this is a transparent **mini vocabulary bridge**, not a neural semantic model. Retrieval is not the same as prediction or proof of truth.
 
----
+## Lesson 06 — Fictional digital twin (30–40 minutes)
 
-## Lesson 02: How Does AI Connect Words?
+Each team invents a robot/planet/persona and writes one fact per line. They ask supported and unsupported questions, check line-number citations and get the text file ready for the optional Gradio project. Never publish pupils' real names, addresses, personal stories or contact details. Hosting outside the browser processes visitor input remotely; treat it differently from local browser input.
 
-**Length:** 25 minutes. **Audience:** All ages, pairs/groups. **Equipment:** Normal web browser; projector optional. **Account/network:** None required for the downloaded lesson.
+## Group discussion
 
-**Objective:** Pupils see that words can be represented by lists of numbers describing the words that appeared around them in examples. They can compare the numerical patterns and explain how adding examples changes the outcome.
+After each experiment, ask: What changed? What calculation did the app really perform? What could it **not** know? How would a fully trained language model differ?
 
-| Time | Classroom game | Teacher actions |
-|---|---|---|
-| 0–5 min | Which words belong together? | Ask pupils to predict whether `cat/dog` or `cat/banana` will have more context in common. Show each result. |
-| 5–12 min | Find a close pair | Pairs enter words **from the example sentences**, click Compare, inspect the number table, and explore a dot on the map. |
-| 12–20 min | Change the evidence | Each pair adds a sentence featuring a target word, clicks Rebuild word map and compares before/after scores. |
-| 20–25 min | Explain the surprise | Invite pairs to share one result and explain which shared clue words produced it. |
+## Device and access notes
 
-**Teaching prompt:** "Why might *cat* and *dog* have similar context counts? What would happen if we only supplied sentences about cats?"
-
-**Common misconceptions:** Similarity is **not** a probability that two words mean the same thing. This simple experiment computes co-occurrence context vectors from short editable examples; it is not Qwen and not a pretrained neural embedding model. The 2D graph is an approximate projection; the similarity score uses all context clues. The **king − man + woman ≈ queen** numbers are invented for illustration, not model output; vector arithmetic is not how a language model directly predicts its next token.
-
-**Safeguarding:** Use fictional and classroom-safe sentences, not personal data. For Arabic, switch the interface so Arabic examples and proper RTL ordering appear.
-
-**Exit question:** "If I add new example sentences, can the numbers change? Why?" Expected answer: yes, because the numbers are calculated from the words found together in the current examples.
-
----
+The browser lessons need only a modern browser with JavaScript. No account, full-model download, GPU or API service. Gradio is a separate **optional developer activity** requiring Python and the package installation. Test the website on school computers and check the live Pages links after deployment.
