@@ -1,142 +1,160 @@
-"""AI Learning Lab · A small, source-based educational digital twin.
+"""AI Learning Lab · Real-model Digital Twin · Gradio + Hugging Face ZeroGPU.
 
-This is a deterministic text-matching and extraction app, NOT a pretrained LLM.
-It deliberately does not invent responses when evidence cannot be located.
-Never upload real children's personal details to a public Space.
+Run locally: uv run app.py
+Deploy from THIS folder: uv run gradio deploy (choose hardware zero-a10g)
+
+There is no model API key: the model runs inside this Space on a shared GPU.
+The model is loaded once at module import, as required for ZeroGPU.
 """
+from __future__ import annotations
+
+import os
 from pathlib import Path
-import re
-import unicodedata
+
+# Import spaces before torch: on ZeroGPU it installs CUDA offload hooks.
+import spaces
 import gradio as gr
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-BASE = Path(__file__).resolve().parent
-DEFAULT_EN = (BASE / "about-me.txt").read_text(encoding="utf-8")
-DEFAULT_AR = """اسمي نور وأنا روبوت خيالي لطيف.
-أسكن على كوكب خيالي اسمه لونا.
-طعامي المفضل هو المعكرونة على شكل نجوم.
-أحب رسم صور للكواكب.
-لدي تنين أليف اسمه برق.
-لوني المفضل هو الفيروزي."""
-EN_STOP = set("what where when why how which who is are was were the a an my your you i me does do did have has about of in for to can please tell".split())
-AR_STOP = set("ما ماذا من اين متى كيف لماذا هو هي هل في من عن على اسم اسمي اسمك".split())
+from twin_core import (
+    MAX_PROFILE_CHARS, MAX_QUESTION_CHARS, build_messages,
+    candidate_source, friendly_error, translate,
+)
 
+MODEL_ID = os.environ.get("MODEL_ID", "Qwen/Qwen3-1.7B")
+PROFILE_FILE = Path(__file__).with_name("about-me.txt")
+DEFAULT_PROFILE = PROFILE_FILE.read_text(encoding="utf-8")
 
-def normalise(word: str) -> str:
-    word = unicodedata.normalize("NFKC", word.casefold())
-    word = re.sub(r"[\u064b-\u065f\u0670]", "", word)
-    return re.sub(r"[إأآ]", "ا", word).replace("ى", "ي")
-
-
-def words(text: str, language: str) -> set[str]:
-    stop = EN_STOP if language == "English" else AR_STOP
-    tokens = re.findall(r"[^\W_]+", text, flags=re.UNICODE)
-    return {normalise(t) for t in tokens if len(t) > 1 and normalise(t) not in stop}
-
-
-def find_evidence(question: str, knowledge: str, language: str):
-    """Return a supporting line only when question words overlap sufficiently."""
-    query = words(question, language)
-    if not query:
-        return None
-    hits = []
-    for row, raw in enumerate(knowledge.splitlines(), 1):
-        sentence = raw.strip()
-        if not sentence:
-            continue
-        shared = len(query & words(sentence, language))
-        hits.append((shared, -row, row, sentence))
-    if not hits:
-        return None
-    shared, _, row, sentence = max(hits)
-    needed = 2 if len(query) >= 2 else 1
-    return (row, sentence) if shared >= needed else None
+# In ZeroGPU, spaces makes .to('cuda') work at startup without holding a GPU;
+# the real GPU arrives only inside the @spaces.GPU function.
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DTYPE = torch.bfloat16 if DEVICE == "cuda" else torch.float32
+TOKENIZER = AutoTokenizer.from_pretrained(MODEL_ID)
+MODEL = AutoModelForCausalLM.from_pretrained(
+    MODEL_ID,
+    dtype=DTYPE,
+    low_cpu_mem_usage=True,
+    attn_implementation="sdpa",
+).to(DEVICE)
+MODEL.eval()
 
 
-def direct_answer(question: str, knowledge: str, language: str):
-    """Return answer, line number, source text. No unrestricted generation."""
-    lines = [(row, line.strip()) for row, line in enumerate(knowledge.splitlines(), 1) if line.strip()]
-    q = normalise(question)
-    if language == "English" and re.search(r"\b(name|called)\b", q):
-        for row, line in lines:
-            m = re.search(r"\bmy name is\s+([^\s,.!?]+)", line, re.I)
-            if m:
-                return f"My name is {m.group(1)}.", row, line
-        return None
-    if language == "العربية" and ("اسم" in q or "من انت" in q):
-        for row, line in lines:
-            m = re.search(r"اسمي\s+([^\s،.!؟]+)", line)
-            if m:
-                return f"اسمي {m.group(1)}.", row, line
-        return None
-    if language == "English" and re.search(r"\b(age|how old)\b", q):
-        for row, line in lines:
-            if re.search(r"\b\d+\s+years? old\b", line, re.I):
-                return line, row, line
-        return None
-    if language == "العربية" and ("عمرك" in q or "عمر" in q):
-        for row, line in lines:
-            if re.search(r"(?:عمري|عمره|عمرها)\s*\d+", line):
-                return line, row, line
-        return None
-    found = find_evidence(question, knowledge, language)
-    if found:
-        row, line = found
-        return line, row, line
-    return None
+@spaces.GPU(duration=35)
+def infer(messages: list[dict[str, str]]) -> str:
+    """Use the actual pretrained model; never fabricate AI model output."""
+    ids = TOKENIZER.apply_chat_template(
+        messages,
+        tokenize=True,
+        add_generation_prompt=True,
+        enable_thinking=False,
+        return_tensors="pt",
+    ).to(DEVICE)
+    # Avoid unbounded resource usage and very long histories.
+    if ids.shape[-1] > 3000:
+        ids = ids[:, -3000:]
+    with torch.inference_mode():
+        output = MODEL.generate(
+            ids,
+            max_new_tokens=160,
+            do_sample=False,
+            pad_token_id=TOKENIZER.eos_token_id,
+            eos_token_id=TOKENIZER.eos_token_id,
+        )
+    generated = output[0, ids.shape[-1]:]
+    reply = TOKENIZER.decode(generated, skip_special_tokens=True).strip()
+    # If the model emitted a thinking block unexpectedly, don't show it to pupils.
+    if "</think>" in reply:
+        reply = reply.split("</think>", 1)[-1].strip()
+    return reply
 
 
-def answer_question(question, knowledge, language):
-    """Shown response is separate from the exact supporting source."""
-    arabic = language == "العربية"
-    if not (question or "").strip():
-        return ("اكتب سؤالاً أولاً." if arabic else "Write a question first.", "—")
-    if not (knowledge or "").strip():
-        return ("أضف معلومات خيالية أولاً." if arabic else "Add some fictional facts first.", "—")
-    result = direct_answer(question, knowledge, language)
-    if result is None:
-        return ("لا أعرف من المعلومات المتاحة." if arabic else "I don't know from the supplied information.", "—")
-    answer, line_number, source = result
-    reference = f"السطر {line_number}: {source}" if arabic else f"Line {line_number}: {source}"
-    return answer, reference
+def chat(question: str, history: list[dict] | None, profile: str):
+    """Chat history is per Gradio session. Profile edits are not written to disk."""
+    history = list(history or [])
+    question = (question or "").strip()
+    profile = (profile or "").strip()
+    if not question:
+        return history, "", ""
+    question = question[:MAX_QUESTION_CHARS]
+    if not profile:
+        reply = translate("Please add a fictional profile first.", "أضف ملفاً تعريفياً خيالياً أولاً.", question)
+        source = ""
+    else:
+        try:
+            reply = infer(build_messages(question, history, profile[:MAX_PROFILE_CHARS]))
+            if not reply:
+                reply = translate("I couldn't generate a reply. Try again.", "لم أتمكن من كتابة رد. حاول مرة أخرى.", question)
+            source = candidate_source(profile, question)
+        except Exception as exc:
+            reply, source = friendly_error(exc, question), ""
+    history.extend([{"role": "user", "content": question}, {"role": "assistant", "content": reply}])
+    return history, source, ""
 
 
-def load_text(filepath):
-    if not filepath:
-        return DEFAULT_EN
-    target = Path(filepath)
-    if target.suffix.lower() != ".txt" or target.stat().st_size > 250_000:
-        raise gr.Error("Please use a UTF-8 .txt file smaller than 250 KB.")
-    try:
-        return target.read_text(encoding="utf-8")
-    except UnicodeDecodeError:
-        raise gr.Error("Please save the text file using UTF-8 encoding.")
+CSS = """
+.gradio-container {max-width: 1110px !important; margin: auto !important}
+#profile-area {border:2px solid #b6915e; border-radius:14px; padding:5px}
+#chat-area {border:2px solid #44b7aa; border-radius:14px; padding:5px}
+#source-area {border:1px dashed #8586c5; border-radius:12px; padding:5px}
+"""
 
-
-def example_for_language(language):
-    return DEFAULT_AR if language == "العربية" else DEFAULT_EN
-
-
-with gr.Blocks(title="AI Learning Lab — Fictional Digital Twin") as demo:
-    gr.Markdown("# 🤖 My Digital Twin · توأمي الرقمي\nLearn how a question-answering assistant uses a knowledge file.")
-    gr.Markdown("**Classroom project:** This is rule-based retrieval and text extraction, **not a generative language model**. Use fictional information only. Public Space source files can be read by others.")
-    language = gr.Radio(["English", "العربية"], value="English", label="Language / اللغة")
+with gr.Blocks(title="AI Learning Lab · My Digital Twin") as demo:
+    gr.Markdown("# 🤖 My AI Digital Twin · توأمي الرقمي")
+    gr.Markdown(
+        "**Ask about your fictional character in English or Arabic.** "
+        "The AI reads your character's text and generates a new reply. "
+        "It does not learn the text permanently. "
+        "**Do not enter real children's private information.** "
+        "On Hugging Face ZeroGPU, shared queues and usage limits may apply."
+    )
     with gr.Row():
-        with gr.Column():
-            gr.Markdown("### ⚙️ Knowledge & settings · المعلومات والإعدادات")
-            knowledge = gr.Textbox(value=DEFAULT_EN, label="Fictional knowledge (one fact per line) / معلومات خيالية", lines=10)
-            file_input = gr.File(label="Load a UTF-8 .txt file / تحميل ملف", file_types=[".txt"], type="filepath")
-            example_button = gr.Button("Load example for selected language / تحميل مثال باللغة المختارة")
-        with gr.Column():
-            gr.Markdown("### ✍️ Ask something · اطرح سؤالاً")
-            question = gr.Textbox(label="Your question / سؤالك", lines=2, placeholder="What is your name? / ما اسمك؟")
-            ask_button = gr.Button("🤖 Ask my digital twin / اسأل توأمي الرقمي", variant="primary")
-            gr.Markdown("### 🤖 Twin's answer · إجابة التوأم")
-            response = gr.Textbox(label="Answer / الإجابة", interactive=False, lines=3, value="")
-            gr.Markdown("### 📖 Where it found the information · مصدر المعلومات")
-            citation = gr.Textbox(label="Evidence / الدليل", interactive=False, lines=3, value="")
-    file_input.change(fn=load_text, inputs=[file_input], outputs=[knowledge])
-    example_button.click(fn=example_for_language, inputs=[language], outputs=[knowledge])
-    ask_button.click(fn=answer_question, inputs=[question, knowledge, language], outputs=[response, citation])
+        with gr.Column(scale=4, min_width=285):
+            gr.Markdown("### ⚙️ Character information · معلومات الشخصية")
+            profile = gr.Textbox(
+                value=DEFAULT_PROFILE,
+                label="Fictional facts / حقائق خيالية",
+                lines=13,
+                max_lines=18,
+                max_length=MAX_PROFILE_CHARS,
+                elem_id="profile-area",
+            )
+            gr.Markdown(
+                "Edit the facts, then ask a question. Changes apply to **this chat session only**; "
+                "to publish different default facts, edit `about-me.txt` in your project."
+            )
+        with gr.Column(scale=6, min_width=310):
+            gr.Markdown("### 🤖 AI reply · رد الذكاء الاصطناعي")
+            conversation = gr.Chatbot(value=[], height=375, elem_id="chat-area")
+            question = gr.Textbox(
+                label="✍️ Your question · سؤالك",
+                placeholder="What is your name? / ما اسمك؟",
+                max_lines=3,
+                max_length=MAX_QUESTION_CHARS,
+            )
+            with gr.Row():
+                ask_button = gr.Button("Ask AI · اسأل", variant="primary")
+                reset_button = gr.Button("New conversation · محادثة جديدة")
+            gr.Markdown("### 📖 Possible supporting text · النص المرتبط المحتمل")
+            source = gr.Textbox(
+                interactive=False, lines=3,
+                label="From your character information · من معلومات الشخصية",
+                elem_id="source-area",
+                placeholder="A possible related line will appear here after a question.",
+            )
+            gr.Markdown(
+                "A matching line is **not proof** the reply is correct. "
+                "Check the AI answer against the character's facts."
+            )
+    ask_button.click(chat, [question, conversation, profile], [conversation, source, question], show_progress="full")
+    question.submit(chat, [question, conversation, profile], [conversation, source, question], show_progress="full")
+    reset_button.click(lambda: ([], "", ""), outputs=[conversation, source, question])
 
 if __name__ == "__main__":
-    demo.launch()
+    # The same app works locally and on Hugging Face Spaces.
+    demo.queue(default_concurrency_limit=1, max_size=16).launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", "7860")),
+        show_error=False,
+        css=CSS,
+    )

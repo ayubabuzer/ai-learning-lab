@@ -1,1 +1,5 @@
-gradio>=5.0,<7.0
+# Hugging Face's Gradio SDK provides Gradio and the platform-matched spaces package.
+# Keep the model dependencies compatible with supported ZeroGPU PyTorch releases.
+torch==2.9.1
+transformers>=4.57,<5
+accelerate>=1.11,<2

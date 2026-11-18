@@ -1,6 +1,6 @@
 # AI Learning Lab — Teacher guide
 
-A six-lesson bilingual classroom journey for beginners. Only lightweight, explicit teaching algorithms run in pupils' browsers. The pupil UI distinguishes **✍️ input**, **⚙️ examples/settings**, **🤖 mini-robot reply**, and **📖 evidence/source**. Output starts blank until pupils take an action; a short robot animation signals the calculation.
+A six-lesson bilingual classroom journey for beginners. Lessons 01–05 use lightweight, explicit teaching algorithms in pupils' browsers. The Lesson 06 project uses a real model hosted on ZeroGPU after deployment. The pupil UI distinguishes **✍️ input**, **⚙️ examples/settings**, **🤖 mini-robot reply**, and **📖 evidence/source**. Output starts blank until pupils take an action; a short robot animation signals the calculation.
 
 ## Lesson 01 · How Does AI Read Our Words? (20 min)
 
@@ -27,10 +27,14 @@ Invent facts about a robot or planet, ask open-ended questions, toggle Include c
 
 Use the new **Fact Detectives** game. For each fictional case, pupils select the relevant source (or no source) and decide whether a claim is **supported**, **contradicted** or **not answered**. Discuss that a cited sentence can still be false; it is not automatic verification. Ask pupils to make a claim the evidence does not support. This lesson prepares them to evaluate the Digital Twin, not build another search interface.
 
-## Lesson 06 · Build Your Own AI Digital Twin (30–40 min)
+## Lesson 06 · Build Your Own AI Digital Twin (30–45 min)
 
-Write one imaginary fact per line. Ask **What is your name?**: the simple source-based assistant now replies **My name is Alex.** and displays the full matching `about-me.txt` line in a separate **Evidence** panel. Ask **How old are you?**: it should say **I don't know**. Other questions may return a matching sentence because this is not a generative model. Download the text file and optionally use the Gradio starter locally. Hosting to Hugging Face may require paid or specially eligible compute access.
+This lesson now guides pupils through **one real-model Gradio application** (not a rule-based chatbot). Students choose fictional facts for `about-me.txt`; a capable teacher computer can test locally with `uv run app.py`, then an eligible account publishes with `uv run gradio deploy` and **ZeroGPU `zero-a10g`**. Compare natural generated replies with the possible supporting line displayed outside the robot answer. Ask an unsupported age question to discuss why language models may invent facts despite clear instructions. The website includes a self-reported, printable participation certificate. Read [the complete deployment guide](lessons/06-digital-twin/gradio-app/README.md).
 
 ## Safety and accessibility
 
 Switch to Arabic for Arabic cases and RTL. Use fictional data only. A public Hugging Face Space publishes its source files and receives visitor input remotely; never upload personal information about pupils. Preview the actual GitHub Pages deployment on a school computer before class.
+
+## Updated capstone: real language model with uv + ZeroGPU
+
+Follow the [real-model Digital Twin guide](lessons/06-digital-twin/gradio-app/README.md). Pupils customise a **fictional** profile, then a teacher or eligible pupil uses `uv run app.py`, `uvx hf auth login` and `uv run gradio deploy` with hardware `zero-a10g` (not CPU Basic). The hosted model produces fresh replies; pupils compare answers with the separate possible source line and test unknown facts. Remind pupils that context does not retrain model weights. Personal free ZeroGPU hosting requires eligibility and has queue/daily quotas; local model downloads need a capable computer. Do not encourage public sharing of real children's information.

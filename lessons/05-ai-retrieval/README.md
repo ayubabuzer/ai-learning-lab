@@ -1,4 +1,4 @@
-# Lesson 05 — How Can We Check an AI Answer?
+# Lesson 05 — Can We Always Trust an AI Answer?
 
 **[English](README.md) · [العربية](README.ar.md)**
 

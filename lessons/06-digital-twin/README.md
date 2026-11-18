@@ -1,17 +1,15 @@
-# Lesson 06 — Build Your Own AI Digital Twin
+# Lesson 06 — Build and Deploy Your Own AI Digital Twin
 
 **[English](README.md) · [العربية](README.ar.md)**
 
-Build a **fictional assistant** from a `.txt` file with one fact per line. The student-facing interface separates **⚙️ knowledge/settings**, **✍️ question**, **🤖 answer**, and **📖 exact source**. The answer is initially blank. A short animated robot icon appears when asking a question.
+In Lessons 01–05, we explored text, word relationships, prediction, context and checking evidence. **Now build one real, generative AI chatbot.** The model reads fictional facts from `about-me.txt`, uses recent conversation history and creates a new answer in English or Arabic.
 
-Try **What is your name?**: with the sample file the assistant replies **My name is Alex.**, while the source panel displays the full original line. Try **How old are you?**: with no supporting age fact it should say **I don't know**.
+**Follow Ed Donner's deployment workflow:** clone → install `uv` → edit profile → `uv run app.py` → `uvx hf auth login` → `uv run gradio deploy` → share your Hugging Face Space link. Choose **ZeroGPU (`zero-a10g`)**, not the older CPU Basic default.
 
-This is a small rule-based extraction / matching algorithm. Some questions can return an exact sentence instead of a polished answer; not all free-text questions are understood. The source is not automatically verified as correct. Use fictional characters, not personal information about pupils.
+Open the [step-by-step English guide](gradio-app/README.md) or [Arabic guide](gradio-app/README.ar.md). The **same** `gradio-app/` project is used for local testing and publication—there are no separate levels or replacement apps.
 
-## Run and deploy your Gradio project
+**What pupils discover:** the profile is temporary context, not permanent model training. The model generates natural words, but it can make mistakes or invent facts. The UI keeps the AI's answer separate from a possible supporting line so pupils can check what the source actually says.
 
-The included [`gradio-app/`](gradio-app/) is a standalone Python + Gradio version. The [full setup guide](gradio-app/README.md) covers `git clone`, `python -m venv`, `pip install -r requirements.txt`, running `python app.py`, creating a Hugging Face account and optionally deploying.
-
-**Hosting reminder:** Public Python/Gradio hosting on Hugging Face may require a paid plan or qualifying hosting access. A free Static Space cannot run the Gradio application; running locally remains a complete learning activity.
+**Hosting requirement:** Hugging Face currently lets eligible free personal accounts (verified email, more than 30 days old and in good standing) host up to two ZeroGPU Spaces. Daily GPU limits and queues apply. The app does not need a paid LLM API key. Local use downloads multiple GB of model files and may be slow on basic school PCs. **Use only imaginary pupil-safe information.**
 
 [← Lesson 05](../05-ai-retrieval/) · [All lessons](../../)

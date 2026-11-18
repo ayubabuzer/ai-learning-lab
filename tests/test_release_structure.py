@@ -58,8 +58,14 @@ class TestRelease(unittest.TestCase):
         for name in FOLDERS:
             t=(LESSONS/name/"index.html").read_text(encoding="utf-8")
             with self.subTest(name=name):
-                self.assertIn('class="lesson-trail"',t)
-                self.assertIn('class="only-ar"',t)
+                if name == '06-digital-twin':
+                    self.assertIn('href="../05-ai-retrieval/"', t)
+                    self.assertIn('href="#finish"', t)
+                    self.assertIn('Certificate of Completion', t)
+                    self.assertIn('const translations=', t)
+                else:
+                    self.assertIn('class="lesson-trail"',t)
+                    self.assertIn('class="only-ar"',t)
 
     def test_no_model_brand_required_for_pupils(self):
         for page in [ROOT/"index.html"]+[LESSONS/x/"index.html" for x in FOLDERS]:
@@ -76,20 +82,24 @@ class TestRelease(unittest.TestCase):
 
     def test_lesson_five_is_distinct(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
-        self.assertIn('How Can We Check an AI Answer?',t)
-        for val in ('support','contradict','unknown'):
+        self.assertIn('Can We Always Trust an AI Answer?',t)
+        for val in ('supported','wrong','missing'):
             self.assertIn(val,t)
 
     def test_homepage_deployment_guide(self):
         t=(ROOT/"index.html").read_text(encoding="utf-8")
-        for val in ('deploy-guide','git clone','pip install -r requirements.txt','huggingface.co/join','huggingface.co/new-space'):
+        for val in ('deploy-guide','git clone','uv run app.py','uvx hf auth login','uv run gradio deploy','zero-a10g','huggingface.co/join'):
             self.assertIn(val,t)
 
     def test_gradio_project_valid(self):
         folder=LESSONS/FOLDERS[5]/"gradio-app"
         ast.parse((folder/"app.py").read_text(encoding="utf-8"))
-        for fname in ('app.py','requirements.txt','README.md','README.ar.md','about-me.txt'):
+        for fname in ('app.py','twin_core.py','pyproject.toml','.python-version','requirements.txt','README.md','README.ar.md','about-me.txt'):
             self.assertTrue((folder/fname).is_file())
-        self.assertTrue((folder/"README.md").read_text(encoding="utf-8").startswith('---\n'))
+        self.assertIn('zero-a10g', (folder/'README.md').read_text(encoding='utf-8'))
+        self.assertIn('@spaces.GPU', (folder/'app.py').read_text(encoding='utf-8'))
+        # Gradio deploy first-run hardware prompt is intentionally preserved by NOT
+        # checking in YAML metadata before the first deployment.
+        self.assertFalse((folder/'README.md').read_text(encoding='utf-8').startswith('---\n'))
 
 if __name__ == '__main__':unittest.main()
