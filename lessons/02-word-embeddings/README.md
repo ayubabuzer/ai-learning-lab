@@ -10,7 +10,7 @@ How can numbers help a computer notice that words may be related?
 
 Words that appear in similar situations may have something in common. In this lesson, the computer reads your example sentences and counts the other words each word appears beside. For every word it makes a **vector** — a list of numbers. We can compare those lists and show the results on a map.
 
-This is a small **word co-occurrence classroom model**, not a pretrained language model or Qwen embeddings. Its numerical results are calculated from your examples, and they can change when you edit those examples. It doesn't prove the words have the same meaning.
+This is a small **word co-occurrence classroom model**, not a pretrained language model or pretrained embeddings. Its numerical results are calculated from your examples, and they can change when you edit those examples. It doesn't prove the words have the same meaning.
 
 ## Input → experiment → output
 
@@ -20,7 +20,7 @@ This is a small **word co-occurrence classroom model**, not a pretrained languag
 - **Output:** A numerical shared-context similarity score, sample dimensions from each context vector, a two-dimensional approximate projection and closest words from the available vocabulary.
 - **Unknown input:** If your word does not appear in the examples, the page explains that you need to add a sentence using it. The model does not invent results.
 
-For a memorable example, the page includes a **static** calculation: `king [3,3] − man [1,3] + woman [1,1] = queen [3,1]`. These numbers are **invented only for teaching**; not output from Qwen or a pretrained embedding model. An LLM's next-token prediction is not simply finding the closest word vector.
+For a memorable example, the page includes a **static** calculation: `king [3,3] − man [1,3] + woman [1,1] = queen [3,1]`. These numbers are **invented only for teaching**; not output from a pretrained model or a pretrained embedding model. An LLM's next-token prediction is not simply finding the closest word vector.
 
 ## Three challenges
 
@@ -34,4 +34,4 @@ A 25-minute classroom game with preparation, discussion questions and misconcept
 
 ## Technical and privacy notes
 
-This page is self-contained HTML/CSS/JavaScript, works without external scripts or API keys, and runs offline after download. It creates bag-of-context co-occurrence vectors from each line of learner-supplied text, compares them with cosine similarity, and displays an approximate two-dimensional projection. It does **not** run the Qwen model, retrieve pretrained embeddings, or process prompts through a chatbot. Avoid entering pupils' personal data. The next lesson covers context and next-token prediction.
+This page is self-contained HTML/CSS/JavaScript, works without external scripts or API keys, and runs offline after download. It creates bag-of-context co-occurrence vectors from each line of learner-supplied text, compares them with cosine similarity, and displays an approximate two-dimensional projection. It does **not** run the a pretrained model model, retrieve pretrained embeddings, or process prompts through a chatbot. Avoid entering pupils' personal data. The next lesson covers context and next-token prediction.

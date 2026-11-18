@@ -1,35 +1,36 @@
-# AI Learning Lab — Teacher guide (English)
+# AI Learning Lab — Teacher guide
 
-Six connected lessons for pupils, including beginners and younger learners. Use fictional text. Each page is bilingual, browser-based and designed for ordinary school computers. Lessons 01–06 use **small teaching algorithms**, not pretrained Qwen. For deeper explanations see each lesson's README.
+A six-lesson bilingual classroom journey for beginners. Only lightweight, explicit teaching algorithms run in pupils' browsers. The pupil UI distinguishes **✍️ input**, **⚙️ examples/settings**, **🤖 mini-robot reply**, and **📖 evidence/source**. Output starts blank until pupils take an action; a short robot animation signals the calculation.
 
-## Lesson 01 — Text pieces (20 minutes)
+## Lesson 01 · How Does AI Read Our Words? (20 min)
 
-Pupils type and change English words, punctuation and emojis. Click pieces and inspect classroom IDs. Ask whether those local IDs are genuine Qwen tokenizer IDs (**no**). In Arabic mode, use the corresponding Arabic examples. Leave UTF-8 byte/hex representations out of the beginner activity.
+Type, change and inspect a sentence. Compare English punctuation or Arabic word forms. Click pieces to see **classroom IDs** — not actual LLM token IDs. Avoid unnecessary byte and hexadecimal jargon. The output remains unfilled until pupils click Explore.
 
-## Lesson 02 — Context vectors (25 minutes)
+## Lesson 02 · How Does AI Connect Words? (25 min)
 
-Compare `cat`/`dog` and `cat`/`banana`; edit the example sentences and rebuild. Ask why a similarity score changed. Point to the **separate illustrative** king/man/woman/queen axes map and perform `[3,1] − [1,1] + [1,3] = [3,3]`. Explain that the numbers are invented, and real embeddings are more complex.
+Compare `cat`/`dog` and `cat`/`banana`. Edit the sample text and rebuild. Ask why unrelated words can sometimes have equal co-occurrence vectors: the map places their **display dots** next to each other with dashed lines, while preserving the same calculated coordinates. Explain why this is not a claim of identical meanings. Use the separate, invented axes diagram:
 
-## Lesson 03 — Prediction detectives (25 minutes)
+- **king − man:** `[3,1] − [1,1] = [2,0]`
+- **king − man + woman:** `[2,0] + [1,3] = [3,3] = queen`
 
-Ask pupils what might follow `The cat drinks`. Show the example sentences, predict the bars, then add `The cat drinks water` and click **Teach**. Explain *learned patterns* using books, websites, stories, articles and other written material as examples of large training corpora. Our classroom counts are not an LLM. Ask why a new sentence starter changes the result and show the matching evidence sentences.
+Invented coordinates do not represent pretrained embeddings.
 
-## Lesson 04 — Context versus memory (20 minutes)
+## Lesson 03 · How Does AI Predict What Comes Next? (25 min)
 
-Invent a planet, character or robot in the context box; ask any question. Toggle **Include context** off, then on. Discuss what is visible in the received-input panel, and what happens when a fresh session starts. The mini reader quotes a likely related sentence, **not a generated answer**. Distinguish permanent model weights, temporary input and app storage.
+Ask what might follow `The cat drinks`. Students view example sentences, predict the probabilities, then add another `The cat drinks water` line and **Teach the mini AI**. Large models learn patterns from many **words, sentences, books, websites, articles and stories**. Our small predictor counts next words in editable text. Pupils press Predict to see results; examples alone do not cause a generated answer to appear.
 
-## Lesson 05 — Finding evidence (20–25 minutes)
+## Lesson 04 · Does AI Really Remember? (20 min)
 
-Show a sentence using `researcher` and ask about a `scientist`. Compare keyword search against small concept-aware vector matching. Change a document and see if the retrieved source changes. Explain that this is a transparent **mini vocabulary bridge**, not a neural semantic model. Retrieval is not the same as prediction or proof of truth.
+Invent facts about a robot or planet, ask open-ended questions, toggle Include context and view the exact received text. Start a new session. Contrast temporary request context, model parameters and app persistence. The classroom reader quotes related evidence rather than composing arbitrary new answers.
 
-## Lesson 06 — Fictional digital twin (30–40 minutes)
+## Lesson 05 · How Can We Check an AI Answer? (20–25 min)
 
-Each team invents a robot/planet/persona and writes one fact per line. They ask supported and unsupported questions, check line-number citations and get the text file ready for the optional Gradio project. Never publish pupils' real names, addresses, personal stories or contact details. Hosting outside the browser processes visitor input remotely; treat it differently from local browser input.
+Use the new **Fact Detectives** game. For each fictional case, pupils select the relevant source (or no source) and decide whether a claim is **supported**, **contradicted** or **not answered**. Discuss that a cited sentence can still be false; it is not automatic verification. Ask pupils to make a claim the evidence does not support. This lesson prepares them to evaluate the Digital Twin, not build another search interface.
 
-## Group discussion
+## Lesson 06 · Build Your Own AI Digital Twin (30–40 min)
 
-After each experiment, ask: What changed? What calculation did the app really perform? What could it **not** know? How would a fully trained language model differ?
+Write one imaginary fact per line. Ask **What is your name?**: the simple source-based assistant now replies **My name is Alex.** and displays the full matching `about-me.txt` line in a separate **Evidence** panel. Ask **How old are you?**: it should say **I don't know**. Other questions may return a matching sentence because this is not a generative model. Download the text file and optionally use the Gradio starter locally. Hosting to Hugging Face may require paid or specially eligible compute access.
 
-## Device and access notes
+## Safety and accessibility
 
-The browser lessons need only a modern browser with JavaScript. No account, full-model download, GPU or API service. Gradio is a separate **optional developer activity** requiring Python and the package installation. Test the website on school computers and check the live Pages links after deployment.
+Switch to Arabic for Arabic cases and RTL. Use fictional data only. A public Hugging Face Space publishes its source files and receives visitor input remotely; never upload personal information about pupils. Preview the actual GitHub Pages deployment on a school computer before class.

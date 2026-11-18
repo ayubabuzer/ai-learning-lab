@@ -6,7 +6,7 @@
 
 Text can be separated into pieces and represented by numbers so computers can process it. This page uses a **simple classroom tokenizer** that groups letters, numbers, whitespace and symbols. The page makes local classroom IDs for each piece. We omit low-level byte and hexadecimal details so learners can concentrate on the basic idea.
 
-The activity **does not load or run Qwen** or any other pretrained tokenizer/LLM. Local IDs are not Qwen IDs and these are not embeddings or next-token predictions. Real AI tokenizers can use different, more sophisticated boundaries.
+The activity **does not load or run a pretrained model** or any other pretrained tokenizer/LLM. Local IDs are not a pretrained model IDs and these are not embeddings or next-token predictions. Real AI tokenizers can use different, more sophisticated boundaries.
 
 ## Input → Output → Task
 

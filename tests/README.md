@@ -1,7 +1,13 @@
-# Release tests
+# AI Learning Lab release checks
 
-Run `python -m unittest discover -s tests -v` from the repository root to check the canonical folder structure, documentation, static links, Python source validity and model-honesty statements. Python 3.10+ is sufficient for these structure checks; no Gradio installation is needed.
+From the repository root run:
 
-The fuller local browser checks described in `../TEST-REPORT.md` were run separately in Chromium. They included English/Arabic input, probabilities, context toggling, search results, source citations, abstentions and mobile width. Those live browser checks are not covered by this dependency-free structural suite.
+```bash
+python -m unittest discover -s tests -v
+```
 
-Always confirm the six live GitHub Pages links after uploading.
+This dependency-free suite checks the folder structure, bilingual docs, Previous/Next navigation, important interaction code markers, local links, Lesson 02 math/map handling, the distinct Lesson 05 evidence activity, and the Gradio app source syntax.
+
+For optional full local development checks, install the Gradio dependencies then test its answer/source behaviour. **A real browser and device test is still necessary**: the current production package was structurally and JavaScript-syntax checked, but automated Chromium navigation was blocked by the execution environment's browser policy.
+
+Before publishing, open all lessons in English and Arabic, try answer and unknown cases, inspect the word map on a laptop/mobile screen, and verify the live GitHub Pages site after upload.

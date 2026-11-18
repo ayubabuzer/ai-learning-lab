@@ -1,17 +1,28 @@
-# Lesson 05 — How Does AI Find Information?
+# Lesson 05 — How Can We Check an AI Answer?
 
-[Open lesson](index.html) · [العربية](README.ar.md) · [Homepage](../../)
+**[English](README.md) · [العربية](README.ar.md)**
 
-**Concept:** Prediction creates plausible continuations; retrieval finds passages that may contain evidence.
+## What is different from Lesson 06?
 
-**Try it:** Put one passage per line and ask a question. Compare **Exact keyword overlap** with **Concept-aware vector matching**, then edit the data and retry. The second method creates word-count vectors, expands a small pre-programmed synonym set and computes cosine similarity. Results show real computed scores and source lines.
+**Lesson 05 teaches how to judge a claim using evidence.** Pupils read short, fictional source sentences and decide whether those sources support a claim, contradict it or fail to address it. This is **not another chatbot or document-search app**. Lesson 06 then puts the evidence habit into practice by building an assistant that replies with sources.
 
-**Limit:** This is **not a pretrained neural embedding model** and does not reliably understand arbitrary paraphrases. Scores reflect the documented mini-algorithm, not factual certainty. It returns source passages rather than generating answers. This prepares pupils for grounded retrieval in Lesson 06.
+## Interactive Fact Detectives (20–25 minutes)
 
-## Classroom tasks
+1. Choose one of three fictional cases.
+2. Read the robot's claim.
+3. Select the strongest evidence sentence, or choose **None of these sentences**.
+4. Choose **Supported**, **Contradicted**, or **Not enough information**.
+5. Press **Check my reasoning** to compare with the prepared evidence and explanation.
+6. Try the other cases, including one with conflicting numbers and one with missing information.
 
-1. Predict the output before clicking the experiment button.
-2. Change one input at a time and record what changes.
-3. Explain what the miniature model computes and what it cannot do.
+The response panel is blank at first. A brief animated robot indicator appears before feedback. The evidence explanation is visually separate from the answer.
 
-**Technical requirement:** Modern browser with JavaScript. No API keys, full-model downloads or student accounts.
+## Main learning idea
+
+**A confident sentence is not evidence.** A reference can support or contradict a claim, and absence of evidence should lead to uncertainty. Even a quoted source could itself be wrong, so the exercise is **not an automatic truth-checking AI model**. No accounts, keys or downloads.
+
+## Teacher prompt
+
+Challenge pairs: *Can a source mention the same topic but still contradict the claim?* *What should a digital twin say when it lacks evidence?* *Does a source quotation prove the statement is true?*
+
+[← Previous: Lesson 04](../04-ai-context-memory/) · [Next: Lesson 06 →](../06-digital-twin/)

@@ -1,86 +1,141 @@
-"""AI Learning Lab Lesson 06 — source-based, EXTRACTIVE digital twin.
+"""AI Learning Lab · A small, source-based educational digital twin.
 
-No generative language model; quotes a matching line or refuses. For education.
-All examples fictional. Never publish a child's real personal information.
+This is a deterministic text-matching and extraction app, NOT a pretrained LLM.
+It deliberately does not invent responses when evidence cannot be located.
+Never upload real children's personal details to a public Space.
 """
 from pathlib import Path
 import re
 import unicodedata
 import gradio as gr
 
-HERE = Path(__file__).resolve().parent
-DEFAULT = (HERE / "about-me.txt").read_text(encoding="utf-8")
+BASE = Path(__file__).resolve().parent
+DEFAULT_EN = (BASE / "about-me.txt").read_text(encoding="utf-8")
+DEFAULT_AR = """اسمي نور وأنا روبوت خيالي لطيف.
+أسكن على كوكب خيالي اسمه لونا.
+طعامي المفضل هو المعكرونة على شكل نجوم.
+أحب رسم صور للكواكب.
+لدي تنين أليف اسمه برق.
+لوني المفضل هو الفيروزي."""
 EN_STOP = set("what where when why how which who is are was were the a an my your you i me does do did have has about of in for to can please tell".split())
-AR_STOP = set("ما ماذا من اين متى كيف لماذا هو هي هل في من عن على اسم".split())
+AR_STOP = set("ما ماذا من اين متى كيف لماذا هو هي هل في من عن على اسم اسمي اسمك".split())
 
 
-def normalise(word):
-    word = unicodedata.normalize("NFKC", word.lower())
-    word = re.sub("[\u064b-\u065f\u0670]", "", word)
-    word = re.sub("[إأآ]", "ا", word).replace("ى", "ي")
-    return word
+def normalise(word: str) -> str:
+    word = unicodedata.normalize("NFKC", word.casefold())
+    word = re.sub(r"[\u064b-\u065f\u0670]", "", word)
+    return re.sub(r"[إأآ]", "ا", word).replace("ى", "ي")
 
 
-def words(text, language):
-    terms = [normalise(w) for w in re.findall(r"[^\W_]+", text, re.UNICODE)]
-    stop = {normalise(x) for x in (AR_STOP if language == "العربية" else EN_STOP)}
-    return set(w for w in terms if len(w) > 1 and w not in stop)
+def words(text: str, language: str) -> set[str]:
+    stop = EN_STOP if language == "English" else AR_STOP
+    tokens = re.findall(r"[^\W_]+", text, flags=re.UNICODE)
+    return {normalise(t) for t in tokens if len(t) > 1 and normalise(t) not in stop}
 
 
-def retrieve(question, knowledge, language):
-    qterms = words(question, language)
-    if not qterms:
+def find_evidence(question: str, knowledge: str, language: str):
+    """Return a supporting line only when question words overlap sufficiently."""
+    query = words(question, language)
+    if not query:
         return None
-    candidates = []
-    for idx, raw in enumerate(knowledge.splitlines(), 1):
-        line = raw.strip()
-        if not line:
+    hits = []
+    for row, raw in enumerate(knowledge.splitlines(), 1):
+        sentence = raw.strip()
+        if not sentence:
             continue
-        matches = len(qterms & words(line, language))
-        candidates.append((matches, -idx, idx, line))
-    if not candidates:
+        shared = len(query & words(sentence, language))
+        hits.append((shared, -row, row, sentence))
+    if not hits:
         return None
-    matches, _, idx, line = max(candidates)
-    minimum = 2 if len(qterms) >= 2 else 1
-    return (idx, line) if matches >= minimum else None
+    shared, _, row, sentence = max(hits)
+    needed = 2 if len(query) >= 2 else 1
+    return (row, sentence) if shared >= needed else None
+
+
+def direct_answer(question: str, knowledge: str, language: str):
+    """Return answer, line number, source text. No unrestricted generation."""
+    lines = [(row, line.strip()) for row, line in enumerate(knowledge.splitlines(), 1) if line.strip()]
+    q = normalise(question)
+    if language == "English" and re.search(r"\b(name|called)\b", q):
+        for row, line in lines:
+            m = re.search(r"\bmy name is\s+([^\s,.!?]+)", line, re.I)
+            if m:
+                return f"My name is {m.group(1)}.", row, line
+        return None
+    if language == "العربية" and ("اسم" in q or "من انت" in q):
+        for row, line in lines:
+            m = re.search(r"اسمي\s+([^\s،.!؟]+)", line)
+            if m:
+                return f"اسمي {m.group(1)}.", row, line
+        return None
+    if language == "English" and re.search(r"\b(age|how old)\b", q):
+        for row, line in lines:
+            if re.search(r"\b\d+\s+years? old\b", line, re.I):
+                return line, row, line
+        return None
+    if language == "العربية" and ("عمرك" in q or "عمر" in q):
+        for row, line in lines:
+            if re.search(r"(?:عمري|عمره|عمرها)\s*\d+", line):
+                return line, row, line
+        return None
+    found = find_evidence(question, knowledge, language)
+    if found:
+        row, line = found
+        return line, row, line
+    return None
 
 
 def answer_question(question, knowledge, language):
+    """Shown response is separate from the exact supporting source."""
     arabic = language == "العربية"
-    if not question.strip():
+    if not (question or "").strip():
         return ("اكتب سؤالاً أولاً." if arabic else "Write a question first.", "—")
-    result = retrieve(question, knowledge, language)
+    if not (knowledge or "").strip():
+        return ("أضف معلومات خيالية أولاً." if arabic else "Add some fictional facts first.", "—")
+    result = direct_answer(question, knowledge, language)
     if result is None:
-        return ("لا أعرف من المعلومات المتاحة." if arabic else
-                "I don't know from the information supplied.", "—")
-    idx, text = result
-    intro = "هذه معلومة مرتبطة من ملف المعرفة:" if arabic else "Relevant information from the knowledge file:"
-    source = f"السطر {idx}: {text}" if arabic else f"Line {idx}: {text}"
-    return f"{intro}\n“{text}”", source
+        return ("لا أعرف من المعلومات المتاحة." if arabic else "I don't know from the supplied information.", "—")
+    answer, line_number, source = result
+    reference = f"السطر {line_number}: {source}" if arabic else f"Line {line_number}: {source}"
+    return answer, reference
 
 
-def load_text(file_path):
-    if not file_path:
-        return DEFAULT
-    path = Path(file_path)
-    if path.suffix.lower() != ".txt" or path.stat().st_size > 250_000:
-        raise gr.Error("Use a .txt file smaller than 250 KB.")
-    return path.read_text(encoding="utf-8")
+def load_text(filepath):
+    if not filepath:
+        return DEFAULT_EN
+    target = Path(filepath)
+    if target.suffix.lower() != ".txt" or target.stat().st_size > 250_000:
+        raise gr.Error("Please use a UTF-8 .txt file smaller than 250 KB.")
+    try:
+        return target.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        raise gr.Error("Please save the text file using UTF-8 encoding.")
+
+
+def example_for_language(language):
+    return DEFAULT_AR if language == "العربية" else DEFAULT_EN
+
 
 with gr.Blocks(title="AI Learning Lab — Fictional Digital Twin") as demo:
-    gr.Markdown("# AI Learning Lab · Lesson 06\n### Fictional, evidence-first digital twin / توأم رقمي خيالي مع مصادر")
-    gr.Markdown("This is **retrieval**, not a generative Qwen model. Use fictional information only. If hosted publicly, user text is processed on the host.")
+    gr.Markdown("# 🤖 My Digital Twin · توأمي الرقمي\nLearn how a question-answering assistant uses a knowledge file.")
+    gr.Markdown("**Classroom project:** This is rule-based retrieval and text extraction, **not a generative language model**. Use fictional information only. Public Space source files can be read by others.")
     language = gr.Radio(["English", "العربية"], value="English", label="Language / اللغة")
     with gr.Row():
         with gr.Column():
-            knowledge = gr.Textbox(value=DEFAULT, label="Knowledge / المعلومات", lines=12)
-            file_input = gr.File(label="Load a .txt file / تحميل ملف", file_types=[".txt"], type="filepath")
+            gr.Markdown("### ⚙️ Knowledge & settings · المعلومات والإعدادات")
+            knowledge = gr.Textbox(value=DEFAULT_EN, label="Fictional knowledge (one fact per line) / معلومات خيالية", lines=10)
+            file_input = gr.File(label="Load a UTF-8 .txt file / تحميل ملف", file_types=[".txt"], type="filepath")
+            example_button = gr.Button("Load example for selected language / تحميل مثال باللغة المختارة")
         with gr.Column():
-            question = gr.Textbox(label="Question / السؤال", lines=2)
-            ask_button = gr.Button("Find evidence / ابحث عن الدليل", variant="primary")
-            response = gr.Textbox(label="Answer / الإجابة", lines=5, interactive=False)
-            citation = gr.Textbox(label="Source / المصدر", lines=3, interactive=False)
-    file_input.change(fn=load_text, inputs=file_input, outputs=knowledge)
+            gr.Markdown("### ✍️ Ask something · اطرح سؤالاً")
+            question = gr.Textbox(label="Your question / سؤالك", lines=2, placeholder="What is your name? / ما اسمك؟")
+            ask_button = gr.Button("🤖 Ask my digital twin / اسأل توأمي الرقمي", variant="primary")
+            gr.Markdown("### 🤖 Twin's answer · إجابة التوأم")
+            response = gr.Textbox(label="Answer / الإجابة", interactive=False, lines=3, value="")
+            gr.Markdown("### 📖 Where it found the information · مصدر المعلومات")
+            citation = gr.Textbox(label="Evidence / الدليل", interactive=False, lines=3, value="")
+    file_input.change(fn=load_text, inputs=[file_input], outputs=[knowledge])
+    example_button.click(fn=example_for_language, inputs=[language], outputs=[knowledge])
     ask_button.click(fn=answer_question, inputs=[question, knowledge, language], outputs=[response, citation])
 
 if __name__ == "__main__":

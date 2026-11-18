@@ -1,19 +1,17 @@
 # Lesson 06 — Build Your Own AI Digital Twin
 
-[Open lesson](index.html) · [العربية](README.ar.md) · [Homepage](../../)
+**[English](README.md) · [العربية](README.ar.md)**
 
-**Concept:** A digital twin can combine a knowledge file, search and a safe source-based response. The most important habit is to distinguish supported information from missing information.
+Build a **fictional assistant** from a `.txt` file with one fact per line. The student-facing interface separates **⚙️ knowledge/settings**, **✍️ question**, **🤖 answer**, and **📖 exact source**. The answer is initially blank. A short animated robot icon appears when asking a question.
 
-**Try it:** Edit the fictional `about-me.txt`-style facts (one fact per line), or upload a local `.txt` file. Ask any question; see a relevant quoted line and its line number. An unsupported question produces **“I don't know from the information supplied.”** Save the knowledge text or inspect the accompanying Python/Gradio app.
+Try **What is your name?**: with the sample file the assistant replies **My name is Alex.**, while the source panel displays the full original line. Try **How old are you?**: with no supporting age fact it should say **I don't know**.
 
-**Model honesty:** The browser app and Gradio starter are **extractive retrieval applications, not Qwen, generative LLMs or fine-tuned models**. They do not guarantee semantic understanding or verified accuracy. They only quote matching text and refrain from inventing missing answers. Publishing on Hugging Face is optional and needs an appropriate account and available hosting. The local browser activity is instant and free; running Gradio requires Python and installing a package.
+This is a small rule-based extraction / matching algorithm. Some questions can return an exact sentence instead of a polished answer; not all free-text questions are understood. The source is not automatically verified as correct. Use fictional characters, not personal information about pupils.
 
-**Privacy:** Use fictional identities. Never put a real child's name, contact information or location in a public repo or a public Space.
+## Run and deploy your Gradio project
 
-## Classroom tasks
+The included [`gradio-app/`](gradio-app/) is a standalone Python + Gradio version. The [full setup guide](gradio-app/README.md) covers `git clone`, `python -m venv`, `pip install -r requirements.txt`, running `python app.py`, creating a Hugging Face account and optionally deploying.
 
-1. Predict the output before clicking the experiment button.
-2. Change one input at a time and record what changes.
-3. Explain what the miniature model computes and what it cannot do.
+**Hosting reminder:** Public Python/Gradio hosting on Hugging Face may require a paid plan or qualifying hosting access. A free Static Space cannot run the Gradio application; running locally remains a complete learning activity.
 
-**Technical requirement:** Modern browser with JavaScript. No API keys, full-model downloads or student accounts.
+[← Lesson 05](../05-ai-retrieval/) · [All lessons](../../)
