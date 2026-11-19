@@ -19,7 +19,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from twin_core import (
     MAX_PROFILE_CHARS, MAX_QUESTION_CHARS, build_messages,
-    candidate_source, friendly_error, translate,
+    candidate_source, friendly_error,
 )
 
 MODEL_ID = os.environ.get("MODEL_ID", "Qwen/Qwen3-1.7B")
@@ -63,7 +63,7 @@ def infer(messages: list[dict[str, str]]) -> str:
         )
     generated = output[0, ids.shape[-1]:]
     reply = TOKENIZER.decode(generated, skip_special_tokens=True).strip()
-    # If the model emitted a thinking block unexpectedly, don't show it to pupils.
+    # If the model emitted a thinking block unexpectedly, don't show it to learners.
     if "</think>" in reply:
         reply = reply.split("</think>", 1)[-1].strip()
     return reply
@@ -78,16 +78,16 @@ def chat(question: str, history: list[dict] | None, profile: str):
         return history, "", ""
     question = question[:MAX_QUESTION_CHARS]
     if not profile:
-        reply = translate("Please add a fictional profile first.", "أضف ملفاً تعريفياً خيالياً أولاً.", question)
+        reply = "Please add a fictional profile first."
         source = ""
     else:
         try:
             reply = infer(build_messages(question, history, profile[:MAX_PROFILE_CHARS]))
             if not reply:
-                reply = translate("I couldn't generate a reply. Try again.", "لم أتمكن من كتابة رد. حاول مرة أخرى.", question)
+                reply = "I couldn't generate a reply. Try again."
             source = candidate_source(profile, question)
         except Exception as exc:
-            reply, source = friendly_error(exc, question), ""
+            reply, source = friendly_error(exc), ""
     history.extend([{"role": "user", "content": question}, {"role": "assistant", "content": reply}])
     return history, source, ""
 
@@ -100,20 +100,20 @@ CSS = """
 """
 
 with gr.Blocks(title="AI Learning Lab · My Digital Twin") as demo:
-    gr.Markdown("# 🤖 My AI Digital Twin · توأمي الرقمي")
+    gr.Markdown("# 🤖 My AI Digital Twin")
     gr.Markdown(
-        "**Ask about your fictional character in English or Arabic.** "
+        "**Ask about your fictional character in English.** "
         "The AI reads your character's text and generates a new reply. "
         "It does not learn the text permanently. "
-        "**Do not enter real children's private information.** "
+        "**Do not enter private personal information.** "
         "On Hugging Face ZeroGPU, shared queues and usage limits may apply."
     )
     with gr.Row():
         with gr.Column(scale=4, min_width=285):
-            gr.Markdown("### ⚙️ Character information · معلومات الشخصية")
+            gr.Markdown("### ⚙️ Character information")
             profile = gr.Textbox(
                 value=DEFAULT_PROFILE,
-                label="Fictional facts / حقائق خيالية",
+                label="Fictional facts",
                 lines=13,
                 max_lines=18,
                 max_length=MAX_PROFILE_CHARS,
@@ -124,21 +124,21 @@ with gr.Blocks(title="AI Learning Lab · My Digital Twin") as demo:
                 "to publish different default facts, edit `about-me.txt` in your project."
             )
         with gr.Column(scale=6, min_width=310):
-            gr.Markdown("### 🤖 AI reply · رد الذكاء الاصطناعي")
+            gr.Markdown("### 🤖 AI reply")
             conversation = gr.Chatbot(value=[], height=375, elem_id="chat-area")
             question = gr.Textbox(
-                label="✍️ Your question · سؤالك",
-                placeholder="What is your name? / ما اسمك؟",
+                label="✍️ Your question",
+                placeholder="What is your name?",
                 max_lines=3,
                 max_length=MAX_QUESTION_CHARS,
             )
             with gr.Row():
-                ask_button = gr.Button("Ask AI · اسأل", variant="primary")
-                reset_button = gr.Button("New conversation · محادثة جديدة")
-            gr.Markdown("### 📖 Possible supporting text · النص المرتبط المحتمل")
+                ask_button = gr.Button("Ask AI", variant="primary")
+                reset_button = gr.Button("New conversation")
+            gr.Markdown("### 📖 Possible supporting text")
             source = gr.Textbox(
                 interactive=False, lines=3,
-                label="From your character information · من معلومات الشخصية",
+                label="From your character information",
                 elem_id="source-area",
                 placeholder="A possible related line will appear here after a question.",
             )

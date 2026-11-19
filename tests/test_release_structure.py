@@ -16,7 +16,7 @@ FOLDERS = [
     "02-word-embeddings",
     "03-next-word-prediction",
     "04-ai-context-memory",
-    "05-ai-retrieval",  # Retain the URL; this page now teaches evidence checking.
+    "05-ai-retrieval",  # Retain the stable URL; the page now teaches attention.
     "06-digital-twin",
 ]
 
@@ -32,10 +32,10 @@ class TestRelease(unittest.TestCase):
     def test_one_folder_per_lesson(self):
         self.assertEqual(sorted(p.name for p in LESSONS.iterdir() if p.is_dir()), FOLDERS)
 
-    def test_bilingual_docs(self):
+    def test_lesson_docs(self):
         for name in FOLDERS:
             with self.subTest(name=name):
-                for fname in ("index.html","README.md","README.ar.md"):
+                for fname in (("index.html", "README.md") if name == "06-digital-twin" else ("index.html", "README.md", "README.ar.md")):
                     self.assertTrue((LESSONS/name/fname).is_file())
 
     def test_root_docs(self):
@@ -80,11 +80,48 @@ class TestRelease(unittest.TestCase):
         self.assertEqual((3-1,1-1),(2,0))
         self.assertEqual((2+1,0+3),(3,3))
 
-    def test_lesson_five_is_distinct(self):
+    def test_attention_explorer(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
-        self.assertIn('Can We Always Trust an AI Answer?',t)
-        for val in ('supported','wrong','missing'):
-            self.assertIn(val,t)
+        for value in ('How Does AI Know Which Words to Look At?',
+                      'function softmax(', 'function compute(',
+                      'function tokensOf(', 'id="lens"', 'id="sentence"',
+                      'id="words"', 'id="weights"', 'data-t="honesty"'):
+            with self.subTest(value=value):
+                self.assertIn(value,t)
+        self.assertIn("These are real calculations from a small teaching algorithm",t)
+        self.assertIn("lang==='ar'?'rtl':'ltr'",t)
+
+    def test_windows_mac_guides(self):
+        for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
+            t=page.read_text(encoding="utf-8")
+            with self.subTest(page=page.name):
+                for value in ('data-os-tab="windows"', 'data-os-tab="mac"',
+                              'aria-selected="true" data-os-tab="windows"',
+                              'data-os-panel="mac" hidden', 'uv python install 3.12',
+                              'winget install --id Git.Git -e', 'git --version',
+                              'brew install uv', 'uvx hf auth whoami',
+                              'uv run gradio deploy', 'zero-a10g'):
+                    self.assertIn(value,t)
+
+    def test_english_only_lesson6_and_image(self):
+        page=(LESSONS/FOLDERS[5]/"index.html").read_text(encoding="utf-8")
+        app=(LESSONS/FOLDERS[5]/"gradio-app")
+        self.assertNotIn('id="lang"', page)
+        self.assertNotIn("ar:{previous:",page)
+        self.assertNotIn('README.ar.md',page)
+        self.assertIn('assets/digital-twin-hero.webp',page)
+        self.assertTrue((LESSONS/FOLDERS[5]/"assets/digital-twin-hero.webp").is_file())
+        self.assertIn('lessons/06-digital-twin/assets/digital-twin-hero.webp',(ROOT/"index.html").read_text())
+        self.assertIn('in English only', (app/"twin_core.py").read_text())
+        self.assertNotIn('Arabic', (app/"app.py").read_text())
+        self.assertFalse((app/"README.ar.md").exists())
+
+    def test_sparse_clone_guides(self):
+        for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
+            text=page.read_text(encoding="utf-8")
+            self.assertEqual(text.count('git sparse-checkout set lessons/06-digital-twin'),4)
+            self.assertEqual(text.count('git clone --depth 1 --filter=blob:none --sparse'),4)
+            self.assertEqual(text.count('data-os-tab="windows"'),1)
 
     def test_homepage_deployment_guide(self):
         t=(ROOT/"index.html").read_text(encoding="utf-8")
@@ -94,7 +131,7 @@ class TestRelease(unittest.TestCase):
     def test_gradio_project_valid(self):
         folder=LESSONS/FOLDERS[5]/"gradio-app"
         ast.parse((folder/"app.py").read_text(encoding="utf-8"))
-        for fname in ('app.py','twin_core.py','pyproject.toml','.python-version','requirements.txt','README.md','README.ar.md','about-me.txt'):
+        for fname in ('app.py','twin_core.py','pyproject.toml','.python-version','requirements.txt','README.md','about-me.txt'):
             self.assertTrue((folder/fname).is_file())
         self.assertIn('zero-a10g', (folder/'README.md').read_text(encoding='utf-8'))
         self.assertIn('@spaces.GPU', (folder/'app.py').read_text(encoding='utf-8'))

@@ -1,28 +1,23 @@
-# Lesson 05 — Can We Always Trust an AI Answer?
+# Lesson 05 — How Does AI Know Which Words to Look At?
 
 **[English](README.md) · [العربية](README.ar.md)**
 
-## What is different from Lesson 06?
+## The idea, in simple words
 
-**Lesson 05 teaches how to judge a claim using evidence.** Pupils read short, fictional source sentences and decide whether those sources support a claim, contradict it or fail to address it. This is **not another chatbot or document-search app**. Lesson 06 then puts the evidence habit into practice by building an assistant that replies with sources.
+During training, a real AI model learns numerical settings to help its tokens exchange information. Attention scores tell its computation how much information comes from different positions. They do not directly show a word's meaning or prove an answer is correct.
 
-## Interactive Fact Detectives (20–25 minutes)
+## Try the interactive explorer (20 minutes)
 
-1. Choose one of three fictional cases.
-2. Read the robot's claim.
-3. Select the strongest evidence sentence, or choose **None of these sentences**.
-4. Choose **Supported**, **Contradicted**, or **Not enough information**.
-5. Press **Check my reasoning** to compare with the prepared evidence and explanation.
-6. Try the other cases, including one with conflicting numbers and one with missing information.
+1. Type any short English or Arabic sentence, or use the example in your selected language.
+2. Click **Explore attention**. The blank output now shows clickable word pieces, connection lines and percentages.
+3. Click a word. Compare the bar for each other word; all percentages add to 100%.
+4. Change or repeat a word: the numbers and line thicknesses recalculate.
+5. Switch the setting from **Similar-looking words** to **Nearby words** and compare.
 
-The response panel is blank at first. A brief animated robot indicator appears before feedback. The evidence explanation is visually separate from the answer.
+**Important accuracy note:** This is a faithful demonstration of turning numerical match scores into attention weights using a **fixed, transparent teaching algorithm**. It is not running a pretrained Transformer, and the graph is not actual pretrained model attention. It uses simple character features and positions; it cannot infer which person or object a pronoun refers to. No large download, account, API key or network access is required. The output begins empty.
 
-## Main learning idea
+## Teacher activity
 
-**A confident sentence is not evidence.** A reference can support or contradict a claim, and absence of evidence should lead to uncertainty. Even a quoted source could itself be wrong, so the exercise is **not an automatic truth-checking AI model**. No accounts, keys or downloads.
+Ask pupils to predict which bar will change when they repeat a word. Discuss why different attention patterns can produce different links and why a strong link alone does not explain the AI's final answer.
 
-## Teacher prompt
-
-Challenge pairs: *Can a source mention the same topic but still contradict the claim?* *What should a digital twin say when it lacks evidence?* *Does a source quotation prove the statement is true?*
-
-[← Previous: Lesson 04](../04-ai-context-memory/) · [Next: Lesson 06 →](../06-digital-twin/)
+[← Lesson 04](../04-ai-context-memory/) · [Lesson 06 →](../06-digital-twin/)

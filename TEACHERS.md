@@ -23,18 +23,22 @@ Ask what might follow `The cat drinks`. Students view example sentences, predict
 
 Invent facts about a robot or planet, ask open-ended questions, toggle Include context and view the exact received text. Start a new session. Contrast temporary request context, model parameters and app persistence. The classroom reader quotes related evidence rather than composing arbitrary new answers.
 
-## Lesson 05 · How Can We Check an AI Answer? (20–25 min)
+## Lesson 05 · How Does AI Know Which Words to Look At? (20–25 min)
 
-Use the new **Fact Detectives** game. For each fictional case, pupils select the relevant source (or no source) and decide whether a claim is **supported**, **contradicted** or **not answered**. Discuss that a cited sentence can still be false; it is not automatic verification. Ask pupils to make a claim the evidence does not support. This lesson prepares them to evaluate the Digital Twin, not build another search interface.
+Use the new bilingual **Attention Explorer**. Pupils enter any short sentence, press Explore, click a word and watch its calculated connections and percentages. Then change one word and switch between **Similar-looking words** and **Nearby words**. Ask whether a high attention weight proves meaning or truth (it does not).
+
+**Teach simply:** a real Transformer learns numerical settings during training, uses them to compare token representations, and shares attention across tokens. The lesson's attention percentages are **calculated live by an untrained classroom algorithm with fixed numerical settings**, not measured from a pretrained LLM. No model download, accounts or hidden API. The output begins empty until Explore is clicked. Use the separate English/Arabic sample sentences and check RTL.
 
 ## Lesson 06 · Build Your Own AI Digital Twin (30–45 min)
 
-This lesson now guides pupils through **one real-model Gradio application** (not a rule-based chatbot). Students choose fictional facts for `about-me.txt`; a capable teacher computer can test locally with `uv run app.py`, then an eligible account publishes with `uv run gradio deploy` and **ZeroGPU `zero-a10g`**. Compare natural generated replies with the possible supporting line displayed outside the robot answer. Ask an unsupported age question to discuss why language models may invent facts despite clear instructions. The website includes a self-reported, printable participation certificate. Read [the complete deployment guide](lessons/06-digital-twin/gradio-app/README.md).
+This lesson now guides pupils through **one real-model Gradio application** (not a rule-based chatbot). Learners choose fictional facts for `about-me.txt`; a capable teacher computer can test locally with `uv run app.py`, then an eligible account publishes with `uv run gradio deploy` and **ZeroGPU `zero-a10g`**. Compare natural generated replies with the possible supporting line displayed outside the robot answer. Ask an unsupported age question to discuss why language models may invent facts despite clear instructions. The website includes a self-reported, printable participation certificate. Read [the complete deployment guide](lessons/06-digital-twin/gradio-app/README.md).
 
 ## Safety and accessibility
 
-Switch to Arabic for Arabic cases and RTL. Use fictional data only. A public Hugging Face Space publishes its source files and receives visitor input remotely; never upload personal information about pupils. Preview the actual GitHub Pages deployment on a school computer before class.
+Use Arabic mode for Lessons 01–05; Lesson 06 is English-only. Use fictional data only. A public Hugging Face Space publishes its source files and receives visitor input remotely; never upload personal information about pupils. Preview the actual GitHub Pages deployment on a school computer before class.
 
 ## Updated capstone: real language model with uv + ZeroGPU
 
-Follow the [real-model Digital Twin guide](lessons/06-digital-twin/gradio-app/README.md). Pupils customise a **fictional** profile, then a teacher or eligible pupil uses `uv run app.py`, `uvx hf auth login` and `uv run gradio deploy` with hardware `zero-a10g` (not CPU Basic). The hosted model produces fresh replies; pupils compare answers with the separate possible source line and test unknown facts. Remind pupils that context does not retrain model weights. Personal free ZeroGPU hosting requires eligibility and has queue/daily quotas; local model downloads need a capable computer. Do not encourage public sharing of real children's information.
+Follow the [real-model Digital Twin guide](lessons/06-digital-twin/gradio-app/README.md). Pupils customise a **fictional** profile, then a teacher or eligible pupil uses `uv run app.py`, `uvx hf auth login` and `uv run gradio deploy` with hardware `zero-a10g` (not CPU Basic). The hosted model produces fresh replies; pupils compare answers with the separate possible source line and test unknown facts. Remind pupils that context does not retrain model weights. Personal free ZeroGPU hosting requires eligibility and has queue/daily quotas; local model downloads need a capable computer. Do not encourage public sharing of private personal information.
+
+The Lesson 06 app and deployment guide are now **English-only**. Clone Lesson 06 alone with `git clone --depth 1 --filter=blob:none --sparse` and `git sparse-checkout set lessons/06-digital-twin`; see the full guide.

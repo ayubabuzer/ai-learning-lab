@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from twin_core import build_messages, candidate_source, friendly_error, system_prompt, is_arabic
+from twin_core import build_messages, candidate_source, friendly_error, system_prompt
 
 
 class TestCore(unittest.TestCase):
@@ -28,10 +28,10 @@ class TestCore(unittest.TestCase):
         self.assertEqual(source, "I like science experiments.")
         self.assertEqual(candidate_source("I like science.", "What is your age?"), "")
 
-    def test_arabic_direction_and_errors(self):
-        self.assertTrue(is_arabic("ما اسمك؟"))
-        self.assertIn("حاول", friendly_error(RuntimeError("GPU quota exceeded"), "ما اسمك؟"))
-        self.assertIn("try again", friendly_error(RuntimeError("queue is busy"), "Hello").lower())
+    def test_english_only_and_errors(self):
+        self.assertIn("English only", system_prompt("My name is Alex."))
+        self.assertIn("try again", friendly_error(RuntimeError("GPU quota exceeded")).lower())
+        self.assertIn("try again", friendly_error(RuntimeError("queue is busy")).lower())
 
 
 if __name__ == "__main__":

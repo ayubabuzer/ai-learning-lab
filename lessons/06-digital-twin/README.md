@@ -1,15 +1,31 @@
-# Lesson 06 — Build and Deploy Your Own AI Digital Twin
+# Lesson 06 — Build and Deploy Your AI Digital Twin (English only)
 
-**[English](README.md) · [العربية](README.ar.md)**
+This final lesson uses **one real English-language chatbot**, not an illustrative rule-based app. The model reads an editable fictional profile in `about-me.txt`, recent conversation history and the visitor's question, and generates an answer. The app shows a *possible matching source line* separately from the model's response.
 
-In Lessons 01–05, we explored text, word relationships, prediction, context and checking evidence. **Now build one real, generative AI chatbot.** The model reads fictional facts from `about-me.txt`, uses recent conversation history and creates a new answer in English or Arabic.
+On the [Lesson 06 page](./) choose **Windows** (default) or **Mac** for a short, guided setup. Git, Python 3.12, `uv`, the profile editor, local testing, Hugging Face login and `uv run gradio deploy` are all covered.
 
-**Follow Ed Donner's deployment workflow:** clone → install `uv` → edit profile → `uv run app.py` → `uvx hf auth login` → `uv run gradio deploy` → share your Hugging Face Space link. Choose **ZeroGPU (`zero-a10g`)**, not the older CPU Basic default.
+## Clone only Lesson 06 (new checkout)
 
-Open the [step-by-step English guide](gradio-app/README.md) or [Arabic guide](gradio-app/README.ar.md). The **same** `gradio-app/` project is used for local testing and publication—there are no separate levels or replacement apps.
+```bash
+git clone --depth 1 --filter=blob:none --sparse https://github.com/ayubabuzer/ai-learning-lab.git
+cd ai-learning-lab
+git sparse-checkout set lessons/06-digital-twin
+cd lessons/06-digital-twin/gradio-app
+```
 
-**What pupils discover:** the profile is temporary context, not permanent model training. The model generates natural words, but it can make mistakes or invent facts. The UI keeps the AI's answer separate from a possible supporting line so pupils can check what the source actually says.
+Sparse checkout checks out Lesson 06 plus a few repository-root files. Git still keeps its repository metadata; it does **not** create an independent repository for Lesson 06. If you already have AI Learning Lab cloned, simply open its `lessons/06-digital-twin/gradio-app` folder instead.
 
-**Hosting requirement:** Hugging Face currently lets eligible free personal accounts (verified email, more than 30 days old and in good standing) host up to two ZeroGPU Spaces. Daily GPU limits and queues apply. The app does not need a paid LLM API key. Local use downloads multiple GB of model files and may be slow on basic school PCs. **Use only imaginary pupil-safe information.**
+## Run and deploy
+
+```bash
+uv python install 3.12
+uv run app.py
+uvx hf auth login
+uv run gradio deploy
+```
+
+Local inference can be slow and initially downloads model weights; local testing is optional on low-powered computers. On Hugging Face, choose **ZeroGPU (`zero-a10g`)** if your account is eligible. Check the Space settings if the deployment prompt does not offer hardware selection. No paid external model API key is needed, but GPU queues and free usage limits apply.
+
+Read the [full English project guide](gradio-app/README.md). Use only fictional information; a public Space's files are publicly accessible. The model can be wrong, and a possible source line is not proof of an accurate answer.
 
 [← Lesson 05](../05-ai-retrieval/) · [All lessons](../../)
