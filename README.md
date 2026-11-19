@@ -25,7 +25,7 @@ The homepage and Lesson 06 now include **Windows / Mac tabs (Windows by default)
 
 1. **Check/install Git** (Windows: winget; Mac: Command Line Tools).
 2. **Install uv** (Windows: winget; Mac: Homebrew or official installer), then **install Python 3.12** using `uv python install 3.12`.
-3. **Clone only Lesson 06** using Git sparse checkout, enter `lessons/06-digital-twin/gradio-app` and edit the fictional `about-me.txt`.
+3. **Clone the full repository** using Git, enter `lessons/06-digital-twin/gradio-app` and edit the fictional `about-me.txt`.
 4. **Optional local test:** `uv run app.py` (downloads a large model).
 5. **Create and verify a Hugging Face account**, then run `uvx hf auth login`.
 6. **Deploy:** `uv run gradio deploy`; choose **`zero-a10g`**, not `cpu-basic`, when hardware choice is offered. Verify the Space hardware in Settings and share the tested link.
@@ -41,3 +41,8 @@ Follow the [complete English deployment guide](lessons/06-digital-twin/gradio-ap
 Review the files in this release before uploading. Preserve your `LICENSE` and any unrelated work; do not delete unknown folders without checking links. Each lesson has exactly one canonical folder. Publish from the repository root with GitHub Pages and check the live lessons after uploading.
 
 The first five browser lessons remain lightweight. Lesson 06 is the guide to **one real AI Digital Twin** at `lessons/06-digital-twin/gradio-app/`, running a pretrained model directly on ZeroGPU after deployment. No external inference service is used by Lessons 01–05.
+
+### Latest learning improvements
+
+- **Lesson 01:** A one-click **Change punctuation** experiment automatically shows what changes in the classroom text pieces and IDs.
+- **Lesson 05:** An interactive **small/big** word-connection comparison shows computed classroom weights for *it → ball* and *it → bag*. Teachers may input other sentences and get recalculated numerical patterns; they are not pretrained attention values or guaranteed meaning.

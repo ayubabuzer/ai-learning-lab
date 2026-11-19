@@ -10,12 +10,11 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 2. Check Git: `git --version`. If missing: `winget install --id Git.Git -e` (then reopen PowerShell).
 3. Install uv: `winget install --id astral-sh.uv -e`, reopen PowerShell, check `uv --version`.
 4. Install Python: `uv python install 3.12`.
-5. Clone only Lesson 06 in a **fresh folder**:
+5. Clone the full project in a **fresh folder**:
 
 ```powershell
-git clone --depth 1 --filter=blob:none --sparse https://github.com/ayubabuzer/ai-learning-lab.git
+git clone https://github.com/ayubabuzer/ai-learning-lab.git
 cd ai-learning-lab
-git sparse-checkout set lessons/06-digital-twin
 cd lessons/06-digital-twin/gradio-app
 ```
 
@@ -32,12 +31,11 @@ cd lessons/06-digital-twin/gradio-app
 2. Check Git: `git --version`. If missing, install Command Line Tools: `xcode-select --install`.
 3. Install `uv` with `brew install uv` (if Homebrew is installed), **or** `curl -LsSf https://astral.sh/uv/install.sh | sh`. Reopen Terminal and check `uv --version`.
 4. Install Python: `uv python install 3.12`.
-5. Clone only Lesson 06 in a **fresh folder**:
+5. Clone the full project in a **fresh folder**:
 
 ```bash
-git clone --depth 1 --filter=blob:none --sparse https://github.com/ayubabuzer/ai-learning-lab.git
+git clone https://github.com/ayubabuzer/ai-learning-lab.git
 cd ai-learning-lab
-git sparse-checkout set lessons/06-digital-twin
 cd lessons/06-digital-twin/gradio-app
 ```
 
@@ -48,7 +46,7 @@ cd lessons/06-digital-twin/gradio-app
 10. Publish: `uv run gradio deploy`; select `zero-a10g` if available.
 11. Check Space settings, test and share your public link.
 
-**Already cloned?** Don't clone again; simply change into your existing `lessons/06-digital-twin/gradio-app` directory. Sparse checkout is for a fresh clone, and Git still needs some repository metadata/root files.
+**Already cloned?** Don't clone again; simply open the `lessons/06-digital-twin/gradio-app` folder of your existing repository.
 
 ## About hosting and speed
 
@@ -70,4 +68,4 @@ The app creates a system instruction from the fictional facts, sends recent chat
 - `pyproject.toml`, `.python-version`, `requirements.txt` — dependencies
 - `tests/` — quick tests without model downloads
 
-Official docs: [uv](https://docs.astral.sh/uv/getting-started/installation/), [Git sparse checkout](https://git-scm.com/docs/git-sparse-checkout), [Gradio](https://www.gradio.app/guides/sharing-your-app), [ZeroGPU](https://huggingface.co/docs/hub/spaces-zerogpu).
+Official docs: [uv](https://docs.astral.sh/uv/getting-started/installation/), [Git](https://git-scm.com/doc), [Gradio](https://www.gradio.app/guides/sharing-your-app), [ZeroGPU](https://huggingface.co/docs/hub/spaces-zerogpu).

@@ -1,23 +1,23 @@
 # Lesson 05 — How Does AI Know Which Words to Look At?
 
-**[English](README.md) · [العربية](README.ar.md)**
+[العربية](README.ar.md) · [Open attention explorer](index.html)
 
-## The idea, in simple words
+## What the lesson teaches
 
-During training, a real AI model learns numerical settings to help its tokens exchange information. Attention scores tell its computation how much information comes from different positions. They do not directly show a word's meaning or prove an answer is correct.
+Real Transformers learn numbers during training that help tokens exchange information. This lightweight browser experiment illustrates *how numerical matching scores become weights* without pretending to show real trained attention weights. The weights share 100% across the displayed text pieces. **They are not confidence scores or proof of meaning.**
 
-## Try the interactive explorer (20 minutes)
+## Main experiment: small vs big
 
-1. Type any short English or Arabic sentence, or use the example in your selected language.
-2. Click **Explore attention**. The blank output now shows clickable word pieces, connection lines and percentages.
-3. Click a word. Compare the bar for each other word; all percentages add to 100%.
-4. Change or repeat a word: the numbers and line thicknesses recalculate.
-5. Switch the setting from **Similar-looking words** to **Nearby words** and compare.
+1. Open **Try too small** and click **Explore attention** (the word “it” is selected automatically).
+2. Inspect its computed classroom weights to **ball** and **bag**.
+3. Select **Change to too big**. The classroom rule deliberately flips which object is favoured.
+4. Compare the two columns showing both calculations and click any other word to see its general numerical pattern.
+5. Type **any short English or Arabic sentence**. The calculator still recomputes numerical weights and links; it **does not guarantee meaningful referents for arbitrary text**. The small/big result comes from an intentionally written teaching rule for sentences about an item fitting in a container, not from a trained model.
 
-**Important accuracy note:** This is a faithful demonstration of turning numerical match scores into attention weights using a **fixed, transparent teaching algorithm**. It is not running a pretrained Transformer, and the graph is not actual pretrained model attention. It uses simple character features and positions; it cannot infer which person or object a pronoun refers to. No large download, account, API key or network access is required. The output begins empty.
+The Arabic interface has its own natural ball/bag example. Other settings show similar-looking and nearby word patterns. No network, accounts, API keys or large model downloads are needed.
 
-## Teacher activity
+## Classroom discussion
 
-Ask pupils to predict which bar will change when they repeat a word. Discuss why different attention patterns can produce different links and why a strong link alone does not explain the AI's final answer.
+What changed when “small” became “big”? Did a program invent the weights, calculate them, or learn its rules from training? Compare with a real model, whose numerical transformations are learned and far more complex.
 
 [← Lesson 04](../04-ai-context-memory/) · [Lesson 06 →](../06-digital-twin/)

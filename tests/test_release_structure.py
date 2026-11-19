@@ -80,6 +80,11 @@ class TestRelease(unittest.TestCase):
         self.assertEqual((3-1,1-1),(2,0))
         self.assertEqual((2+1,0+3),(3,3))
 
+    def test_lesson01_punctuation_tool(self):
+        t=(LESSONS/FOLDERS[0]/"index.html").read_text(encoding="utf-8")
+        self.assertIn('id="magicEdit"',t)
+        self.assertIn("$('magicEdit').addEventListener",t)
+
     def test_attention_explorer(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
         for value in ('How Does AI Know Which Words to Look At?',
@@ -88,7 +93,10 @@ class TestRelease(unittest.TestCase):
                       'id="words"', 'id="weights"', 'data-t="honesty"'):
             with self.subTest(value=value):
                 self.assertIn(value,t)
-        self.assertIn("These are real calculations from a small teaching algorithm",t)
+        self.assertIn("deliberately programmed classroom clue rule",t)
+        self.assertIn('id="sizeComparison"',t)
+        self.assertIn('function clueWeights(',t)
+        self.assertIn('function renderSizeCompare(',t)
         self.assertIn("lang==='ar'?'rtl':'ltr'",t)
 
     def test_windows_mac_guides(self):
@@ -116,11 +124,11 @@ class TestRelease(unittest.TestCase):
         self.assertNotIn('Arabic', (app/"app.py").read_text())
         self.assertFalse((app/"README.ar.md").exists())
 
-    def test_sparse_clone_guides(self):
+    def test_full_clone_guides(self):
         for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
             text=page.read_text(encoding="utf-8")
-            self.assertEqual(text.count('git sparse-checkout set lessons/06-digital-twin'),4)
-            self.assertEqual(text.count('git clone --depth 1 --filter=blob:none --sparse'),4)
+            self.assertNotIn('git sparse-checkout set lessons/06-digital-twin',text)
+            self.assertEqual(text.count('git clone https://github.com/ayubabuzer/ai-learning-lab.git'),4)
             self.assertEqual(text.count('data-os-tab="windows"'),1)
 
     def test_homepage_deployment_guide(self):

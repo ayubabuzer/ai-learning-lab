@@ -41,4 +41,10 @@ Use Arabic mode for Lessons 01–05; Lesson 06 is English-only. Use fictional da
 
 Follow the [real-model Digital Twin guide](lessons/06-digital-twin/gradio-app/README.md). Pupils customise a **fictional** profile, then a teacher or eligible pupil uses `uv run app.py`, `uvx hf auth login` and `uv run gradio deploy` with hardware `zero-a10g` (not CPU Basic). The hosted model produces fresh replies; pupils compare answers with the separate possible source line and test unknown facts. Remind pupils that context does not retrain model weights. Personal free ZeroGPU hosting requires eligibility and has queue/daily quotas; local model downloads need a capable computer. Do not encourage public sharing of private personal information.
 
-The Lesson 06 app and deployment guide are now **English-only**. Clone Lesson 06 alone with `git clone --depth 1 --filter=blob:none --sparse` and `git sparse-checkout set lessons/06-digital-twin`; see the full guide.
+The Lesson 06 app and deployment guide are now **English-only**. Clone the entire repository with the standard `git clone` command; see the full guide.
+
+### Lesson 01 and 05 activity update
+
+**Lesson 01:** Click **Change punctuation** after the first exploration. Ask which classroom piece changed and whether the original sentence can be reconstructed. No token-count guessing.
+
+**Lesson 05:** Show the ball/bag sentence. Select **too small** then **too big** and read the actual calculated percentages for the two objects. The classroom size rule is deliberately programmed, not learned. Next, let teachers enter any short sentence and explore its computed numerical patterns; do not interpret the largest bar as proof of meaning.

@@ -4,16 +4,15 @@ This final lesson uses **one real English-language chatbot**, not an illustrativ
 
 On the [Lesson 06 page](./) choose **Windows** (default) or **Mac** for a short, guided setup. Git, Python 3.12, `uv`, the profile editor, local testing, Hugging Face login and `uv run gradio deploy` are all covered.
 
-## Clone only Lesson 06 (new checkout)
+## Clone the full project (new checkout)
 
 ```bash
-git clone --depth 1 --filter=blob:none --sparse https://github.com/ayubabuzer/ai-learning-lab.git
+git clone https://github.com/ayubabuzer/ai-learning-lab.git
 cd ai-learning-lab
-git sparse-checkout set lessons/06-digital-twin
 cd lessons/06-digital-twin/gradio-app
 ```
 
-Sparse checkout checks out Lesson 06 plus a few repository-root files. Git still keeps its repository metadata; it does **not** create an independent repository for Lesson 06. If you already have AI Learning Lab cloned, simply open its `lessons/06-digital-twin/gradio-app` folder instead.
+This clones all six lessons into one repository, as in the course. If you already have AI Learning Lab cloned, simply open its `lessons/06-digital-twin/gradio-app` folder instead.
 
 ## Run and deploy
 
