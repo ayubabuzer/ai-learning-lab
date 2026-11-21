@@ -1,17 +1,13 @@
-# Lesson 04 — Does AI Really Remember?
+# Lesson 04 — How Does AI Remember?
 
-[Open lesson](index.html) · [العربية](README.ar.md) · [Homepage](../../)
+[العربية](README.ar.md) · [Open lesson](index.html)
 
-**Concept:** A model's trained weights, temporary conversation context, and information saved by an app are three different things.
+**Simple question:** Why can a chatbot appear to remember something from earlier in a conversation?
 
-**Try it:** Write arbitrary facts and ask any question. Toggle **Include this text with my question**; look at the exact text shown in the received-input panel. Click **Start a fresh session** to clear the demo history and reset the example.
+**Main experiment:** Add any messages as **You** or as a sample **Assistant** reply. Watch the actual ordered conversation history accumulate. The right-hand panel displays exactly which messages would be prepared for the next model request. Turn off **Include previous messages**, remove a message, clear the chat, or reduce the small practice word limit. Observe the preview change immediately.
 
-**Model honesty:** This version is an **extractive mini-reader**, not a language model. It searches the context for sentences sharing important words with the question and quotes a matching sentence, or reports insufficient information. It does not learn the context into permanent model weights, or automatically store it online. Exact matches are not proof that a full answer was found.
+**Technical honesty:** The messages are actually assembled in the browser. There is **no language model** running here and the app does not generate a reply. The practice limit is in **words for clarity**, not actual model tokens. Modern chat applications often submit prior user and assistant messages as temporary context; some products may also have separate persistent memory features. The history in this page is neither model training nor permanent storage.
 
-## Classroom tasks
+**Discovery:** A chatbot may appear to remember because old messages are included again. If the application omits them, the current request lacks that information.
 
-1. Predict the output before clicking the experiment button.
-2. Change one input at a time and record what changes.
-3. Explain what the miniature model computes and what it cannot do.
-
-**Technical requirement:** Modern browser with JavaScript. No API keys, full-model downloads or student accounts.
+**Next:** Lesson 05 explains how assistants can access tools beyond the conversation.

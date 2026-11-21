@@ -1,19 +1,12 @@
-# Tests
+# Checks for the AI Learning Lab release
 
-From the site root, run:
+From the project root:
 
 ```bash
 python -m unittest discover -s tests -v
-```
-
-To test the **Digital Twin's pure-Python message/source helpers** without downloading the model:
-
-```bash
 python -m unittest discover -s lessons/06-digital-twin/gradio-app/tests -v
 ```
 
-For a full local run from `lessons/06-digital-twin/gradio-app/`, use `uv run app.py`; this downloads the open model and needs adequate memory. To publish, use `uv run gradio deploy` and enter `zero-a10g` when prompted for hardware. The full guide is in that folder.
+The first suite verifies the six canonical lesson folders, English/Arabic learner guides for Lessons 01–05, the English-only real-model Digital Twin, internal links, word-vector illustration, real Lesson 01 punctuation control, Lesson 03 training-then-challenge structure, Lesson 04 growing-memory UI, Lesson 05 tool/workflow/agent story, full-project clone commands, and deployment guidance. The second suite tests small Digital Twin helper functions without downloading a model.
 
-These tests do not verify live Hugging Face Space creation or GPU inference. See the root `TEST-REPORT.md`.
-
-The current test suite also checks the attention explorer and Windows/Mac installation tabs. Browser tests were executed by injecting the HTML into Chromium because local URL navigation is blocked; see `TEST-REPORT.md`.
+JavaScript syntax and browser interaction tests were executed separately. Browser testing uses in-memory HTML because local URL navigation was blocked in the test environment. The full outcomes and limitations are in [the release test report](../TEST-REPORT.md).

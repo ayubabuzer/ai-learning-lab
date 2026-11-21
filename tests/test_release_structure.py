@@ -16,7 +16,7 @@ FOLDERS = [
     "02-word-embeddings",
     "03-next-word-prediction",
     "04-ai-context-memory",
-    "05-ai-retrieval",  # Retain the stable URL; the page now teaches attention.
+    "05-ai-retrieval",  # Stable URL; the page now teaches tools, workflows and agents.
     "06-digital-twin",
 ]
 
@@ -64,8 +64,8 @@ class TestRelease(unittest.TestCase):
                     self.assertIn('Certificate of Completion', t)
                     self.assertIn('const translations=', t)
                 else:
-                    self.assertIn('class="lesson-trail"',t)
-                    self.assertIn('class="only-ar"',t)
+                    self.assertTrue('class="lesson-trail"' in t or 'class="trail"' in t)
+                    self.assertTrue('class="only-ar"' in t or "language==='ar'" in t)
 
     def test_no_model_brand_required_for_pupils(self):
         for page in [ROOT/"index.html"]+[LESSONS/x/"index.html" for x in FOLDERS]:
@@ -85,19 +85,31 @@ class TestRelease(unittest.TestCase):
         self.assertIn('id="magicEdit"',t)
         self.assertIn("$('magicEdit').addEventListener",t)
 
-    def test_attention_explorer(self):
+    def test_lesson05_tool_workflow_agent_story(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
-        for value in ('How Does AI Know Which Words to Look At?',
-                      'function softmax(', 'function compute(',
-                      'function tokensOf(', 'id="lens"', 'id="sentence"',
-                      'id="words"', 'id="weights"', 'data-t="honesty"'):
-            with self.subTest(value=value):
-                self.assertIn(value,t)
-        self.assertIn("deliberately programmed classroom clue rule",t)
-        self.assertIn('id="sizeComparison"',t)
-        self.assertIn('function clueWeights(',t)
-        self.assertIn('function renderSizeCompare(',t)
-        self.assertIn("lang==='ar'?'rtl':'ltr'",t)
+        for value in ('How Does AI Use Tools and Work Towards a Goal?',
+                      'id="workflow"','id="agent"','id="advance"',
+                      'scenarios=', 'function renderStage()', 'function renderCompare()',
+                      'Illustrative example', 'decide', 'tool'):
+            with self.subTest(value=value):self.assertIn(value,t)
+        self.assertNotIn('function clueWeights(',t)
+        self.assertNotIn('id="weights"',t)
+
+    def test_lesson03_training_before_misleading_challenge(self):
+        t=(LESSONS/FOLDERS[2]/"index.html").read_text(encoding="utf-8")
+        for value in ('id="train"','id="predict"','id="training"',
+                      'id="challengeExamples"','id="addChallenge"',
+                      'function train()', 'function candidates()',
+                      'The moon is made of rock'):
+            with self.subTest(value=value):self.assertIn(value,t)
+        self.assertLess(t.index('id="train"'),t.index('id="addChallenge"'))
+
+    def test_lesson04_true_history_assembly(self):
+        t=(LESSONS/FOLDERS[3]/"index.html").read_text(encoding="utf-8")
+        for value in ('id="messages"','id="preview"','id="include"',
+                      'id="budget"','id="add"','id="clear"'):
+            with self.subTest(value=value):self.assertIn(value,t)
+        self.assertIn('history.push(',t)
 
     def test_windows_mac_guides(self):
         for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):

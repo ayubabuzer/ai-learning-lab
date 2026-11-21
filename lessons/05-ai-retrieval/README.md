@@ -1,23 +1,15 @@
-# Lesson 05 — How Does AI Know Which Words to Look At?
+# Lesson 05 — How Does AI Use Tools and Work Towards a Goal?
 
-[العربية](README.ar.md) · [Open attention explorer](index.html)
+[العربية](README.ar.md) · [Open visual lesson](index.html)
 
-## What the lesson teaches
+**Simple question:** How can an AI assistant complete a task that requires outside information or several steps?
 
-Real Transformers learn numbers during training that help tokens exchange information. This lightweight browser experiment illustrates *how numerical matching scores become weights* without pretending to show real trained attention weights. The weights share 100% across the displayed text pieces. **They are not confidence scores or proof of meaning.**
+**Main illustrated story:** Choose between planning an outdoor day and organising a library. Reveal the stages: the person asks → the app gives the model descriptions of available tools → a tool-capable model can **request** a particular tool and its inputs → the application checks and executes the call → the result returns to the model → the model can write a response.
 
-## Main experiment: small vs big
+**Explore the difference:** Switch between **Workflow** and **Agent** and reveal the steps. A workflow follows application-defined paths and may include conditional branches. An agent can use a trained model to select next actions, examine results and **repeat decide → act → check** until it meets a goal, reaches a limit or asks for approval. Simple workflows are often easier to control. Tools and agents need permissions and human approval for consequential actions.
 
-1. Open **Try too small** and click **Explore attention** (the word “it” is selected automatically).
-2. Inspect its computed classroom weights to **ball** and **bag**.
-3. Select **Change to too big**. The classroom rule deliberately flips which object is favoured.
-4. Compare the two columns showing both calculations and click any other word to see its general numerical pattern.
-5. Type **any short English or Arabic sentence**. The calculator still recomputes numerical weights and links; it **does not guarantee meaningful referents for arbitrary text**. The small/big result comes from an intentionally written teaching rule for sentences about an item fitting in a container, not from a trained model.
+**Critical honesty:** This is a **guided educational illustration**, not a live LLM, a real API/weather search or an autonomous agent. The examples are predefined and labelled. This avoids made-up intelligence while accurately demonstrating the system architecture.
 
-The Arabic interface has its own natural ball/bag example. Other settings show similar-looking and nearby word patterns. No network, accounts, API keys or large model downloads are needed.
+Sources for teachers: [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) and [OpenAI — Function calling](https://developers.openai.com/api/docs/guides/function-calling).
 
-## Classroom discussion
-
-What changed when “small” became “big”? Did a program invent the weights, calculate them, or learn its rules from training? Compare with a real model, whose numerical transformations are learned and far more complex.
-
-[← Lesson 04](../04-ai-context-memory/) · [Lesson 06 →](../06-digital-twin/)
+**Next:** Lesson 06 builds a real conversational Digital Twin; it is a chatbot, not an autonomous agent.

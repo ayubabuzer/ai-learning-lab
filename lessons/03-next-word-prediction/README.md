@@ -1,17 +1,13 @@
-# Lesson 03 — How Does AI Predict What Comes Next?
+# Lesson 03 — How Does AI Learn to Predict?
 
-[Open lesson](index.html) · [العربية](README.ar.md) · [Homepage](../../)
+[العربية](README.ar.md) · [Open lesson](index.html)
 
-**Concept:** Real language models learn patterns from many words and sentences in books, websites, stories, articles and other written material. This lesson implements an *explainable, small counting model* trained on editable examples.
+**Start with training, not misinformation.** Learners type arbitrary example sentences and click **Teach the mini AI**. The classroom model counts which next words follow matching sequences. This is a real, explainable calculation, but not training a neural network.
 
-**Try it:** Edit the training sentences, click **Teach the mini AI**, enter a sentence starter, click **Predict** and inspect calculated percentages. Click **Add top prediction** to continue a sentence. A list of matching examples makes the calculations traceable.
+**Learn → test → change → train again:** Type a sentence starter, press **Predict**, and inspect calculated percentages and the exact supporting training examples. Change the sentences and press **Teach** again; editing by itself does not update the model. The program uses the longest matching ending of up to four words, falling back to shorter ones.
 
-**What is calculated:** For the longest matching suffix (up to four words), the app counts next words seen within the entered example lines, without crossing line boundaries. Each displayed probability is `count(next word) / total matching next words × 100`. The model does not browse books or the web and is not a pretrained model. If the suffix is unknown, it tries shorter suffixes. If all are unknown, it reports no match. Punctuation is omitted in this miniature *word* predictor, not a real LLM tokenizer.
+**Optional final challenge — misleading training data:** First try “The moon is made of” with the original training text, which includes one rock example. Next add repeated, deliberately false cheese examples using the editable challenge box, press **Teach**, and predict again. The resulting distribution is calculated from the actual data and demonstrates that a frequent pattern is **not a guarantee of truth**. Learners can replace every example with their own.
 
-## Classroom tasks
+Real large language models learn patterns from extensive text including books, websites, articles and stories; this mini-model only counts patterns on this page.
 
-1. Predict the output before clicking the experiment button.
-2. Change one input at a time and record what changes.
-3. Explain what the miniature model computes and what it cannot do.
-
-**Technical requirement:** Modern browser with JavaScript. No API keys, full-model downloads or student accounts.
+**Next:** Lesson 04 explains how a conversation's history can be sent to a model as temporary memory.

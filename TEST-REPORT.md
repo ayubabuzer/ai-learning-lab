@@ -1,31 +1,29 @@
-# Test report — Lessons 03–06 combined release
+# AI Learning Lab — Connected Learning Journey: Test Report
 
-**Tested locally on 2026-11-17.** This report covers a static offline browser package and the optional Gradio source project. It does **not** verify that your public GitHub Pages deployment has been updated.
+**Release date:** 21 November 2026
 
-## Verified
+## What changed
 
-- **78 checks passed**, using headless Chromium with page content loaded locally, plus static link/file tests and direct Python checks for the optional Gradio app.
-- Homepage shows six interactive lesson cards, links to all six canonical folders and switches to Arabic RTL.
-- Existing Lesson 01 present; no new or duplicate Lesson 01 folder.
-- Lesson 02 includes the revised static 2D king/man/woman/queen axes map, shown arithmetic with invented coordinates, English/Arabic labels and the honesty note. Main existing vector comparison left in place.
-- Lesson 03: genuine 66.7%/33.3% sample counts, recalculation after training changes, source lines, no-match behavior and Arabic RTL.
-- Lesson 04: evidence extraction from user context, context on/off, exact input display, fresh-session clearing, Arabic RTL.
-- Lesson 05: distinct results for keyword versus tiny concept-aware vector matching, arbitrary document editing, Arabic output.
-- Lesson 06: quoted evidence and source line, correct refusal when an unsupported fact is asked about, Arabic example response and mobile horizontal-overflow check.
-- Optional Python Gradio app: imported successfully with Gradio 6.5.1; confirmed supported, unsupported and Arabic question outputs.
-- A further **6 dependency-free Python unittest structural checks passed** (`python -m unittest discover -s tests -v`). The test source is included in `tests/`.
-- Node.js `node --check` verified syntax of the seven JavaScript scripts (homepage plus Lessons 01–06).
-- Link targets checked for each HTML page. Exactly one directory for each of Lessons 01–06.
+- Lesson 01: first-step text → actual Unicode character numbers, honest simplified splitting and meaningful before/after punctuation comparison; no fake classroom IDs displayed.
+- Lesson 02: existing editable word-vector model retained; added a separate guided ball/bag attention explanation, no manufactured attention weights.
+- Lesson 03: teaching a real editable count-based next-word predictor is the main activity; test, change corpus, retrain, then optional misleading-data challenge. Example baseline *The moon is made of* predicts **rock 100%**; after appending three false cheese examples and retraining, calculated **cheese 75%, rock 25%**. Additional arbitrary learner-generated sentence tests passed.
+- Lesson 04: editable growing conversation history, role-tagged messages, actual assembled-input preview, toggle and remove controls, and illustrative word budget. No live model.
+- Lesson 05: guided tool call and workflow/agent decision-loop stories. No live tool call, weather forecast or autonomous agent claimed.
+- Lesson 06: unchanged English-only Gradio model app; one explanatory bridge, full-project git clone commands retained.
 
-## Design choices and limitations
+## Checks executed locally
 
-- No pretrained Qwen tokenizer, embedding model or generative LLM is running in this lightweight release. No generated percentages have been attributed to a pretrained model.
-- The first five lessons use tiny illustrative or calculated algorithms; Lesson 06 uses extractive document matching. Their limitations are stated prominently in pupil and teacher content.
-- Tests used the local HTML content in Chromium; real school computers and deployed GitHub Pages may behave differently. The public website still needs post-deployment checking.
-- Gradio was tested as an importable app and with its answer function; no public Hugging Face Space was created or tested.
-- Network behavior and platform quotas are not involved in the browser lessons.
-- The root `LICENSE` isn't bundled (previous partial packages did not include it). **Keep the existing LICENSE and any unrelated repository files.**
+- **16 Python website/repository structural tests passed** using `python -m unittest discover -s tests -v`.
+- **4 Python Digital Twin helper tests passed** using `python -m unittest discover -s lessons/06-digital-twin/gradio-app/tests -v`.
+- **46 Chromium browser checks passed**, covering all seven HTML pages, click controls, bilingual toggles, custom training inputs, changing predictions, attention example changes, history assembly, tool/agent story steps, and **390 px mobile overflow**. No JavaScript page errors occurred. The checks loaded HTML with Playwright's `set_content`, since browser navigation to local URLs was blocked in the environment.
+- `node --check` passed for all inline JavaScript scripts on the seven pages.
+- The website test suite verifies exactly six canonical folders and valid on-disk internal links.
 
-## Reproduce
+## Not tested / limits
 
-Open each `lessons/NN-.../index.html` in a modern browser or serve the folder using a basic local static HTTP server. Switch between English and Arabic and try the sample challenges. For Gradio, follow `lessons/06-digital-twin/gradio-app/README.md`.
+- No live Hugging Face authentication, ZeroGPU Space deployment or actual Qwen model inference was performed.
+- Browser screenshot verification was performed via injected HTML; a static visual browser run did **not** verify loading remote services or the original lesson 06 image over HTTP. The image file is present and checked by structural tests.
+- The word-context vectors in Lesson 02 and count-based predictions in Lesson 03 are small teaching algorithms. They accept editable learner input but cannot replicate arbitrary language understanding by a pretrained model.
+- The attention example in Lesson 02 and the tools/workflow/agent stories in Lesson 05 are openly labelled **guided illustrations**, not AI-executed decisions.
+- The Lesson 04 practice limit counts whitespace-delimited words for clarity; actual LLM context budgets are measured in model-specific tokens.
+- **The project files have not been uploaded to GitHub or published to GitHub Pages by this test run.**

@@ -2,47 +2,29 @@
 
 **[English](README.md) · [العربية](README.ar.md) · [Website](https://ayubabuzer.github.io/ai-learning-lab/)**
 
-A free, bilingual, hands-on learning website for ordinary school computers. Lessons 01–05 work in a normal browser without a learner account, API key, GPU or large-model download. Lesson 06 guides learners to **one real generative AI app** using uv, Gradio and ZeroGPU. The lesson pages have **Previous / Next** navigation. Lessons 01–05 have Arabic RTL modes and language-specific examples. Lesson 06 and its chatbot are English-only.
+AI Learning Lab is a free, open-source learning website for people of all ages. It uses everyday language first and introduces technical words only after the idea makes sense. Lessons 01–05 are bilingual (English/Arabic), browser-based, and require no learner account, model download or API token. Lesson 06 is an English-only real-model Digital Twin project.
 
-## Explore the six lessons
+## Six connected lessons
 
-| Lesson | What students do | Important distinction |
+| Lesson | Simple question | What is real and what is illustrative? |
 |---|---|---|
-| [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | Type text, explore pieces and classroom number labels | Simplified text segmentation; labels are not real LLM token IDs |
-| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | Compare context vectors and visualise a word map; explore king–queen arithmetic | Calculated co-occurrences; overlapping map positions are visually separated **only** for readability; king/queen coordinates are invented |
-| [03 · How Does AI Predict What Comes Next?](lessons/03-next-word-prediction/) | Teach a tiny predictor with sentences, then see real count-based next-word probabilities | Example-based pattern counts, not generation by a pretrained model |
-| [04 · Does AI Really Remember?](lessons/04-ai-context-memory/) | Provide temporary context, ask questions, toggle the context and start a new session | Context in a request is not model training or permanent memory |
-| [05 · How Does AI Know Which Words to Look At?](lessons/05-ai-retrieval/) | Type English or Arabic text; click words, follow attention links and see percentages change | Real calculations from a **fixed classroom attention algorithm**, not pretrained model attention |
-| [06 · Build Your Own AI Digital Twin](lessons/06-digital-twin/) | Follow the uv + Gradio guide, personalise a fictional knowledge file and publish one real-model AI chatbot | Real pretrained language model on eligible Hugging Face ZeroGPU hosting; no paid inference API |
+| [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | How does a message become numbers? | Genuine Unicode character codes; a clearly labelled simple text splitter, **not** a pretrained tokenizer |
+| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Calculated word-context vectors from editable sentences; **guided** ball/bag attention explanation, no invented attention percentages |
+| [03 · How Does AI Learn to Predict?](lessons/03-next-word-prediction/) | How do examples change predictions? | A genuine count-based mini predictor: **teach → test → change → teach again**, then an optional misleading-data challenge |
+| [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Actual editable conversation-history assembly and message omission; **no live model responses** |
+| [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How are tool calls, workflows and agents different? | **Guided illustrated story**, not live tool calls: request → execute → return; workflow vs agent decision loop |
+| [06 · Build Your Own Digital Twin](lessons/06-digital-twin/) | How can I create and share a real chatbot? | Real Qwen-based Gradio app (English-only), with fictional-profile context and optional Hugging Face ZeroGPU deployment |
 
-**Learning path:** Text pieces → Word relationships → Pattern prediction → Context → Attention → Build and publish a real-model Digital Twin.
+Each lesson follows **short explanation → meaningful experiment or illustrated example → change something → discovery → connection to the next lesson**. A lesson may be interactive without pretending that every illustration is a trained model. The first lesson introduces words and numbers; later lessons introduce attention, training, memory, tools, workflows and agents.
 
-Large real language models learn patterns from many examples of words and sentences found in books, websites, stories, articles and other text. Our small classroom algorithms teach selected ideas transparently. Results never claim to be pretrained-model output.
+## Run the Digital Twin
 
-## Build and share your own Digital Twin
+```bash
+git clone https://github.com/ayubabuzer/ai-learning-lab.git
+cd ai-learning-lab/lessons/06-digital-twin/gradio-app
+uv run app.py
+```
 
-The homepage and Lesson 06 now include **Windows / Mac tabs (Windows by default)** for Ed Donner's uv + Gradio workflow, adapted to an open model on Hugging Face ZeroGPU. The on-page course guide explicitly covers Git, Python 3.12, uv, cloning, editing, login, deployment and sharing:
+Local model inference can be slow and requires a capable computer. For optional Hugging Face deployment, read [the full account, token and deployment guide](lessons/06-digital-twin/gradio-app/README.md). Use `uvx hf auth login` followed by `uv run gradio deploy` when eligible; never put tokens or private personal data into public project files. The Digital Twin is a conversational chatbot, **not an autonomous agent**. ZeroGPU account eligibility, quotas and availability must be checked before deployment; successful public deployment has **not** been verified as part of this release.
 
-1. **Check/install Git** (Windows: winget; Mac: Command Line Tools).
-2. **Install uv** (Windows: winget; Mac: Homebrew or official installer), then **install Python 3.12** using `uv python install 3.12`.
-3. **Clone the full repository** using Git, enter `lessons/06-digital-twin/gradio-app` and edit the fictional `about-me.txt`.
-4. **Optional local test:** `uv run app.py` (downloads a large model).
-5. **Create and verify a Hugging Face account**, then run `uvx hf auth login`.
-6. **Deploy:** `uv run gradio deploy`; choose **`zero-a10g`**, not `cpu-basic`, when hardware choice is offered. Verify the Space hardware in Settings and share the tested link.
-
-Follow the [complete English deployment guide](lessons/06-digital-twin/gradio-app/README.md) (English-only final project). **Free hosting is conditional:** a personal account must meet ZeroGPU eligibility rules (verified email, older than 30 days, in good standing; maximum two Spaces). Free shared GPUs have queues and daily quotas. No paid model API key is needed. **Never publish private personal information.**
-
-## For teachers
-
-[English teacher guide](TEACHERS.md) · [دليل المعلم](TEACHERS.ar.md). Lessons 01–05 have English and Arabic READMEs; Lesson 06 is English only.
-
-## Publishing the website
-
-Review the files in this release before uploading. Preserve your `LICENSE` and any unrelated work; do not delete unknown folders without checking links. Each lesson has exactly one canonical folder. Publish from the repository root with GitHub Pages and check the live lessons after uploading.
-
-The first five browser lessons remain lightweight. Lesson 06 is the guide to **one real AI Digital Twin** at `lessons/06-digital-twin/gradio-app/`, running a pretrained model directly on ZeroGPU after deployment. No external inference service is used by Lessons 01–05.
-
-### Latest learning improvements
-
-- **Lesson 01:** A one-click **Change punctuation** experiment automatically shows what changes in the classroom text pieces and IDs.
-- **Lesson 05:** An interactive **small/big** word-connection comparison shows computed classroom weights for *it → ball* and *it → bag*. Teachers may input other sentences and get recalculated numerical patterns; they are not pretrained attention values or guaranteed meaning.
+**Repo layout:** Keep exactly the six existing lesson directories. The `05-ai-retrieval` directory retains its name to preserve URLs; its lesson now teaches tools, workflows and agents. Do not create a duplicate Lesson 05 folder. Lesson 06 remains English-only.
