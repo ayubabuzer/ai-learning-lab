@@ -72,13 +72,14 @@ class TestRelease(unittest.TestCase):
             with self.subTest(page=page.parent.name):
                 self.assertNotIn('Qwen',page.read_text(encoding="utf-8"))
 
-    def test_king_equations_and_map_overlap(self):
+    def test_guided_word_map_and_examples(self):
         t=(LESSONS/FOLDERS[1]/"index.html").read_text(encoding="utf-8")
-        self.assertIn('mathStep1',t);self.assertIn('mathStep2',t)
-        self.assertIn('buckets=new Map()',t)
-        self.assertIn('stroke-dasharray',t)
-        self.assertEqual((3-1,1-1),(2,0))
-        self.assertEqual((2+1,0+3),(3,3))
+        for value in ('id="plot"','id="wordA"','id="wordB"','id="score"','id="scoreFill"','id="presets"',
+                      'Math.exp(-dist/160)', 'aria-pressed', 'attentionStory', 'smallSentence', 'bigSentence',
+                      'analogyTitle', 'not a probability or a measurement from a real AI model'):
+            with self.subTest(value=value):self.assertIn(value,t)
+        self.assertNotIn('id="rebuild"',t)
+        self.assertNotIn('id="examples"',t)
 
     def test_lesson01_tokens_and_vectors(self):
         t=(LESSONS/FOLDERS[0]/"index.html").read_text(encoding="utf-8")
@@ -132,12 +133,23 @@ class TestRelease(unittest.TestCase):
             with self.subTest(value=value):self.assertIn(value,t)
         self.assertLess(t.index('id="train"'),t.index('id="addChallenge"'))
 
-    def test_lesson04_true_history_assembly(self):
+    def test_lesson04_guided_chat_and_clear_context(self):
         t=(LESSONS/FOLDERS[3]/"index.html").read_text(encoding="utf-8")
-        for value in ('id="messages"','id="preview"','id="include"',
-                      'id="budget"','id="add"','id="clear"'):
+        for value in ('id="messages"','id="context"','id="factType"','id="factValue"',
+                      'id="addFact"','id="question"','id="ask"','id="clear"','id="reset"',
+                      'function addFact()', 'function ask()', 'facts={}', 'not a live AI model'):
             with self.subTest(value=value):self.assertIn(value,t)
-        self.assertIn('history.push(',t)
+        self.assertNotIn('id="message"',t) # No unreliable unrestricted chat box
+
+    def test_homepage_unnecessary_demo_removed(self):
+        t=(ROOT/'index.html').read_text(encoding='utf-8')
+        self.assertNotIn('id="playground"',t)
+        self.assertNotIn('Safe one-command deployment',t)
+
+    def test_lesson05_multiplication_and_header(self):
+        t=(LESSONS/FOLDERS[4]/'index.html').read_text(encoding='utf-8')
+        for value in ('function parseMath(q)', "['x','*','×']", 'LESSON 05 · TOOLS AND AGENTS', 'data-example="math"'):
+            self.assertIn(value,t)
 
     def test_windows_mac_guides(self):
         for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):

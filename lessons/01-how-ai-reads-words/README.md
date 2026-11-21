@@ -1,15 +1,13 @@
 # Lesson 01 — How Does AI Read Our Words?
 
-[العربية](README.ar.md) · [Open lesson](index.html) · [Teacher guide](../../TEACHERS.md)
+[Arabic guide](README.ar.md) · [Open lesson](index.html) · [Teacher guide](../../TEACHERS.md)
 
-**Simple question:** What happens after you send a message to AI?
+**Simple question:** What happens when we send a message to an AI model?
 
-**Short explanation:** Computers work with numbers. Every written character has a standard Unicode number. Language models take a further step: a *tokenizer* makes text pieces with model-specific IDs, which are turned into numerical representations. A trained language model then processes those representations to predict tokens for its answer.
+**Try it:** Type a short message or select an example. Watch the browser show four connected ideas: text pieces (tokens), an ID for each piece, an illustrative number pattern (vector) for the first piece, then a conceptual map of related words.
 
-**Try it:** Type **any English or Arabic text**. Explore how this classroom word splitter divides it. Click a piece to see **actual Unicode numbers** for its individual characters, not invented classroom IDs. Change punctuation to compare the pieces and inspect the difference.
+**Important:** The splitter, IDs, vectors and word map are educational illustrations, not results from a pretrained tokenizer or model. In a real model, token IDs are used to look up learned vectors, and the model uses context to process them.
 
-**Discovery:** The same letter keeps its Unicode number, even when the sentence changes. But Unicode numbers are **not** a language model's token IDs, and neither number is a word's meaning. The colourful splitter is simplified; it is **not a pretrained AI tokenizer**.
+**Discovery:** Text is divided into tokens; token IDs are labels, not meanings. Learned numerical representations can capture relationships.
 
-**Next:** Lesson 02 explains how numerical patterns can capture some relationships between words and gives a guided attention example.
-
-No internet or API key is required. This experiment does not run an LLM.
+**Next:** Lesson 02 explores the word map. No internet, downloads or API key are needed.

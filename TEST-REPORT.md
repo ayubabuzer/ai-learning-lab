@@ -1,29 +1,12 @@
-# AI Learning Lab — Connected Learning Journey: Test Report
+# AI Learning Lab — Version 5 validation report
 
-**Release date:** 21 November 2026
+The release was checked against the updated lesson designs.
 
-## What changed
+- **21 dependency-free structural tests:** passed (`python -m unittest discover -s tests -v`).
+- **Playwright/Chromium interaction smoke checks:** passed on 1280px desktop and 390px mobile (`python tests/browser_smoke.py` in the validation environment). These verified page errors, horizontal overflow, Lesson 1 editability, Lesson 2 selected pair and score changes, Lesson 4 fact recall and clear-context behaviour, Lesson 5 `5 x 2`, two agent scenarios and reset.
+- **Language audit:** English pages had no visible Arabic text apart from intentionally Arabic language-toggle labels. English and Arabic Lesson 2 controls were checked for consistent map scores.
+- **Hugging Face Space deployment:** not executed in a real account; `deploy.py` continues using the safe five-file allowlist and requests ZeroGPU. Account eligibility and remote build behaviour remain external dependencies.
 
-- Lesson 01: first-step text → actual Unicode character numbers, honest simplified splitting and meaningful before/after punctuation comparison; no fake classroom IDs displayed.
-- Lesson 02: existing editable word-vector model retained; added a separate guided ball/bag attention explanation, no manufactured attention weights.
-- Lesson 03: teaching a real editable count-based next-word predictor is the main activity; test, change corpus, retrain, then optional misleading-data challenge. Example baseline *The moon is made of* predicts **rock 100%**; after appending three false cheese examples and retraining, calculated **cheese 75%, rock 25%**. Additional arbitrary learner-generated sentence tests passed.
-- Lesson 04: editable growing conversation history, role-tagged messages, actual assembled-input preview, toggle and remove controls, and illustrative word budget. No live model.
-- Lesson 05: guided tool call and workflow/agent decision-loop stories. No live tool call, weather forecast or autonomous agent claimed.
-- Lesson 06: unchanged English-only Gradio model app; one explanatory bridge, full-project git clone commands retained.
+The word map in Lesson 2 is a **curated 2D teaching illustration**, not measured pretrained embeddings. The guided Lesson 4 chat is rule-based and does not run an LLM. Lesson 5 weather/search data and agent plans are explicitly illustrative. Lesson 3 retains its browser-only prediction experiment.
 
-## Checks executed locally
-
-- **16 Python website/repository structural tests passed** using `python -m unittest discover -s tests -v`.
-- **4 Python Digital Twin helper tests passed** using `python -m unittest discover -s lessons/06-digital-twin/gradio-app/tests -v`.
-- **46 Chromium browser checks passed**, covering all seven HTML pages, click controls, bilingual toggles, custom training inputs, changing predictions, attention example changes, history assembly, tool/agent story steps, and **390 px mobile overflow**. No JavaScript page errors occurred. The checks loaded HTML with Playwright's `set_content`, since browser navigation to local URLs was blocked in the environment.
-- `node --check` passed for all inline JavaScript scripts on the seven pages.
-- The website test suite verifies exactly six canonical folders and valid on-disk internal links.
-
-## Not tested / limits
-
-- No live Hugging Face authentication, ZeroGPU Space deployment or actual Qwen model inference was performed.
-- Browser screenshot verification was performed via injected HTML; a static visual browser run did **not** verify loading remote services or the original lesson 06 image over HTTP. The image file is present and checked by structural tests.
-- The word-context vectors in Lesson 02 and count-based predictions in Lesson 03 are small teaching algorithms. They accept editable learner input but cannot replicate arbitrary language understanding by a pretrained model.
-- The attention example in Lesson 02 and the tools/workflow/agent stories in Lesson 05 are openly labelled **guided illustrations**, not AI-executed decisions.
-- The Lesson 04 practice limit counts whitespace-delimited words for clarity; actual LLM context budgets are measured in model-specific tokens.
-- **The project files have not been uploaded to GitHub or published to GitHub Pages by this test run.**
+Automated tests and screenshots do not establish full usability or accessibility certification on every device; classroom testing remains recommended.

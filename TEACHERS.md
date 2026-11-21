@@ -2,13 +2,13 @@
 
 **Approach:** Explain with familiar words before introducing terms such as token, attention, training, context, tool calling and agent. Each lesson has **a simple question → one example or genuine experiment → a meaningful change → a discovery → a link forward**. Not every visual needs to execute a model; explicitly distinguish real calculations from guided illustrations. Lessons 01–05 are bilingual. The real Digital Twin remains English-only.
 
-## Lesson 01 — Words become numbers (15–20 min)
+## Lesson 01 — Text, tokens and patterns (15–20 min)
 
-Ask what a computer receives when someone types a message. Learners type **any text**, explore the simplified text pieces, then click a piece to see its **real Unicode character numbers**. Try punctuation and Arabic/English characters. A repeated character has the same Unicode number. These are not pretrained model token IDs. Briefly show the full journey: text → model-specific tokens → learned numerical representations → generated response. No bytes or formulas required.
+Type a short message. The page illustrates small text pieces, stable teaching IDs and one example vector; finish with the related-word map preview. Ask: *is a token ID the meaning of a word?* (No.) These are simplified representations, not a real model tokenizer. No Unicode detour is needed.
 
-## Lesson 02 — Word relationships and attention (20–25 min)
+## Lesson 02 — Word relationships and context (20 min)
 
-Compare two words appearing in the editable example text; the numerical word-context calculation is real but very limited. Add examples and rebuild the map. Then use the *ball didn't fit in the bag / too small–too big* switch to discuss changing interpretations. Only **after** discussing the idea, introduce **attention** as a learned information-mixing mechanism. The guided pronoun story contains **no** model-derived percentages or real inference. The king–queen axes example uses invented values, clearly marked.
+Choose cat/dog, cat/car and car/bus. Learners observe the line and example percentage change together, or click map dots to compare other prepared words. The score is a **distance on an invented 2D classroom map**, not model-derived semantic similarity. Discuss the small king/queen illustration and the side-by-side ball/bag examples to show how one adjective changes the likely reference. Do not call the illustrations real attention weights.
 
 ## Lesson 03 — Teach, test, retrain, then challenge (25 min)
 
@@ -16,11 +16,11 @@ Compare two words appearing in the editable example text; the numerical word-con
 
 ## Lesson 04 — How does AI remember? (20 min)
 
-Add a fictional fact to the message history and then a follow-up question. Observe the **real assembled input**. Add any messages, delete the earlier fact, switch off history, or reduce the practice word limit. Ask what information would reach a future model call. The page does **not** run an LLM or generate arbitrary answers. Conversation history is temporary input, not permanent model training. A real LLM context window is based on tokens, not the lesson's teaching word limit.
+Students choose a fact type and type any value, then add it to the guided chat. They select a supported question and see the simulated reply. They clear the context without clearing the visible transcript and ask the *same* question again; now the local demonstration responds that the fact is unknown. Explain that the browser uses a restricted, rule-based teaching example, not a live LLM or permanent memory.
 
-## Lesson 05 — Tools, workflows and agents (20–25 min)
+## Lesson 05 — Tools and agents (20–25 min)
 
-Use the guided outdoors-day or library story. Step through request → tool descriptions → model requests tool → application executes → result returned → answer. Ask **who actually runs the tool** (the application). Compare **Workflow** (predefined paths, potentially with branches) and **Agent** (model can choose further actions and repeat *decide → act → check* until a goal, limit or human approval). Nothing here contacts a live service or executes a model. A workflow may be preferable; agency also introduces permission and safety requirements. Sources: [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), [OpenAI — Function calling](https://developers.openai.com/api/docs/guides/function-calling).
+Show that developers describe available tools and their expected inputs. Ask a weather question, a search question and `what is 5 x 2`; enable or disable tools to show the difference. The calculator evaluates the arithmetic input; weather and search responses are hypothetical. Play **both** automatic agent scenarios (picnic and budget headphones) and reset them. Teach the decision loop: goal → decide → use tool → observe → continue or stop. This is a scripted visualisation, not live autonomy. Tools need permissions and appropriate human oversight.
 
 ## Lesson 06 — Real Digital Twin (30–45 min plus optional setup)
 

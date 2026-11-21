@@ -1,15 +1,13 @@
 # Lesson 05 — How Does AI Use Tools and Work Towards a Goal?
 
-[العربية](README.ar.md) · [Open visual lesson](index.html)
+[Arabic guide](README.ar.md) · [Open lesson](index.html)
 
-**Simple question:** How can an AI assistant complete a task that requires outside information or several steps?
+**Simple question:** How does an AI assistant know which tool to use, and how can an agent take several steps toward a goal?
 
-**Main illustrated story:** Choose between planning an outdoor day and organising a library. Reveal the stages: the person asks → the app gives the model descriptions of available tools → a tool-capable model can **request** a particular tool and its inputs → the application checks and executes the call → the result returns to the model → the model can write a response.
+**Try it:** The developer supplies the names, descriptions and inputs for weather, calculator and search tools. Enable or disable them, then ask a question. The page shows the proposed tool call, the tool result and the assistant's reply. The arithmetic calculator handles inputs such as `5 x 2`, `5 × 2`, `5 * 2` and `12 + 8`. Search and weather results are intentionally fictional.
 
-**Explore the difference:** Switch between **Workflow** and **Agent** and reveal the steps. A workflow follows application-defined paths and may include conditional branches. An agent can use a trained model to select next actions, examine results and **repeat decide → act → check** until it meets a goal, reaches a limit or asks for approval. Simple workflows are often easier to control. Tools and agents need permissions and human approval for consequential actions.
+**Agent experiment:** Choose either the picnic-with-backup scenario or the budget-headphones scenario. Click **Run agent** to watch the simulated steps appear automatically. **Start again** resets the example. The agent pattern is goal → decide → act → observe → repeat or stop.
 
-**Critical honesty:** This is a **guided educational illustration**, not a live LLM, a real API/weather search or an autonomous agent. The examples are predefined and labelled. This avoids made-up intelligence while accurately demonstrating the system architecture.
+**Technical honesty:** Tool routing is rule-based on this page; it does not invoke a live LLM, real weather API or product search. The agent executions are scripted to teach the sequence, not autonomous work. Real systems must validate permissions and know when to stop or ask for human approval.
 
-Sources for teachers: [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) and [OpenAI — Function calling](https://developers.openai.com/api/docs/guides/function-calling).
-
-**Next:** Lesson 06 builds a real conversational Digital Twin; it is a chatbot, not an autonomous agent.
+**Next:** Lesson 06 builds a real Digital Twin chatbot, not an autonomous agent.

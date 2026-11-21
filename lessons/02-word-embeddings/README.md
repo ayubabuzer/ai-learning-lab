@@ -1,15 +1,13 @@
 # Lesson 02 — How Does AI Connect Words?
 
-[العربية](README.ar.md) · [Open lesson](index.html)
+[Arabic guide](README.ar.md) · [Open lesson](index.html)
 
-**Simple question:** How can numbers help a computer notice relationships between words?
+**Simple question:** Why do related words often appear close together in an AI word map?
 
-**Real experiment:** Write any example sentences, choose two words appearing in those sentences, and compare their calculated co-occurrence vectors. Change the sentences and rebuild the map. The results use the learner's input, not prepared outputs. Unknown words are reported honestly. A high score measures shared clues, not identical meaning.
+**Guided experiment:** Choose a prepared comparison (cat/dog, cat/car, car/bus, or apple/banana) or any two words in the included map. The highlighted link and example similarity score update immediately. You can also select a dot. The percentage is calculated from the distance in this classroom illustration; **it is not a similarity score produced by a pretrained model**. There is no misleading free-text retraining control.
 
-**Guided attention story:** Switch between *too small* and *too big* in the ball/bag sentence and discuss why the most likely meaning of “it” changes. Only then introduce **attention**: trained models use learned numerical operations to combine information from different token positions. There are no fake attention percentages and **no pretrained AI inference** in that story.
+**More examples:** A compact king/man/woman/queen diagram shows possible directions between concepts. Side-by-side ball/bag illustrations show how *too small* versus *too big* changes what *it* likely refers to.
 
-The separate king–man–woman–queen axes demonstration uses deliberately invented coordinates; do not present it as measured pretrained embeddings.
+**Discovery:** Related word representations can share patterns, and surrounding words can change interpretation. This page does not run a real embedding or attention model.
 
-**Discovery:** Numerical patterns can be useful, and surrounding words matter. But one attention weight does not prove a pronoun's meaning.
-
-**Next:** Lesson 03 trains and tests a simple next-word predictor.
+**Next:** Lesson 03 explores next-token prediction.

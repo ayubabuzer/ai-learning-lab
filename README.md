@@ -8,14 +8,14 @@ AI Learning Lab is a free, open-source learning website for people of all ages. 
 
 | Lesson | Simple question | What is real and what is illustrative? |
 |---|---|---|
-| [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | How does a message become numbers? | Genuine Unicode character codes; a clearly labelled simple text splitter, **not** a pretrained tokenizer |
-| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Calculated word-context vectors from editable sentences; **guided** ball/bag attention explanation, no invented attention percentages |
+| [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | How does a message become numbers? | Illustrative text pieces, token IDs and number patterns, followed by a conceptual word map |
+| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Interactive example map with curated word comparisons; compact king/queen and ball/bag illustrations, **not** measured pretrained embeddings |
 | [03 · How Does AI Learn to Predict?](lessons/03-next-word-prediction/) | How do examples change predictions? | A genuine count-based mini predictor: **teach → test → change → teach again**, then an optional misleading-data challenge |
-| [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Actual editable conversation-history assembly and message omission; **no live model responses** |
-| [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How are tool calls, workflows and agents different? | **Guided illustrated story**, not live tool calls: request → execute → return; workflow vs agent decision loop |
+| [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Guided chat: enter your own fact, ask a supported question, remove the fact from context and ask again; **not a live LLM** |
+| [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How do tools and goal-seeking agents work? | Offline tool-call simulation with real arithmetic and two replayable agent scenarios; illustrative external data |
 | [06 · Build Your Own Digital Twin](lessons/06-digital-twin/) | How can I create and share a real chatbot? | Real Qwen-based Gradio app (English-only), with fictional-profile context and optional Hugging Face ZeroGPU deployment |
 
-Each lesson follows **short explanation → meaningful experiment or illustrated example → change something → discovery → connection to the next lesson**. A lesson may be interactive without pretending that every illustration is a trained model. The first lesson introduces words and numbers; later lessons introduce attention, training, memory, tools, workflows and agents.
+Each lesson follows **short explanation → meaningful experiment or illustrated example → change something → discovery → connection to the next lesson**. A lesson may be interactive without pretending that every illustration is a trained model. The first lesson introduces words and numbers; later lessons introduce context, prediction, memory, tools and agents.
 
 ## Run the Digital Twin
 
