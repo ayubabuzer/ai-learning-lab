@@ -169,6 +169,30 @@ class TestRelease(unittest.TestCase):
         self.assertIn('sdk_version: {gradio_version}',(directory/'deploy.py').read_text())
         self.assertIn('python_version: "{python_version}"',(directory/'deploy.py').read_text())
 
+
+    def test_deployment_preflight_without_hidden_python_dotfile(self):
+        """A student who copied files without hidden dotfiles can still deploy."""
+        from importlib.util import spec_from_file_location, module_from_spec
+        from unittest.mock import patch
+        import tempfile
+        import shutil
+        directory=LESSONS/FOLDERS[5]/'gradio-app'
+        script=directory/'space_compat.py'
+        spec=spec_from_file_location('space_compat_no_dotfile',script)
+        module=module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as tmp:
+            scratch=Path(tmp)
+            for filename in ('requirements.txt','pyproject.toml'):
+                shutil.copyfile(directory/filename,scratch/filename)
+            # .python-version is intentionally absent.
+            with patch.object(module,'ROOT',scratch):
+                self.assertEqual(module.check_config(), [])
+                (scratch/'.python-version').write_text('3.11\n',encoding='utf-8')
+                self.assertTrue(any('.python-version' in problem for problem in module.check_config()))
+                (scratch/'.python-version').write_text('3.12\n',encoding='utf-8')
+                self.assertEqual(module.check_config(), [])
+
     def test_deploy_stages_only_five_files_and_version_metadata(self):
         import sys
         import tempfile

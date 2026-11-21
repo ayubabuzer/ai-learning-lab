@@ -62,7 +62,8 @@ def main() -> int:
         require_compatible()
     except (OSError, RuntimeError) as exc:
         print(f'Compatibility check failed: {exc}', file=sys.stderr)
-        print('Use the tested course requirements; run the release dependency check before uploading.', file=sys.stderr)
+        print('This check reads project configuration files; it does not check installed packages in .venv.', file=sys.stderr)
+        print('Update requirements.txt, pyproject.toml and space_compat.py together from the course release.', file=sys.stderr)
         return 1
     try:
         api = HfApi()

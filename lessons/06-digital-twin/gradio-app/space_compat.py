@@ -49,8 +49,13 @@ def check_config() -> list[str]:
         problems.append("Local Hub range must match Transformers 5.23 and Gradio 6.32")
     if project["project"].get("requires-python") != ">=3.12,<3.13":
         problems.append("Local Python must match the tested Space Python 3.12")
-    if (ROOT / ".python-version").read_text(encoding="utf-8").strip() != PYTHON_VERSION:
-        problems.append(".python-version must be 3.12")
+    # A dotfile can be omitted when copying the project (for example, via Finder).
+    # It is a local uv convenience, not an artifact uploaded to the Space.
+    # The generated Space README pins Python, and requires-python in pyproject.toml
+    # constrains local uv even when .python-version is missing.
+    version_file = ROOT / ".python-version"
+    if version_file.is_file() and version_file.read_text(encoding="utf-8").strip() != PYTHON_VERSION:
+        problems.append(f".python-version must be {PYTHON_VERSION} when present")
     return problems
 
 
