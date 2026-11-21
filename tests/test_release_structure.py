@@ -80,21 +80,34 @@ class TestRelease(unittest.TestCase):
         self.assertEqual((3-1,1-1),(2,0))
         self.assertEqual((2+1,0+3),(3,3))
 
-    def test_lesson01_punctuation_tool(self):
+    def test_lesson01_tokens_and_vectors(self):
         t=(LESSONS/FOLDERS[0]/"index.html").read_text(encoding="utf-8")
-        self.assertIn('id="magicEdit"',t)
-        self.assertIn("$('magicEdit').addEventListener",t)
+        self.assertIn('id="pieces"',t)
+        self.assertIn('id="identifiers"',t)
+        self.assertIn('id="vectors"',t)
+        self.assertNotIn('Optional deep dive · Unicode',t)
 
     def test_lesson05_tool_and_agent_chat(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
         for value in ('How Does AI Use Tools and Work Towards a Goal?',
                       'id="configuredTools"', 'id="toolChat"', 'id="agentChat"',
-                      'id="userQuestion"', 'id="askQuestion"', 'id="nextAgent"',
+                      'id="userQuestion"', 'id="askQuestion"', 'id="runAgent"', 'id="agentScenario"',
                       'function selectTool(', 'function renderTools(',
                       'function renderAgent(', 'Illustrative', 'weather_forecast'):
             with self.subTest(value=value): self.assertIn(value,t)
         self.assertNotIn('function clueWeights(',t)
         self.assertNotIn('id="weights"',t)
+
+    def test_safe_deploy_allowlist(self):
+        from importlib.util import spec_from_file_location, module_from_spec
+        script=LESSONS/FOLDERS[5]/'gradio-app'/'deploy.py'
+        self.assertTrue(script.is_file())
+        text=script.read_text(encoding='utf-8')
+        self.assertIn('UPLOAD_FILES',text)
+        self.assertIn('TemporaryDirectory',text)
+        self.assertIn('stage_files',text)
+        self.assertNotIn('shutil.copytree',text)
+        self.assertIn('uv run python deploy.py',(LESSONS/FOLDERS[5]/'gradio-app'/'README.md').read_text())
 
     def test_gradio_deployment_prompt_guidance(self):
         for p in (ROOT/'index.html', LESSONS/FOLDERS[5]/'index.html'):
@@ -129,7 +142,7 @@ class TestRelease(unittest.TestCase):
                               'data-os-panel="mac" hidden', 'uv python install 3.12',
                               'winget install --id Git.Git -e', 'git --version',
                               'brew install uv', 'uvx hf auth whoami',
-                              'uv run gradio deploy', 'zero-a10g'):
+                              'uv run python deploy.py', 'zero-a10g'):
                     self.assertIn(value,t)
 
     def test_english_only_lesson6_and_image(self):
@@ -154,7 +167,7 @@ class TestRelease(unittest.TestCase):
 
     def test_homepage_deployment_guide(self):
         t=(ROOT/"index.html").read_text(encoding="utf-8")
-        for val in ('deploy-guide','git clone','uv run app.py','uvx hf auth login','uv run gradio deploy','zero-a10g','huggingface.co/join'):
+        for val in ('deploy-guide','git clone','uv run app.py','uvx hf auth login','uv run python deploy.py','zero-a10g','huggingface.co/join'):
             self.assertIn(val,t)
 
     def test_gradio_project_valid(self):

@@ -2,7 +2,7 @@
 
 This final lesson uses **one real English-language chatbot**, not an illustrative rule-based app. The model reads an editable fictional profile in `about-me.txt`, recent conversation history and the visitor's question, and generates an answer. The app shows a *possible matching source line* separately from the model's response.
 
-On the [Lesson 06 page](./) choose **Windows** (default) or **Mac** for a short, guided setup. Git, Python 3.12, `uv`, the profile editor, local testing, Hugging Face login and `uv run gradio deploy` are all covered.
+On the [Lesson 06 page](./) choose **Windows** (default) or **Mac** for a short, guided setup. Git, Python 3.12, `uv`, the profile editor, local testing, Hugging Face login and `uv run python deploy.py` are all covered.
 
 ## Clone the full project (new checkout)
 
@@ -20,7 +20,7 @@ This clones all six lessons into one repository, as in the course. If you alread
 uv python install 3.12
 uv run app.py
 uvx hf auth login
-uv run gradio deploy
+uv run python deploy.py
 ```
 
 Local inference can be slow and initially downloads model weights; local testing is optional on low-powered computers. On Hugging Face, choose **ZeroGPU (`zero-a10g`)** if your account is eligible. Check the Space settings if the deployment prompt does not offer hardware selection. No paid external model API key is needed, but GPU queues and free usage limits apply.
@@ -33,4 +33,9 @@ Read the [full English project guide](gradio-app/README.md). Use only fictional 
 
 ## Run your deployed Space
 
-After `uv run gradio deploy` completes, open the Space URL shown in the terminal or find the Space under your Hugging Face profile. On its **App** tab, wait for the app to finish Building/Starting, then ask a question in the English chat interface. You do not need to keep the local terminal running. For problems, check the Space **Logs** and **Settings → Hardware**. Answer `n` (Enter) to the optional GitHub Actions prompt for manual deployment; a large-folder message is a warning, not necessarily an error. The [full deployment guide](gradio-app/README.md#after-deployment-open-and-run-your-app) covers these steps.
+After `uv run python deploy.py` completes, open the Space URL shown in the terminal or find the Space under your Hugging Face profile. On its **App** tab, wait for the app to finish Building/Starting, then ask a question in the English chat interface. You do not need to keep the local terminal running. For problems, check the Space **Logs** and **Settings → Hardware**. Answer `n` (Enter) to the optional GitHub Actions prompt for manual deployment; a large-folder message is a warning, not necessarily an error. The [full deployment guide](gradio-app/README.md#after-deployment-open-and-run-your-app) covers these steps.
+
+
+## Safe deployment / النشر الآمن
+
+Use `uv run python deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.

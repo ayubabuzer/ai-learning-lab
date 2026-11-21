@@ -25,6 +25,11 @@ cd ai-learning-lab/lessons/06-digital-twin/gradio-app
 uv run app.py
 ```
 
-قد يكون النموذج بطيئاً محلياً. للنشر الاختياري اتبع [الدليل الكامل بالإنجليزية](lessons/06-digital-twin/gradio-app/README.md) لإنشاء حساب Hugging Face ورمز وصول خاص، ثم تسجيل الدخول عبر `uvx hf auth login` والنشر بواسطة `uv run gradio deploy`. لا تضع الرموز السرية أو البيانات الشخصية في ملفات عامة. التوأم الرقمي **روبوت محادثة لا وكيل مستقل**. لم يُتحقق من النشر المباشر في هذا الإصدار.
+قد يكون النموذج بطيئاً محلياً. للنشر الاختياري اتبع [الدليل الكامل بالإنجليزية](lessons/06-digital-twin/gradio-app/README.md) لإنشاء حساب Hugging Face ورمز وصول خاص، ثم تسجيل الدخول عبر `uvx hf auth login` والنشر بواسطة `uv run python deploy.py`. لا تضع الرموز السرية أو البيانات الشخصية في ملفات عامة. التوأم الرقمي **روبوت محادثة لا وكيل مستقل**. لم يُتحقق من النشر المباشر في هذا الإصدار.
 
 **المجلدات:** نحتفظ بالمجلدات الستة نفسها، بما فيها الاسم القديم `05-ai-retrieval` لتجنب كسر الروابط؛ تغيّر محتواه إلى الأدوات وسير العمل والوكلاء. لا تنشئ مجلداً إضافياً.
+
+
+## Safe deployment / النشر الآمن
+
+Use `uv run python deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.

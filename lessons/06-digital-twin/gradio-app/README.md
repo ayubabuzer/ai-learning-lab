@@ -4,6 +4,20 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 
 **Privacy:** use an imaginary character and never publish private personal information. A public Space makes the default knowledge file publicly available.
 
+## Recommended deployment: only the five required files
+
+After creating a Hugging Face **Write** access token and connecting with `uvx hf auth login`, run this command **from this `gradio-app` folder**:
+
+```bash
+uv run python deploy.py
+```
+
+The script asks for your Space name once, remembers it locally in `.space-deploy.json`, creates or updates your Space, and uploads **only** `app.py`, `twin_core.py`, `about-me.txt`, `requirements.txt`, and a generated Hugging Face Space `README.md`. It excludes your 747 MB `.venv`, caches, test files, Git history, and credentials by construction. The local Space name file is excluded from Git and uploads. Subsequent deployments use the same command. **If an older Space already contains too many tracked files, deploy under a NEW Space name** rather than trying to upload to the oversized repository. The script does not delete old files.
+
+Open the URL printed by the script. Wait for **Running**, open **App**, and test the chatbot. If it fails, inspect **Logs** and **Settings → Hardware**. ZeroGPU requires eligibility and may need selecting appropriate hardware in your Space; uploading code does not guarantee GPU availability. Only use fictional profile information in `about-me.txt` because Space files may be public.
+
+The interactive prompts shown later in this guide are for the *optional, older Gradio CLI deployment method*, not this recommended script. Students using `deploy.py` do not need to answer GitHub Actions, Space app file, or git credential prompts during deployment.
+
 ## Create your Hugging Face access token **before** logging in
 
 1. Visit [huggingface.co/join](https://huggingface.co/join), create an account, confirm the email, and sign in.
@@ -12,7 +26,7 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 4. Copy the token privately. It may only be displayed once; if you lose it, generate a new token. **Never paste it into your source code, Git history, public screenshots, or `about-me.txt`.**
 5. In the project terminal, use `uvx hf auth login`. This uses `uv` to run the CLI without adding a separate project dependency. If offered a browser or token method, choose **access-token login**, paste the token at the hidden prompt, and press Enter. If the terminal asks `Add token as git credential? (Y/n)`, choose `n` for this CLI deployment, or `Y` if you also plan to push changes using Git from this computer. Git-credential storage is optional for Gradio deployment.
 6. Verify with `uvx hf auth whoami`. Your Hugging Face username should appear. If authentication fails, recheck your token, its role, and whether it has been revoked.
-7. Continue to `uv run gradio deploy` only after authentication succeeds. If you already have `huggingface_hub` in your project dependencies, `uv run hf auth login` and `uv run hf auth whoami` are valid alternatives; **do not install it twice**.
+7. Continue to `uv run python deploy.py` only after authentication succeeds. If you already have `huggingface_hub` in your project dependencies, `uv run hf auth login` and `uv run hf auth whoami` are valid alternatives; **do not install it twice**.
 
 A public model download alone cannot verify the Write role. You can confirm the token role on the token settings page. ZeroGPU hosting also requires separate account eligibility and does not follow automatically from token permissions.
 
@@ -34,7 +48,7 @@ cd lessons/06-digital-twin/gradio-app
 7. Test on a capable computer: `uv run app.py`. Open `http://127.0.0.1:7860`; stop with Ctrl+C.
 8. Create/verify a Hugging Face account at https://huggingface.co/join.
 9. **First create the Write token using the guide above**, then run `uvx hf auth login`, paste the token when prompted, and verify with `uvx hf auth whoami`.
-10. Deploy from the folder containing `app.py`: `uv run gradio deploy`. Choose `zero-a10g` when possible.
+10. Deploy from the folder containing `app.py`: `uv run python deploy.py`. Choose `zero-a10g` when possible.
 11. Check Space settings and test the public link in English.
 
 ## Mac setup
@@ -55,15 +69,15 @@ cd lessons/06-digital-twin/gradio-app
 7. Optionally test locally: `uv run app.py`; stop with Ctrl+C.
 8. Create and verify your Hugging Face account.
 9. **First create the Write token using the guide above**, then log in with `uvx hf auth login` and verify with `uvx hf auth whoami`.
-10. Publish: `uv run gradio deploy`; select `zero-a10g` if available.
+10. Publish: `uv run python deploy.py`; select `zero-a10g` if available.
 11. Check Space settings, test and share your public link.
 
 **Already cloned?** Don't clone again; simply open the `lessons/06-digital-twin/gradio-app` folder of your existing repository.
 
 
-## What to type at each deployment prompt
+## Optional reference: prompts from the older Gradio CLI method
 
-After running `uv run gradio deploy` **from `lessons/06-digital-twin/gradio-app`**, Gradio may ask for metadata. These questions are expected, not errors. Wording and order depend on the installed version.
+If you use the older `uv run gradio deploy` command rather than our safe script, Gradio may ask for metadata. These questions are expected, not errors. Wording and order depend on the installed version.
 
 | Terminal asks | Recommended learner response | Why |
 | --- | --- | --- |
@@ -86,11 +100,11 @@ If the upload actually fails because the folder is too large, consult the [offic
 
 ## After deployment: open and run your app
 
-1. **Find your Space link.** When `uv run gradio deploy` finishes successfully, open the URL printed by the terminal, usually `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE`. Replace both placeholders; do not copy them literally. If you lost the URL, log in to [Hugging Face Spaces](https://huggingface.co/spaces), open your profile and find the Space you own.
+1. **Find your Space link.** When `uv run python deploy.py` finishes successfully, open the URL printed by the terminal, usually `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE`. Replace both placeholders; do not copy them literally. If you lost the URL, log in to [Hugging Face Spaces](https://huggingface.co/spaces), open your profile and find the Space you own.
 2. **Check its state.** Open the **App** tab. The page may say *Building* or *Starting* while dependencies and model files are prepared. If it fails, open the Space's **Logs** (build and runtime) to see why. Check **Settings → Hardware** for the expected eligible `zero-a10g` configuration.
 3. **Run a chat.** Once the app is Running, type an English question into the Gradio chat input such as `What is your name?`, then press **Enter** or **Send**. Ask another question about a fact in your fictional `about-me.txt`. Test one unknown fact too; the model may still hallucinate.
 4. **Share or return later.** Copy the Space page URL and open it in another browser tab to verify public access. You **do not have to keep your laptop, terminal, or `uv run app.py` running** after successful deployment: Hugging Face hosts it. On free/shared resources the Space may sleep, wait in a GPU queue or exhaust a quota. Return to the Space URL and check logs if it does not respond.
-5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run gradio deploy` (or use a configured Space/Git sync). Local file edits do not automatically update an existing Space when you answered `n` to the GitHub Action question.
+5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run python deploy.py` (or use a configured Space/Git sync). Local file edits do not automatically update an existing Space when you answered `n` to the GitHub Action question.
 
 ## About hosting and speed
 
