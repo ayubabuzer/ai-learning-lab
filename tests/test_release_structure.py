@@ -98,6 +98,12 @@ class TestRelease(unittest.TestCase):
         self.assertNotIn('function clueWeights(',t)
         self.assertNotIn('id="weights"',t)
 
+    def test_deploy_requests_zerogpu(self):
+        deploy = (ROOT / 'lessons/06-digital-twin/gradio-app/deploy.py').read_text(encoding='utf-8')
+        self.assertIn("ZERO_GPU_HARDWARE = 'zero-a10g'", deploy)
+        self.assertIn('space_hardware=ZERO_GPU_HARDWARE', deploy)
+        self.assertIn('status in (402, 403)', deploy)
+
     def test_safe_deploy_allowlist(self):
         from importlib.util import spec_from_file_location, module_from_spec
         script=LESSONS/FOLDERS[5]/'gradio-app'/'deploy.py'

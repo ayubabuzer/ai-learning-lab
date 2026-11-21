@@ -14,7 +14,7 @@ uv run python deploy.py
 
 The script asks for your Space name once, remembers it locally in `.space-deploy.json`, creates or updates your Space, and uploads **only** `app.py`, `twin_core.py`, `about-me.txt`, `requirements.txt`, and a generated Hugging Face Space `README.md`. It excludes your 747 MB `.venv`, caches, test files, Git history, and credentials by construction. The local Space name file is excluded from Git and uploads. Subsequent deployments use the same command. **If an older Space already contains too many tracked files, deploy under a NEW Space name** rather than trying to upload to the oversized repository. The script does not delete old files.
 
-Open the URL printed by the script. Wait for **Running**, open **App**, and test the chatbot. If it fails, inspect **Logs** and **Settings → Hardware**. ZeroGPU requires eligibility and may need selecting appropriate hardware in your Space; uploading code does not guarantee GPU availability. Only use fictional profile information in `about-me.txt` because Space files may be public.
+Open the URL printed by the script. Wait for **Running**, open **App**, and test the chatbot. If it fails, inspect **Logs** and **Settings → Hardware**. The script requests ZeroGPU when creating the Space. Hugging Face must still approve account eligibility and start the app; uploading code does not guarantee GPU availability. Only use fictional profile information in `about-me.txt` because Space files may be public.
 
 The interactive prompts shown later in this guide are for the *optional, older Gradio CLI deployment method*, not this recommended script. Students using `deploy.py` do not need to answer GitHub Actions, Space app file, or git credential prompts during deployment.
 
@@ -109,8 +109,8 @@ If the upload actually fails because the folder is too large, consult the [offic
 ## About hosting and speed
 
 - Local inference first downloads model files and can be very slow on a Mac without suitable acceleration. You can skip the local model test on a weak laptop.
-- Hugging Face ZeroGPU requires an eligible account; it has queues and usage limits. The default `cpu-basic` hardware is generally not available for newly created free-account Gradio Spaces; choose `zero-a10g` if offered, or check the Space's Settings → Hardware.
-- Gradio's deploy tool may change prompts between releases. The command alone does not guarantee ZeroGPU was selected.
+- Hugging Face ZeroGPU requires an eligible account; it has queues and usage limits. The default `cpu-basic` hardware is generally not available for newly created free-account Gradio Spaces; our deployment script requests `zero-a10g` at creation; check your eligibility and Space Settings → Hardware if creation fails.
+- The course uses `deploy.py` rather than the interactive `gradio deploy` command; `deploy.py` explicitly requests ZeroGPU.
 - Never paste your Hugging Face write token into project files.
 - Re-deploy or push updated files to your Space to publish changes to `about-me.txt`.
 
@@ -127,3 +127,7 @@ The app creates a system instruction from the fictional facts, sends recent chat
 - `tests/` — quick tests without model downloads
 
 Official docs: [uv](https://docs.astral.sh/uv/getting-started/installation/), [Git](https://git-scm.com/doc), [Gradio](https://www.gradio.app/guides/sharing-your-app), [ZeroGPU](https://huggingface.co/docs/hub/spaces-zerogpu).
+
+### Free ZeroGPU deployment (current hosting requirements)
+
+`uv run python deploy.py` explicitly requests `space_hardware="zero-a10g"` when creating the Gradio Space. This avoids the default CPU Basic creation request, which may return HTTP 402 for free accounts. Hugging Face currently permits up to two free ZeroGPU Spaces for eligible personal accounts (verified email, account older than 30 days). No new Space or successful build is guaranteed: account restrictions, queues, and runtime limits still apply. Existing Spaces are never switched to a different hardware type silently. The file allowlist excludes `.venv`.

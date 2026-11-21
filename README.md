@@ -1,6 +1,6 @@
-# AI Learning Lab | مختبر تعلم الذكاء الاصطناعي
+# AI Learning Lab
 
-**[English](README.md) · [العربية](README.ar.md) · [Website](https://ayubabuzer.github.io/ai-learning-lab/)**
+**[English](README.md) · [Arabic](README.ar.md) · [Website](https://ayubabuzer.github.io/ai-learning-lab/)**
 
 AI Learning Lab is a free, open-source learning website for people of all ages. It uses everyday language first and introduces technical words only after the idea makes sense. Lessons 01–05 are bilingual (English/Arabic), browser-based, and require no learner account, model download or API token. Lesson 06 is an English-only real-model Digital Twin project.
 
@@ -34,6 +34,8 @@ Local model inference can be slow and requires a capable computer. For optional 
 Before `uvx hf auth login`, open [Hugging Face tokens](https://huggingface.co/settings/tokens), **Create new token**, name it `ai-course`, select **Write**, copy it privately, and paste it at the login prompt. Verify with `uvx hf auth whoami`. See the [complete setup guide](lessons/06-digital-twin/gradio-app/README.md#create-your-hugging-face-access-token-before-logging-in). Tokens are secrets; never commit them.
 
 
-## Safe deployment / النشر الآمن
+## Safe deployment
 
 Use `uv run python deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.
+
+> Deployment update: the supplied `deploy.py` explicitly requests ZeroGPU (`zero-a10g`) rather than the default CPU Basic hardware when creating a new Space. Hosting eligibility is controlled by Hugging Face; no live deployment has been verified.
