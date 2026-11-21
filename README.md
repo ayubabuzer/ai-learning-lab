@@ -28,3 +28,7 @@ uv run app.py
 Local model inference can be slow and requires a capable computer. For optional Hugging Face deployment, read [the full account, token and deployment guide](lessons/06-digital-twin/gradio-app/README.md). Use `uvx hf auth login` followed by `uv run gradio deploy` when eligible; never put tokens or private personal data into public project files. The Digital Twin is a conversational chatbot, **not an autonomous agent**. ZeroGPU account eligibility, quotas and availability must be checked before deployment; successful public deployment has **not** been verified as part of this release.
 
 **Repo layout:** Keep exactly the six existing lesson directories. The `05-ai-retrieval` directory retains its name to preserve URLs; its lesson now teaches tools, workflows and agents. Do not create a duplicate Lesson 05 folder. Lesson 06 remains English-only.
+
+### Hugging Face access token checklist
+
+Before `uvx hf auth login`, open [Hugging Face tokens](https://huggingface.co/settings/tokens), **Create new token**, name it `ai-course`, select **Write**, copy it privately, and paste it at the login prompt. Verify with `uvx hf auth whoami`. See the [complete setup guide](lessons/06-digital-twin/gradio-app/README.md#create-your-hugging-face-access-token-before-logging-in). Tokens are secrets; never commit them.

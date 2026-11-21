@@ -28,3 +28,9 @@ Local inference can be slow and initially downloads model weights; local testing
 Read the [full English project guide](gradio-app/README.md). Use only fictional information; a public Space's files are publicly accessible. The model can be wrong, and a possible source line is not proof of an accurate answer.
 
 [← Lesson 05](../05-ai-retrieval/) · [All lessons](../../)
+
+**Important:** Before `uvx hf auth login`, create an access token with the **Write** role from [Hugging Face token settings](https://huggingface.co/settings/tokens), copy it privately, then paste it when prompted. See the [complete step-by-step guide](gradio-app/README.md#create-your-hugging-face-access-token-before-logging-in).
+
+## Run your deployed Space
+
+After `uv run gradio deploy` completes, open the Space URL shown in the terminal or find the Space under your Hugging Face profile. On its **App** tab, wait for the app to finish Building/Starting, then ask a question in the English chat interface. You do not need to keep the local terminal running. For problems, check the Space **Logs** and **Settings → Hardware**. Answer `n` (Enter) to the optional GitHub Actions prompt for manual deployment; a large-folder message is a warning, not necessarily an error. The [full deployment guide](gradio-app/README.md#after-deployment-open-and-run-your-app) covers these steps.

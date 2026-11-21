@@ -85,15 +85,24 @@ class TestRelease(unittest.TestCase):
         self.assertIn('id="magicEdit"',t)
         self.assertIn("$('magicEdit').addEventListener",t)
 
-    def test_lesson05_tool_workflow_agent_story(self):
+    def test_lesson05_tool_and_agent_chat(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
         for value in ('How Does AI Use Tools and Work Towards a Goal?',
-                      'id="workflow"','id="agent"','id="advance"',
-                      'scenarios=', 'function renderStage()', 'function renderCompare()',
-                      'Illustrative example', 'decide', 'tool'):
-            with self.subTest(value=value):self.assertIn(value,t)
+                      'id="configuredTools"', 'id="toolChat"', 'id="agentChat"',
+                      'id="userQuestion"', 'id="askQuestion"', 'id="nextAgent"',
+                      'function selectTool(', 'function renderTools(',
+                      'function renderAgent(', 'Illustrative', 'weather_forecast'):
+            with self.subTest(value=value): self.assertIn(value,t)
         self.assertNotIn('function clueWeights(',t)
         self.assertNotIn('id="weights"',t)
+
+    def test_gradio_deployment_prompt_guidance(self):
+        for p in (ROOT/'index.html', LESSONS/FOLDERS[5]/'index.html'):
+            t=p.read_text(encoding='utf-8')
+            for phrase in ('Add token as git credential?',
+                           'Enter Spaces app title [gradio-app]:',
+                           'Enter Gradio app file [app.py]:'):
+                with self.subTest(page=p,phrase=phrase):self.assertIn(phrase,t)
 
     def test_lesson03_training_before_misleading_challenge(self):
         t=(LESSONS/FOLDERS[2]/"index.html").read_text(encoding="utf-8")

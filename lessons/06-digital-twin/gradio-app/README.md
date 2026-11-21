@@ -4,6 +4,18 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 
 **Privacy:** use an imaginary character and never publish private personal information. A public Space makes the default knowledge file publicly available.
 
+## Create your Hugging Face access token **before** logging in
+
+1. Visit [huggingface.co/join](https://huggingface.co/join), create an account, confirm the email, and sign in.
+2. Open [Settings → Access Tokens](https://huggingface.co/settings/tokens), then choose **Create new token**.
+3. Name the token `ai-course`, select the **Write** role, and create it. This course uses Write because deployment may upload or update your own Space. **Write is broad but is not unrestricted access** to other users’ private or gated resources. For production work, prefer a fine-grained token scoped to the specific Space or repository.
+4. Copy the token privately. It may only be displayed once; if you lose it, generate a new token. **Never paste it into your source code, Git history, public screenshots, or `about-me.txt`.**
+5. In the project terminal, use `uvx hf auth login`. This uses `uv` to run the CLI without adding a separate project dependency. If offered a browser or token method, choose **access-token login**, paste the token at the hidden prompt, and press Enter. If the terminal asks `Add token as git credential? (Y/n)`, choose `n` for this CLI deployment, or `Y` if you also plan to push changes using Git from this computer. Git-credential storage is optional for Gradio deployment.
+6. Verify with `uvx hf auth whoami`. Your Hugging Face username should appear. If authentication fails, recheck your token, its role, and whether it has been revoked.
+7. Continue to `uv run gradio deploy` only after authentication succeeds. If you already have `huggingface_hub` in your project dependencies, `uv run hf auth login` and `uv run hf auth whoami` are valid alternatives; **do not install it twice**.
+
+A public model download alone cannot verify the Write role. You can confirm the token role on the token settings page. ZeroGPU hosting also requires separate account eligibility and does not follow automatically from token permissions.
+
 ## Windows setup
 
 1. Open **PowerShell**.
@@ -21,7 +33,7 @@ cd lessons/06-digital-twin/gradio-app
 6. Edit `about-me.txt` (`notepad about-me.txt`).
 7. Test on a capable computer: `uv run app.py`. Open `http://127.0.0.1:7860`; stop with Ctrl+C.
 8. Create/verify a Hugging Face account at https://huggingface.co/join.
-9. Run `uvx hf auth login` and `uvx hf auth whoami`.
+9. **First create the Write token using the guide above**, then run `uvx hf auth login`, paste the token when prompted, and verify with `uvx hf auth whoami`.
 10. Deploy from the folder containing `app.py`: `uv run gradio deploy`. Choose `zero-a10g` when possible.
 11. Check Space settings and test the public link in English.
 
@@ -42,11 +54,43 @@ cd lessons/06-digital-twin/gradio-app
 6. Edit your fictional facts: `open -e about-me.txt`.
 7. Optionally test locally: `uv run app.py`; stop with Ctrl+C.
 8. Create and verify your Hugging Face account.
-9. Log in: `uvx hf auth login`; verify `uvx hf auth whoami`.
+9. **First create the Write token using the guide above**, then log in with `uvx hf auth login` and verify with `uvx hf auth whoami`.
 10. Publish: `uv run gradio deploy`; select `zero-a10g` if available.
 11. Check Space settings, test and share your public link.
 
 **Already cloned?** Don't clone again; simply open the `lessons/06-digital-twin/gradio-app` folder of your existing repository.
+
+
+## What to type at each deployment prompt
+
+After running `uv run gradio deploy` **from `lessons/06-digital-twin/gradio-app`**, Gradio may ask for metadata. These questions are expected, not errors. Wording and order depend on the installed version.
+
+| Terminal asks | Recommended learner response | Why |
+| --- | --- | --- |
+| `Add token as git credential? (Y/n)` | `n` for Gradio CLI deployment; `Y` only if you will also use Git to push directly to your Hugging Face Space | Optional Git credential storage is not needed for the deploy command |
+| `Enter Spaces app title [gradio-app]:` | Type `my-ai-digital-twin`, or press **Enter** | Sets the Space title; the default is acceptable, but a descriptive name is easier to recognise |
+| `Enter Gradio app file [app.py]:` | Press **Enter** | Our entry point is `app.py` |
+| `Create Github Action to automatically update Space on 'git push'? [n]:` | Press **Enter** (`n`) | Keep deployment manual for this beginner course. `Y` requires configuring a GitHub Action and GitHub secrets securely |
+| Space owner / account, if asked | Choose your own account | Deploy to the account you control |
+| Space visibility, if asked | **Public** only for fictional, non-private facts | Visitors can view public files; never deploy real personal information |
+| Hardware choice, if offered | `zero-a10g` if eligible | This project uses `@spaces.GPU`; check **Space Settings → Hardware** after deployment |
+| Other questions | Read the prompt; accept the default only if it matches the course and your intended publishing settings | Prompts can change across Gradio versions |
+
+The CLI may show `Creating new Spaces Repo ... Collecting metadata, press Enter to accept default value.` This indicates a new Space is being configured and your local project will be uploaded. It does **not** mean authentication failed. The token must already have Write permission, but **the Space is created at deployment time**, not when the token is generated. If deployment errors, copy the error *without copying any secrets* and review the Space build logs.
+
+## If you see the large-folder warning
+
+The CLI may display: `It seems you are trying to upload a large folder at once...`. **This is a warning, not proof that deployment failed.** Let the command finish and open the Space to check whether it built successfully. Make sure you are inside `lessons/06-digital-twin/gradio-app`, not at the root of the entire course. Do not commit/upload `.venv/`, `__pycache__/`, downloaded model weights, cache folders, local `.env` files or access tokens. The Hugging Face Space will download its dependencies and public model when it runs; do not bundle local weights into the repo.
+
+If the upload actually fails because the folder is too large, consult the [official large-folder upload instructions](https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder) for the existing Space. Do not blindly upload the entire course folder or create a second Space.
+
+## After deployment: open and run your app
+
+1. **Find your Space link.** When `uv run gradio deploy` finishes successfully, open the URL printed by the terminal, usually `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE`. Replace both placeholders; do not copy them literally. If you lost the URL, log in to [Hugging Face Spaces](https://huggingface.co/spaces), open your profile and find the Space you own.
+2. **Check its state.** Open the **App** tab. The page may say *Building* or *Starting* while dependencies and model files are prepared. If it fails, open the Space's **Logs** (build and runtime) to see why. Check **Settings → Hardware** for the expected eligible `zero-a10g` configuration.
+3. **Run a chat.** Once the app is Running, type an English question into the Gradio chat input such as `What is your name?`, then press **Enter** or **Send**. Ask another question about a fact in your fictional `about-me.txt`. Test one unknown fact too; the model may still hallucinate.
+4. **Share or return later.** Copy the Space page URL and open it in another browser tab to verify public access. You **do not have to keep your laptop, terminal, or `uv run app.py` running** after successful deployment: Hugging Face hosts it. On free/shared resources the Space may sleep, wait in a GPU queue or exhaust a quota. Return to the Space URL and check logs if it does not respond.
+5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run gradio deploy` (or use a configured Space/Git sync). Local file edits do not automatically update an existing Space when you answered `n` to the GitHub Action question.
 
 ## About hosting and speed
 
