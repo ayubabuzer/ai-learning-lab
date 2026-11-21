@@ -1,11 +1,7 @@
-# Lesson 04 — How Does AI Remember?
+# Lesson 04 — How Does AI Remember a Conversation?
 
 [Arabic guide](README.ar.md) · [Open lesson](index.html)
 
-**Simple question:** Why can a chatbot appear to remember something you said?
+Choose a **prepared fact card** (name, dog's name, favourite food or city). Drag it into the conversation or tap it—the fact enters both the visible chat and the context panel. Choose a question from the dropdown and ask the assistant. Clear Context, then ask the same question to see why the answer changes. Start Again resets the example.
 
-**Guided experiment:** Choose a type of fact (your name, dog's name, favourite food or city) and enter any value. Click **Add fact to chat**, then choose a supported question and click **Ask assistant**. The example chat answers from the current context. Click **Clear context** and ask the same question again to see the change. **Start again** clears the demonstration completely.
-
-**Technical honesty:** This is a fast, local, guided simulation, not a language model. Only guided question types are supported; entered fact values are not sent to a server. Visible chat bubbles and the context used for answers are deliberately separate. It illustrates temporary conversation context, not long-term memory or model training.
-
-**Next:** Lesson 05 explains tool use and agents.
+**What this teaches:** Conversation context is the information sent alongside the current request. The demo is an instant, local, guided simulation, not a live AI model or permanent memory. Touchscreen and keyboard learners can tap/click cards instead of dragging.

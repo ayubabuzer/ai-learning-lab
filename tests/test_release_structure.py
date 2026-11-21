@@ -92,7 +92,7 @@ class TestRelease(unittest.TestCase):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
         for value in ('How Does AI Use Tools and Work Towards a Goal?',
                       'id="configuredTools"', 'id="toolChat"', 'id="agentChat"',
-                      'id="userQuestion"', 'id="askQuestion"', 'id="runAgent"', 'id="agentScenario"',
+                      'data-example="math"', 'data-example="weather"', 'data-example="search"', 'id="runAgent"', 'id="agentScenario"',
                       'function selectTool(', 'function renderTools(',
                       'function renderAgent(', 'Illustrative', 'weather_forecast'):
             with self.subTest(value=value): self.assertIn(value,t)
@@ -135,11 +135,12 @@ class TestRelease(unittest.TestCase):
 
     def test_lesson04_guided_chat_and_clear_context(self):
         t=(LESSONS/FOLDERS[3]/"index.html").read_text(encoding="utf-8")
-        for value in ('id="messages"','id="context"','id="factType"','id="factValue"',
-                      'id="addFact"','id="question"','id="ask"','id="clear"','id="reset"',
-                      'function addFact()', 'function ask()', 'facts={}', 'not a live AI model'):
+        for value in ('id="messages"','id="context"','id="factPalette"','id="dropTarget"',
+                      'draggable=true', 'id="question"','id="ask"','id="clear"','id="reset"',
+                      'function addFact(key)', 'function ask()', 'facts.clear()', 'not a live AI model'):
             with self.subTest(value=value):self.assertIn(value,t)
         self.assertNotIn('id="message"',t) # No unreliable unrestricted chat box
+        self.assertNotIn('id="factValue"',t) # No arbitrary values
 
     def test_homepage_unnecessary_demo_removed(self):
         t=(ROOT/'index.html').read_text(encoding='utf-8')
@@ -148,8 +149,55 @@ class TestRelease(unittest.TestCase):
 
     def test_lesson05_multiplication_and_header(self):
         t=(LESSONS/FOLDERS[4]/'index.html').read_text(encoding='utf-8')
-        for value in ('function parseMath(q)', "['x','*','×']", 'LESSON 05 · TOOLS AND AGENTS', 'data-example="math"'):
+        for value in ('function parseMath(raw)', 'function normalizeMath(raw)', 'function mathIntent(q)', 'Division by zero is undefined.', 'LESSON 05 · TOOLS AND AGENTS', 'data-example="math"'):
             self.assertIn(value,t)
+
+    def test_space_compatibility_preflight(self):
+        import sys
+        from importlib.util import spec_from_file_location, module_from_spec
+        directory=LESSONS/FOLDERS[5]/'gradio-app'
+        script=directory/'space_compat.py'
+        self.assertTrue(script.exists())
+        spec=spec_from_file_location('space_compat',script)
+        module=module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertEqual(module.check_config(),[])
+        self.assertIn('transformers==5.23.0', (directory/'requirements.txt').read_text())
+        self.assertNotIn('huggingface_hub==', (directory/'requirements.txt').read_text())
+        self.assertTrue((ROOT/'.github/workflows/validate.yml').exists())
+        self.assertIn('uv pip compile',(ROOT/'.github/workflows/validate.yml').read_text())
+        self.assertIn('sdk_version: {gradio_version}',(directory/'deploy.py').read_text())
+        self.assertIn('python_version: "{python_version}"',(directory/'deploy.py').read_text())
+
+    def test_deploy_stages_only_five_files_and_version_metadata(self):
+        import sys
+        import tempfile
+        from importlib.util import spec_from_file_location, module_from_spec
+        directory=LESSONS/FOLDERS[5]/'gradio-app'
+        sys.path.insert(0,str(directory))
+        try:
+            spec=spec_from_file_location('space_deployer_for_test',directory/'deploy.py')
+            module=module_from_spec(spec)
+            spec.loader.exec_module(module)
+            with tempfile.TemporaryDirectory() as temp:
+                files=module.stage_files(Path(temp),'Demo')
+                self.assertEqual(set(files), {'app.py','twin_core.py','about-me.txt','requirements.txt','README.md'})
+                self.assertEqual(set(p.name for p in Path(temp).iterdir()),set(files))
+                meta=(Path(temp)/'README.md').read_text(encoding='utf-8')
+                self.assertIn('sdk_version: 6.32.0',meta)
+                self.assertIn('python_version: "3.12"',meta)
+                self.assertNotIn('.venv',str(files))
+        finally:
+            sys.path.remove(str(directory))
+
+    def test_no_unrestricted_questions_and_example_vectors(self):
+        lesson1=(LESSONS/FOLDERS[0]/'index.html').read_text()
+        lesson5=(LESSONS/FOLDERS[4]/'index.html').read_text()
+        self.assertIn('id="vectorCards"',lesson1)
+        self.assertIn('id="vectorPlot"',lesson1)
+        self.assertIn('data-plotword="cat"',lesson1)
+        self.assertNotIn('id="userQuestion"',lesson5)
+        self.assertIn('agentDefinitionTitle',lesson5)
 
     def test_windows_mac_guides(self):
         for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
@@ -195,8 +243,7 @@ class TestRelease(unittest.TestCase):
             self.assertTrue((folder/fname).is_file())
         self.assertIn('zero-a10g', (folder/'README.md').read_text(encoding='utf-8'))
         self.assertIn('@spaces.GPU', (folder/'app.py').read_text(encoding='utf-8'))
-        # Gradio deploy first-run hardware prompt is intentionally preserved by NOT
-        # checking in YAML metadata before the first deployment.
-        self.assertFalse((folder/'README.md').read_text(encoding='utf-8').startswith('---\n'))
+        # Space metadata is generated from the pinned release matrix by deploy.py.
+        self.assertIn('GRADIO_VERSION', (folder/'deploy.py').read_text())
 
 if __name__ == '__main__':unittest.main()

@@ -39,3 +39,7 @@ Before `uvx hf auth login`, open [Hugging Face tokens](https://huggingface.co/se
 Use `uv run python deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.
 
 > Deployment update: the supplied `deploy.py` explicitly requests ZeroGPU (`zero-a10g`) rather than the default CPU Basic hardware when creating a new Space. Hosting eligibility is controlled by Hugging Face; no live deployment has been verified.
+
+## Maintainer quality checks
+
+Tests are kept in the GitHub repository (not in Hugging Face Space uploads). [Space version and compatibility policy](MAINTAINERS-SPACE-COMPATIBILITY.md) documents the pinned Python, Gradio, Transformers and ZeroGPU versions and the online GitHub Actions resolver. Live deployments must still be tested separately.

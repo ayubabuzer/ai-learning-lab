@@ -1,5 +1,7 @@
-# Hugging Face's Gradio SDK provides Gradio and the platform-matched spaces package.
-# Keep the model dependencies compatible with supported ZeroGPU PyTorch releases.
+# Space runtime packages (Gradio, spaces, huggingface_hub) are installed by
+# Hugging Face. Do not pin or reinstall them here: mismatched Hub requirements
+# between Gradio and Transformers can cause ResolutionImpossible during build.
+# Targeted to Gradio 6.32.0 / spaces 0.52.1; online resolution runs in CI.
 torch==2.9.1
-transformers>=4.57,<5
-accelerate>=1.11,<2
+transformers==5.23.0
+accelerate==1.16.0

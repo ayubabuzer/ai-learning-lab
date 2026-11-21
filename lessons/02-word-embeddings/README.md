@@ -11,3 +11,5 @@
 **Discovery:** Related word representations can share patterns, and surrounding words can change interpretation. This page does not run a real embedding or attention model.
 
 **Next:** Lesson 03 explores next-token prediction.
+
+**Updated classroom illustration:** The first screen compares ready-made word pairs and updates both the map connection and similarity indicator. The compact king/queen example depicts each word as a dot with directional arrows. Scores and coordinates are explanatory examples, not model embeddings.

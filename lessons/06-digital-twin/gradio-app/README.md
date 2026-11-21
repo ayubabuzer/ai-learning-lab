@@ -4,7 +4,7 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 
 **Privacy:** use an imaginary character and never publish private personal information. A public Space makes the default knowledge file publicly available.
 
-## Recommended deployment: only the five required files
+## Deploy your Digital Twin
 
 After creating a Hugging Face **Write** access token and connecting with `uvx hf auth login`, run this command **from this `gradio-app` folder**:
 
@@ -17,6 +17,12 @@ The script asks for your Space name once, remembers it locally in `.space-deploy
 Open the URL printed by the script. Wait for **Running**, open **App**, and test the chatbot. If it fails, inspect **Logs** and **Settings → Hardware**. The script requests ZeroGPU when creating the Space. Hugging Face must still approve account eligibility and start the app; uploading code does not guarantee GPU availability. Only use fictional profile information in `about-me.txt` because Space files may be public.
 
 The interactive prompts shown later in this guide are for the *optional, older Gradio CLI deployment method*, not this recommended script. Students using `deploy.py` do not need to answer GitHub Actions, Space app file, or git credential prompts during deployment.
+
+## Why we test versions before deployment
+
+Hugging Face provides **Gradio, the `spaces` runtime and `huggingface_hub`** in its Space image. Our Space's `requirements.txt` installs only the app's model libraries. The generated Space `README.md` pins Python 3.12 and Gradio 6.32.0, and `transformers==5.23.0` is compatible with Gradio's Hub dependencies. The deploy script rejects incompatible changes before uploading.
+
+For contributors, run `python space_compat.py` and the GitHub Actions dependency-resolution check. The latter resolves the actual Hugging Face SDK dependencies using `uv` on Linux. No offline check can guarantee future service uptime or a successful GPU build: consult the Space's first build error if it fails.
 
 ## Create your Hugging Face access token **before** logging in
 

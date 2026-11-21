@@ -11,3 +11,5 @@
 **Discovery:** Text is divided into tokens; token IDs are labels, not meanings. Learned numerical representations can capture relationships.
 
 **Next:** Lesson 02 explores the word map. No internet, downloads or API key are needed.
+
+**Updated classroom illustration:** Shows a set of four invented two-number word patterns and their matching dots on a compact map. The next section expands the related-word map. Examples explain the idea, not model-derived embeddings.

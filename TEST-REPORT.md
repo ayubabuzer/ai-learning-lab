@@ -1,12 +1,10 @@
-# AI Learning Lab — Version 5 validation report
+# AI Learning Lab — Version 6 validation
 
-The release was checked against the updated lesson designs.
+- Structural/unit tests: 24 course checks + 4 Digital Twin core tests passed.
+- Browser smoke: Playwright/Chromium passed at desktop 1280px and mobile 390px. Checked interactive word cards, word-map updates, drag/drop and click-to-add memory facts, context clearing, prepared tool questions, 31 calculator parser cases, 240 seeded arithmetic comparisons, both agent scenarios (desktop), agent reset and mobile overflow.
+- Seven lesson/homepage embedded JavaScript syntax checks passed using Node `--check`.
+- Deployment script and offline compatibility preflight passed `py_compile` / `space_compat.py`.
+- Deployment allowlist remains five files; staged Space README now pins Python 3.12 and Gradio 6.32.0.
+- **Not verified:** live Hugging Face build/inference, remote package resolver (`uv pip compile` runs in GitHub Actions), classroom-device accessibility and all possible browsers. Do not claim these are certified without a real release deployment.
 
-- **21 dependency-free structural tests:** passed (`python -m unittest discover -s tests -v`).
-- **Playwright/Chromium interaction smoke checks:** passed on 1280px desktop and 390px mobile (`python tests/browser_smoke.py` in the validation environment). These verified page errors, horizontal overflow, Lesson 1 editability, Lesson 2 selected pair and score changes, Lesson 4 fact recall and clear-context behaviour, Lesson 5 `5 x 2`, two agent scenarios and reset.
-- **Language audit:** English pages had no visible Arabic text apart from intentionally Arabic language-toggle labels. English and Arabic Lesson 2 controls were checked for consistent map scores.
-- **Hugging Face Space deployment:** not executed in a real account; `deploy.py` continues using the safe five-file allowlist and requests ZeroGPU. Account eligibility and remote build behaviour remain external dependencies.
-
-The word map in Lesson 2 is a **curated 2D teaching illustration**, not measured pretrained embeddings. The guided Lesson 4 chat is rule-based and does not run an LLM. Lesson 5 weather/search data and agent plans are explicitly illustrative. Lesson 3 retains its browser-only prediction experiment.
-
-Automated tests and screenshots do not establish full usability or accessibility certification on every device; classroom testing remains recommended.
+Lesson 2 map and percentage are illustrative teaching examples, not pretrained model measurements. Lesson 4 and Lesson 5 interactions are guided simulations, not a real hosted LLM.

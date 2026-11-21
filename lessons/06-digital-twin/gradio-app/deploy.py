@@ -14,6 +14,7 @@ from pathlib import Path
 
 from huggingface_hub import HfApi
 from huggingface_hub.errors import HfHubHTTPError
+from space_compat import GRADIO_VERSION, PYTHON_VERSION, require_compatible
 
 ROOT = Path(__file__).resolve().parent
 STATE_FILE = ROOT / '.space-deploy.json'  # Local only; deliberately not uploaded.
@@ -25,6 +26,8 @@ emoji: 🤖
 colorFrom: blue
 colorTo: indigo
 sdk: gradio
+sdk_version: {gradio_version}
+python_version: "{python_version}"
 app_file: app.py
 pinned: false
 ---
@@ -49,12 +52,18 @@ def stage_files(destination: Path, title: str) -> list[str]:
         raise FileNotFoundError('Missing app files: ' + ', '.join(missing))
     for name in UPLOAD_FILES:
         shutil.copyfile(ROOT / name, destination / name)
-    (destination / 'README.md').write_text(SPACE_README.format(title=title), encoding='utf-8')
+    (destination / 'README.md').write_text(SPACE_README.format(title=title, gradio_version=GRADIO_VERSION, python_version=PYTHON_VERSION), encoding='utf-8')
     return [*UPLOAD_FILES, 'README.md']
 
 
 def main() -> int:
     print('AI Learning Lab · Safe Space deployment')
+    try:
+        require_compatible()
+    except (OSError, RuntimeError) as exc:
+        print(f'Compatibility check failed: {exc}', file=sys.stderr)
+        print('Use the tested course requirements; run the release dependency check before uploading.', file=sys.stderr)
+        return 1
     try:
         api = HfApi()
         who = api.whoami()
@@ -90,6 +99,7 @@ def main() -> int:
             files = stage_files(Path(temp), slug.replace('-', ' ').title())
             print('✓ Only these files will be uploaded: ' + ', '.join(files))
             print('✓ .venv, caches, tests, local secrets and Git history are excluded')
+            print('✓ Validated Python, Gradio, Transformers and ZeroGPU versions')
             if not existing:
                 api.create_repo(
                     repo_id=repo_id, repo_type='space', space_sdk='gradio',
@@ -102,7 +112,7 @@ def main() -> int:
                 stage = str(getattr(info, 'hardware', '') or '')
                 requested = str(getattr(info, 'requested_hardware', '') or '')
                 if ZERO_GPU_HARDWARE not in (stage, requested):
-                    print(f'Existing Space uses {stage or requested or 'unknown'} hardware; not changing it automatically.')
+                    print(f"Existing Space uses {stage or requested or 'unknown'} hardware; not changing it automatically.")
                     print('Select ZeroGPU in Space Settings, or choose a fresh eligible Space name.')
                     return 1
             api.upload_folder(repo_id=repo_id, repo_type='space', folder_path=temp, commit_message='Deploy AI Learning Lab Digital Twin')
@@ -117,7 +127,7 @@ def main() -> int:
         elif status == 401:
             print('Authentication failed. Verify your Write token with: uvx hf auth whoami', file=sys.stderr)
         else:
-            print('Check the exact error above and the Space build logs. An older oversized Space can retain its tracked files.', file=sys.stderr)
+            print('Check the first error in Space build logs. If pip reports ResolutionImpossible, compare build environment versions with the pinned SDK and requirements.', file=sys.stderr)
         return 1
     print('\n✓ App files uploaded. Hugging Face may still be building your Space.')
     print(f'Open: https://huggingface.co/spaces/{repo_id}')

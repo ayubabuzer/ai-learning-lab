@@ -1,15 +1,17 @@
 [project]
 name = "ai-learning-lab-digital-twin"
-version = "0.2.0"
-description = "Bilingual, real-model Gradio Digital Twin for Hugging Face ZeroGPU"
+version = "0.3.0"
+description = "A ZeroGPU Digital Twin with tested dependency constraints"
 requires-python = ">=3.12,<3.13"
+# Local development constraints. Hugging Face provides Gradio, spaces and Hub
+# from its image; requirements.txt purposely excludes those platform packages.
 dependencies = [
-    "gradio>=6.5,<7",
-    "huggingface_hub>=0.34,<2",
-    "spaces>=0.47,<1",
+    "gradio==6.32.0",
+    "huggingface_hub>=1.31,<3",
+    "spaces==0.52.1",
     "torch==2.9.1",
-    "transformers>=4.57,<5",
-    "accelerate>=1.11,<2",
+    "transformers==5.23.0",
+    "accelerate==1.16.0",
 ]
 
 [tool.uv]

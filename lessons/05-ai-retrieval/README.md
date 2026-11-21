@@ -1,13 +1,9 @@
-# Lesson 05 — How Does AI Use Tools and Work Towards a Goal?
+# Lesson 05 — How Does AI Use Tools and Agents?
 
 [Arabic guide](README.ar.md) · [Open lesson](index.html)
 
-**Simple question:** How does an AI assistant know which tool to use, and how can an agent take several steps toward a goal?
+**Tool experiment:** Read the developer's tool instructions, such as **When someone asks about weather, use `weather_forecast`**. Choose one of three prepared questions; the tool-use chat shows the user question, requested tool, illustrative tool response and assistant answer. Students cannot enter unsupported free-text questions. Disable a tool and retry its prepared question.
 
-**Try it:** The developer supplies the names, descriptions and inputs for weather, calculator and search tools. Enable or disable them, then ask a question. The page shows the proposed tool call, the tool result and the assistant's reply. The arithmetic calculator handles inputs such as `5 x 2`, `5 × 2`, `5 * 2` and `12 + 8`. Search and weather results are intentionally fictional.
+**What is an agent?** Read the explanation *before* the automatic agent demonstration. An agent pursues a goal by deciding, acting, observing and choosing another action until it finishes or stops. Choose either the picnic or the headphones scenario, press **Run agent** and watch the "Considering the next step" indicator between the scripted steps. **Start again** resets the sequence.
 
-**Agent experiment:** Choose either the picnic-with-backup scenario or the budget-headphones scenario. Click **Run agent** to watch the simulated steps appear automatically. **Start again** resets the example. The agent pattern is goal → decide → act → observe → repeat or stop.
-
-**Technical honesty:** Tool routing is rule-based on this page; it does not invoke a live LLM, real weather API or product search. The agent executions are scripted to teach the sequence, not autonomous work. Real systems must validate permissions and know when to stop or ask for human approval.
-
-**Next:** Lesson 06 builds a real Digital Twin chatbot, not an autonomous agent.
+**Accuracy:** Routing, weather/search results and agent decisions are local teaching simulations, not a live AI model or current data. The calculator parser remains unit/browser tested, although the interface presents one prepared math question rather than free text.
