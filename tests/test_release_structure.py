@@ -117,12 +117,15 @@ class TestRelease(unittest.TestCase):
         self.assertIn('uv run python deploy.py',(LESSONS/FOLDERS[5]/'gradio-app'/'README.md').read_text())
 
     def test_gradio_deployment_prompt_guidance(self):
-        for p in (ROOT/'index.html', LESSONS/FOLDERS[5]/'index.html'):
-            t=p.read_text(encoding='utf-8')
-            for phrase in ('Add token as git credential?',
-                           'Enter Spaces app title [gradio-app]:',
-                           'Enter Gradio app file [app.py]:'):
-                with self.subTest(page=p,phrase=phrase):self.assertIn(phrase,t)
+        # Deployment prompts belong in Lesson 06, not the marketing homepage.
+        lesson=(LESSONS/FOLDERS[5]/'index.html').read_text(encoding='utf-8')
+        home=(ROOT/'index.html').read_text(encoding='utf-8')
+        for phrase in ('Add token as git credential?',
+                       'Enter Spaces app title [gradio-app]:',
+                       'Enter Gradio app file [app.py]:'):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase,lesson)
+                self.assertNotIn(phrase,home)
 
     def test_lesson03_training_before_misleading_challenge(self):
         t=(LESSONS/FOLDERS[2]/"index.html").read_text(encoding="utf-8")
@@ -132,6 +135,15 @@ class TestRelease(unittest.TestCase):
                       'The moon is made of rock'):
             with self.subTest(value=value):self.assertIn(value,t)
         self.assertLess(t.index('id="train"'),t.index('id="addChallenge"'))
+
+    def test_lesson03_real_training_bridge(self):
+        t=(LESSONS/FOLDERS[2]/"index.html").read_text(encoding="utf-8")
+        for marker in ('id="realTrainingHeading"', 'data-i="realTrainingIntro"',
+                       'data-i="sourceBooks"', 'data-i="sourceWeb"',
+                       'data-i="sourceArticles"', 'data-i="trainingTakeaway"',
+                       'من أين تتعلم النماذج اللغوية'):
+            with self.subTest(marker=marker): self.assertIn(marker,t)
+        self.assertGreater(t.index('realTrainingHeading'),t.index('id="challengeExamples"'))
 
     def test_lesson04_guided_chat_and_clear_context(self):
         t=(LESSONS/FOLDERS[3]/"index.html").read_text(encoding="utf-8")
@@ -224,16 +236,15 @@ class TestRelease(unittest.TestCase):
         self.assertIn('agentDefinitionTitle',lesson5)
 
     def test_windows_mac_guides(self):
-        for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
-            t=page.read_text(encoding="utf-8")
-            with self.subTest(page=page.name):
-                for value in ('data-os-tab="windows"', 'data-os-tab="mac"',
-                              'aria-selected="true" data-os-tab="windows"',
-                              'data-os-panel="mac" hidden', 'uv python install 3.12',
-                              'winget install --id Git.Git -e', 'git --version',
-                              'brew install uv', 'uvx hf auth whoami',
-                              'uv run python deploy.py', 'zero-a10g'):
-                    self.assertIn(value,t)
+        # Beginner deployment steps remain only on the bonus-project lesson page.
+        t=(LESSONS/FOLDERS[5]/"index.html").read_text(encoding="utf-8")
+        for value in ('data-os-tab="windows"', 'data-os-tab="mac"',
+                      'aria-selected="true" data-os-tab="windows"',
+                      'data-os-panel="mac" hidden', 'uv python install 3.12',
+                      'winget install --id Git.Git -e', 'git --version',
+                      'brew install uv', 'uvx hf auth whoami',
+                      'uv run python deploy.py', 'zero-a10g'):
+            with self.subTest(value=value): self.assertIn(value,t)
 
     def test_english_only_lesson6_and_image(self):
         page=(LESSONS/FOLDERS[5]/"index.html").read_text(encoding="utf-8")
@@ -243,22 +254,26 @@ class TestRelease(unittest.TestCase):
         self.assertNotIn('README.ar.md',page)
         self.assertIn('assets/digital-twin-hero.webp',page)
         self.assertTrue((LESSONS/FOLDERS[5]/"assets/digital-twin-hero.webp").is_file())
-        self.assertIn('lessons/06-digital-twin/assets/digital-twin-hero.webp',(ROOT/"index.html").read_text())
+        self.assertIn('id="bonus"',(ROOT/"index.html").read_text())
         self.assertIn('in English only', (app/"twin_core.py").read_text())
         self.assertNotIn('Arabic', (app/"app.py").read_text())
         self.assertFalse((app/"README.ar.md").exists())
 
     def test_full_clone_guides(self):
-        for page in (ROOT/"index.html",LESSONS/FOLDERS[5]/"index.html"):
-            text=page.read_text(encoding="utf-8")
-            self.assertNotIn('git sparse-checkout set lessons/06-digital-twin',text)
-            self.assertEqual(text.count('git clone https://github.com/ayubabuzer/ai-learning-lab.git'),4)
-            self.assertEqual(text.count('data-os-tab="windows"'),1)
+        lesson=(LESSONS/FOLDERS[5]/"index.html").read_text(encoding="utf-8")
+        home=(ROOT/"index.html").read_text(encoding="utf-8")
+        self.assertNotIn('git sparse-checkout set lessons/06-digital-twin',lesson)
+        self.assertEqual(lesson.count('git clone https://github.com/ayubabuzer/ai-learning-lab.git'),4)
+        self.assertEqual(lesson.count('data-os-tab="windows"'),1)
+        self.assertNotIn('git clone https://github.com/ayubabuzer/ai-learning-lab.git',home)
 
-    def test_homepage_deployment_guide(self):
+    def test_homepage_is_student_focused(self):
         t=(ROOT/"index.html").read_text(encoding="utf-8")
-        for val in ('deploy-guide','git clone','uv run app.py','uvx hf auth login','uv run python deploy.py','zero-a10g','huggingface.co/join'):
-            self.assertIn(val,t)
+        for value in ('AI doesn', 'id="lessons"', 'id="how"', 'id="bonus"',
+                      'Share it with the world.', 'assets/language-navigation.js'):
+            with self.subTest(value=value): self.assertIn(value,t)
+        for forbidden in ('id="deploy-guide"', 'uvx hf auth login', 'uv run python deploy.py'):
+            with self.subTest(forbidden=forbidden): self.assertNotIn(forbidden,t)
 
     def test_gradio_project_valid(self):
         folder=LESSONS/FOLDERS[5]/"gradio-app"

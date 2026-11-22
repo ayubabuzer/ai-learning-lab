@@ -1,3 +1,12 @@
+## Version 7 validation
+
+- 26/26 structural and documentation tests passed.
+- JavaScript syntax checks passed for the homepage and all six lesson pages.
+- Targeted Chromium desktop (1280 px) and mobile (390 px) checks passed for the homepage, Lesson 01, Lesson 03 (including Arabic translation), Lesson 04 context clearing and Lesson 05 calculator tool activity.
+- A static screenshot of the new Lesson 03 explanatory panel was visually reviewed.
+- Direct browser navigation to local HTTP URLs was blocked in this environment; cross-page language persistence was checked in source but must also be verified on the hosted site.
+- This release did not perform a live Hugging Face deployment or GPU inference run.
+
 # AI Learning Lab — Version 6.3 regression validation
 
 - Diagnosed the reported live Space exception at `app.py:_inputs`: Transformers 5 returns `BatchEncoding`, not a bare tensor. Confirmed in the official Transformers v5 migration guide.

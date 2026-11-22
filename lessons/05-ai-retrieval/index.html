@@ -9,6 +9,12 @@
 @media(max-width:650px){.tool-grid{grid-template-columns:1fr}.panel{padding:16px}}
 
 .tool-demo .controls#toolExamples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.tool-demo #toolExamples .btn{white-space:normal;text-align:start;min-height:64px;padding:10px}.agent-definition{border-inline-start:4px solid #90a9e8}.agent-definition h2{font-size:1.13rem}.agent-definition p{margin:.5rem 0}.chat-entry.thinking{opacity:.8;border-style:dashed}.thinking strong::before{content:'⏳ ';animation:thinkingPulse .9s ease-in-out infinite alternate}@keyframes thinkingPulse{from{opacity:.35}to{opacity:1}}@media(max-width:600px){.tool-demo .controls#toolExamples{grid-template-columns:1fr}.tool-demo #toolExamples .btn{min-height:44px}}
+
+.chat-entry.from-tool,.chat-entry.from-result,.chat-entry.from-decision,.chat-entry.thinking{margin-inline:12px!important;max-width:none!important;align-self:stretch!important;border:0!important;border-inline-start:2px solid #6588b4!important;background:transparent!important;border-radius:0!important;padding:6px 9px 6px 14px!important;font-size:.87rem;box-shadow:none!important}
+.chat-entry.from-result{border-inline-start-color:#78c8a9!important}.chat-entry.from-decision{color:#bdd3f4}.chat-entry.thinking{color:#d7e8ff}
+.chat-entry.from-tool strong,.chat-entry.from-result strong,.chat-entry.from-decision strong,.chat-entry.thinking strong{font-size:.77rem;letter-spacing:.02em;color:#a8bde0}.chat-entry.from-tool p,.chat-entry.from-result p,.chat-entry.from-decision p,.chat-entry.thinking p{margin:3px 0 0;overflow-wrap:anywhere}
+.chat-entry.from-tool:before{content:'⚙';padding-inline-end:7px}.chat-entry.from-result:before{content:'✓';padding-inline-end:7px;color:#8bdab7}.chat-entry.from-decision:before{content:'◇';padding-inline-end:7px}.chat-entry.thinking:before{content:'◌';padding-inline-end:7px;display:inline-block;animation:activityPulse .8s infinite alternate}
+@keyframes activityPulse{to{opacity:.25;transform:scale(.9)}}@media(prefers-reduced-motion:reduce){.chat-entry.thinking:before{animation:none}}
 </style></head><body><header class="top"><div class="wrap nav"><a class="brand" href="../../">✦ AI Learning Lab</a><nav aria-label="Lesson navigation" class="navlinks"><a class="btn" href="../04-ai-context-memory/" id="prevNav">← Lesson 04</a><a class="btn" href="../06-digital-twin/" id="nextNav">Lesson 06 →</a><button class="btn" id="lang" type="button">العربية</button></nav></div></header><main class="wrap"><section class="hero"><span class="eyebrow" data-t="eyebrow"></span><h1 data-t="title"></h1><p data-t="intro"></p><p class="hint" data-t="honest"></p></section>
 <section class="panel tool-demo input-zone"><h2 data-t="one"></h2><p class="muted" data-t="oneText"></p><p class="hint" data-t="toolRule"></p><div class="tool-grid"><div><div class="tag" data-t="toolInfo"></div><div class="tool-list" id="configuredTools"></div><p class="small" data-t="source"></p></div><div class="tool-conversation"><div class="chatbar">💬 <strong data-t="chatTitle"></strong></div><div aria-live="polite" class="tool-chat" id="toolChat"></div><div aria-label="Try a suggested question" class="controls" id="toolExamples"><button class="btn" data-example="math" type="button"></button><button class="btn" data-example="weather" type="button"></button><button class="btn" data-example="search" type="button"></button></div><div class="controls"><button class="btn" data-t="start" id="resetQuestion" type="button">Start again</button></div><p class="small" data-t="chooseHint"></p></div></div></section>
 <section class="panel agent-definition"><h2 data-t="agentDefinitionTitle">📖 What is an AI agent?</h2><p data-t="agentDefinition">An AI agent works towards a goal by deciding what to do next, using tools and checking their results. It stops when it succeeds, needs help or reaches its limit.</p><p class="small" data-t="agentCycle">Goal → Decide → Use a tool → Observe → Continue or stop.</p></section><section class="panel agent-demo"><h2 data-t="two"></h2><p class="muted" data-t="twoText"></p><label class="field" data-t="scenarioLabel" for="agentScenario"></label><select class="input" id="agentScenario"><option data-t="scenarioPicnic" value="picnic"></option><option data-t="scenarioHeadphones" value="headphones"></option></select><div class="tool-conversation"><div class="chatbar">🤖 <strong data-t="agentChatTitle"></strong></div><div aria-live="polite" class="tool-chat" id="agentChat"></div><div class="controls"><button class="btn primary" data-t="runAgent" id="runAgent" type="button"></button><button class="btn" data-t="start" id="restartAgent" type="button"></button></div></div></section>
@@ -67,37 +73,41 @@ function mathIntent(q){
   || /[0-9٠-٩۰-۹]\s*[*×xX÷/^+−-]\s*[-−+]?\s*[0-9٠-٩۰-۹(]/.test(q)
   || /[0-9٠-٩۰-۹]\s*[%٪]\s*of\s*[0-9٠-٩۰-۹]/i.test(q);
 }
+let toolTimers=[],toolJob=0;
+function cancelTool(){toolJob++;toolTimers.forEach(clearTimeout);toolTimers=[];document.querySelectorAll('[data-example]').forEach(b=>b.disabled=false)}
+function playTool(host,steps){
+ cancelTool();const job=toolJob;
+ document.querySelectorAll('[data-example]').forEach(b=>b.disabled=true);
+ let index=0;
+ function next(){if(job!==toolJob)return;if(index<steps.length){const step=steps[index++];bubble(host,step.type,step.title,step.body);toolTimers.push(setTimeout(next,index===1?320:420))}else document.querySelectorAll('[data-example]').forEach(b=>b.disabled=false)}
+ bubble(host,'thinking',language==='ar'?'النشاط':'Activity',language==='ar'?'جارٍ اختيار الأداة المناسبة…':'Selecting an available tool…');
+ const pending=host.lastElementChild;
+ toolTimers.push(setTimeout(()=>{if(job!==toolJob)return;pending.remove();next()},420));
+}
 function ask(q){
  q=(q||'').trim();if(!q)return;
  const host=$('toolChat');bubble(host,'from-user',tr().user,q);
  const item=selectTool(q);
- if(!item||!enabled.has(item.id)){bubble(host,'from-ai',tr().assistant,tr().missing);return}
+ if(!item||!enabled.has(item.id)){playTool(host,[{type:'from-ai',title:tr().assistant,body:tr().missing}]);return}
  if(item.id==='calculator'){
-  if(/weather|rain|temperature|forecast|طقس|مطر|حرار|\bnews\b|أخبار/i.test(q)){
-   bubble(host,'from-ai',tr().assistant,language==='ar'?'اسأل عن مهمة واحدة في كل مرة: عملية حسابية أو سؤال عن الطقس أو البحث.':'Please ask one task at a time: a calculation, weather, or search.');return;
-  }
-  const calc=parseMath(q);
-  if(calc.error){
-   bubble(host,'from-ai',tr().assistant,calc.error==='zero'?(language==='ar'?'القسمة على صفر غير معرّفة.':'Division by zero is undefined.'):(language==='ar'?'يدعم هذا المثال عملية حسابية واحدة بالأرقام والرموز + − × ÷ والأقواس. جرّب: ٥ × ٢ + ٣.':'This demo supports one arithmetic expression using numbers, +, −, ×, ÷, powers and parentheses. Try: 5 x 2 + 3.'));return;
-  }
-  bubble(host,'from-tool',tr().request,`calculator({expression:"${calc.expression}"})`);
-  bubble(host,'from-result',language==='ar'?'نتيجة الحاسبة':'Calculator result',String(calc.value));
-  bubble(host,'from-ai',tr().assistant,`${calc.expression} = ${calc.value}`);
-  return;
+   if(/weather|rain|temperature|forecast|طقس|مطر|حرار|\bnews\b|أخبار/i.test(q)){playTool(host,[{type:'from-ai',title:tr().assistant,body:language==='ar'?'اسأل عن مهمة واحدة في كل مرة.':'Please ask one task at a time.'}]);return}
+   const calc=parseMath(q);
+   if(calc.error){const body=calc.error==='zero'?(language==='ar'?'القسمة على صفر غير معرّفة.':'Division by zero is undefined.'):(language==='ar'?'جرّب ٥ × ٢ + ٣.':'Try a supported calculation such as 5 x 2 + 3.');playTool(host,[{type:'from-ai',title:tr().assistant,body}]);return}
+   playTool(host,[{type:'from-tool',title:tr().request,body:`calculator({expression:"${calc.expression}"})`},
+    {type:'from-result',title:language==='ar'?'نتيجة الحاسبة':'Calculator result',body:String(calc.value)},
+    {type:'from-ai',title:tr().assistant,body:`${calc.expression} = ${calc.value}`}]);return;
  }
- if(item.id==='weather'&&!/london|لندن/i.test(q)){
-  bubble(host,'from-ai',tr().assistant,language==='ar'?'هذا المثال يعرض طقس لندن الافتراضي فقط. جرّب السؤال عن لندن.':'This offline weather example only has fictional London data. Try asking about London.');return;
- }
- bubble(host,'from-tool',tr().request,item.call);
- bubble(host,'from-result',tr().reply,item.result);
- bubble(host,'from-ai',tr().assistant,item.answer);
+ if(item.id==='weather'&&!/london|لندن/i.test(q)){playTool(host,[{type:'from-ai',title:tr().assistant,body:language==='ar'?'هذا المثال يعرض طقس لندن الافتراضي فقط.':'This example has fictional London data only.'}]);return}
+ playTool(host,[{type:'from-tool',title:tr().request,body:item.call},
+   {type:'from-result',title:tr().reply,body:item.result},
+   {type:'from-ai',title:tr().assistant,body:item.answer}]);
 }
 const SCENARIOS={en:{picnic:{goal:'Plan a picnic this weekend and find an indoor backup.',steps:[['assistant','I need to compare weekend forecasts.'],['tool','weather_forecast({days:["Saturday","Sunday"]})'],['result','Example: Saturday rainy, Sunday dry.'],['assistant','Sunday is better. Now I need a backup if the forecast changes.'],['tool','web_search({query:"indoor picnic venues"})'],['result','Example: an indoor community centre is an option.'],['assistant','Goal reached: recommend Sunday, with an indoor fallback. Verify actual weather and venue availability.']]},headphones:{goal:'Find headphones under £60 that suit commuting.',steps:[['assistant','I should look for options under the budget.'],['tool','product_search({query:"commuter headphones under £60"})'],['result','Illustrative options: A (£75), B (£49), C (£55).'],['assistant','A is over budget. I should compare the other two for noise isolation.'],['tool','product_details({items:["B","C"]})'],['result','Example: B has passive isolation; C has active noise cancellation.'],['assistant','Goal reached: C matches the stated requirements in this fictional example; verify prices and stock before buying.']]}},ar:{picnic:{goal:'خطط لنزهة في نهاية الأسبوع مع بديل داخلي.',steps:[['assistant','سأقارن توقعات الطقس.'],['tool','weather_forecast({days:["Saturday","Sunday"]})'],['result','مثال: السبت ممطر والأحد جاف.'],['assistant','الأحد أفضل. سأبحث عن بديل إذا تغير الطقس.'],['tool','web_search({query:"indoor picnic venues"})'],['result','مثال: مركز مجتمعي داخلي خيار محتمل.'],['assistant','تحقق الهدف: أوصي بالأحد مع بديل داخلي. تحقق من الطقس والتوفر الحقيقيين.']]} ,headphones:{goal:'ابحث عن سماعات مناسبة للتنقل بسعر أقل من ٦٠ جنيهاً.',steps:[['assistant','سأبحث عن خيارات ضمن الميزانية.'],['tool','product_search({query:"commuter headphones under £60"})'],['result','خيارات توضيحية: A (٧٥£)، B (٤٩£)، C (٥٥£).'],['assistant','A خارج الميزانية. سأقارن العزل بين B و C.'],['tool','product_details({items:["B","C"]})'],['result','مثال: B عزل سلبي و C عزل نشط للضوضاء.'],['assistant','تحقق الهدف: C مطابق في هذا المثال الخيالي. تحقق من السعر والتوفر قبل الشراء.']]}}};
 let timer=null,agentRunning=false;function scenario(){return SCENARIOS[language][$('agentScenario').value]}
 function stop(){if(timer!==null){clearInterval(timer);timer=null;}agentRunning=false;$('runAgent').disabled=false;}
-function renderAgent(){const host=$('agentChat');host.replaceChildren();bubble(host,'from-user',tr().user,scenario().goal);for(let i=0;i<agentStep;i++){const step=scenario().steps[i];bubble(host,step[0]==='assistant'?'from-ai':step[0]==='tool'?'from-tool':'from-result',step[0]==='assistant'?tr().assistant:step[0]==='tool'?tr().request:tr().reply,step[1])}if(agentRunning){bubble(host,'thinking',tr().assistant,language==='ar'?'يختار الخطوة التالية…':'Considering the next step…')}}
+function renderAgent(){const host=$('agentChat');host.replaceChildren();bubble(host,'from-user',tr().user,scenario().goal);for(let i=0;i<agentStep;i++){const step=scenario().steps[i];bubble(host,step[0]==='assistant'?(i===scenario().steps.length-1?'from-ai':'from-decision'):step[0]==='tool'?'from-tool':'from-result',step[0]==='assistant'?(i===scenario().steps.length-1?tr().assistant:(language==='ar'?'الخطوة التالية':'Next action')):step[0]==='tool'?tr().request:tr().reply,step[1])}if(agentRunning){bubble(host,'thinking',tr().assistant,language==='ar'?'يختار الخطوة التالية…':'Considering the next step…')}}
 function runAgent(){if(agentRunning)return;agentStep=0;agentRunning=true;$('runAgent').disabled=true;renderAgent();timer=setInterval(()=>{agentStep++;if(agentStep>=scenario().steps.length){stop();renderAgent()}else renderAgent()},1150)}
 const examples={en:{math:'What is 5 x 2?',weather:'What is the weather in London?',search:'Find recent AI news'},ar:{math:'احسب 5 × 2',weather:'ما طقس لندن؟',search:'ابحث عن أخبار الذكاء الاصطناعي'}};
 for(const b of document.querySelectorAll('[data-example]'))b.onclick=()=>ask(examples[language][b.dataset.example]);
 function localize(){document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr';$('lang').textContent=language==='en'?'العربية':'English';document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=tr()[el.dataset.t]});$('prevNav').textContent=tr().previous;$('nextNav').textContent=tr().nextNav;$('prevTrail').textContent=tr().previous;$('nextTrail').textContent=tr().nextNav;$('homeTrail').textContent=tr().home;document.querySelectorAll('[data-example]').forEach(b=>b.textContent=examples[language][b.dataset.example]);renderTools();renderAgent()}
-$('lang').onclick=()=>{language=language==='en'?'ar':'en';$('toolChat').replaceChildren();stop();agentStep=0;localize()};$('resetQuestion').onclick=()=>{$('toolChat').replaceChildren()};$('runAgent').onclick=runAgent;$('restartAgent').onclick=()=>{stop();agentStep=0;renderAgent()};$('agentScenario').onchange=()=>{stop();agentStep=0;renderAgent()};localize();</script></body></html>
+$('lang').onclick=()=>{language=language==='en'?'ar':'en';cancelTool();$('toolChat').replaceChildren();stop();agentStep=0;localize()};$('resetQuestion').onclick=()=>{cancelTool();$('toolChat').replaceChildren()};$('runAgent').onclick=runAgent;$('restartAgent').onclick=()=>{stop();agentStep=0;renderAgent()};$('agentScenario').onchange=()=>{stop();agentStep=0;renderAgent()};localize();</script><script src="../../assets/language-navigation.js"></script></body></html>

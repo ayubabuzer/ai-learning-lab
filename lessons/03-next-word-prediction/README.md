@@ -11,3 +11,7 @@
 Real large language models learn patterns from extensive text including books, websites, articles and stories; this mini-model only counts patterns on this page.
 
 **Next:** Lesson 04 explains how a conversation's history can be sent to a model as temporary memory.
+
+### Where real models learn
+
+After the mini-model experiment, a book-icon comparison explains that real language models learn patterns from very large collections of text, potentially including books, websites, articles and other writing. Training occurs before chat; the model does not ordinarily reopen those sources when answering, and learned patterns can be inaccurate.

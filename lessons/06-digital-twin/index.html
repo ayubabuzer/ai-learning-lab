@@ -200,5 +200,5 @@ document.getElementById('showCert').addEventListener('click',()=>{showCertificat
 function setupOperatingSystemGuides(){for(const guide of document.querySelectorAll('.os-course')){const tabs=[...guide.querySelectorAll('[data-os-tab]')];for(const tab of tabs){tab.addEventListener('click',()=>{const os=tab.dataset.osTab;tabs.forEach(b=>b.setAttribute('aria-selected',String(b===tab)));guide.querySelectorAll('[data-os-panel]').forEach(panel=>{panel.hidden=panel.dataset.osPanel!==os})})}}}
 setupOperatingSystemGuides();
 </script>
-</body>
+<script src="../../assets/language-navigation.js"></script></body>
 </html>

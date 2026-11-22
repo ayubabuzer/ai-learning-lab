@@ -10,9 +10,9 @@ AI Learning Lab is a free, open-source learning website for people of all ages. 
 |---|---|---|
 | [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | How does a message become numbers? | Illustrative text pieces, token IDs and number patterns, followed by a conceptual word map |
 | [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Interactive example map with curated word comparisons; compact king/queen and ball/bag illustrations, **not** measured pretrained embeddings |
-| [03 · How Does AI Learn to Predict?](lessons/03-next-word-prediction/) | How do examples change predictions? | A genuine count-based mini predictor: **teach → test → change → teach again**, then an optional misleading-data challenge |
-| [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Guided chat: enter your own fact, ask a supported question, remove the fact from context and ask again; **not a live LLM** |
-| [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How do tools and goal-seeking agents work? | Offline tool-call simulation with real arithmetic and two replayable agent scenarios; illustrative external data |
+| [03 · How Does AI Learn to Predict?](lessons/03-next-word-prediction/) | How do examples change predictions? | A genuine count-based mini predictor: **teach → test → change → teach again**, a brief explanation of how large models learn from text, then an optional misleading-data challenge |
+| [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Guided chat: tap or drag prepared fact cards into context, ask a supported question, clear the context and ask again; **not a live LLM** |
+| [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How do tools and goal-seeking agents work? | Offline tool-call activity trace with real arithmetic and two replayable agent scenarios; illustrative external data |
 | [06 · Build Your Own Digital Twin](lessons/06-digital-twin/) | How can I create and share a real chatbot? | Real Qwen-based Gradio app (English-only), with fictional-profile context and optional Hugging Face ZeroGPU deployment |
 
 Each lesson follows **short explanation → meaningful experiment or illustrated example → change something → discovery → connection to the next lesson**. A lesson may be interactive without pretending that every illustration is a trained model. The first lesson introduces words and numbers; later lessons introduce context, prediction, memory, tools and agents.
@@ -27,7 +27,7 @@ uv run app.py
 
 Local model inference can be slow and requires a capable computer. For optional Hugging Face deployment, read [the full account, token and deployment guide](lessons/06-digital-twin/gradio-app/README.md). Use `uvx hf auth login` followed by `uv run python deploy.py` when eligible; never put tokens or private personal data into public project files. The Digital Twin is a conversational chatbot, **not an autonomous agent**. ZeroGPU account eligibility, quotas and availability must be checked before deployment; successful public deployment has **not** been verified as part of this release.
 
-**Repo layout:** Keep exactly the six existing lesson directories. The `05-ai-retrieval` directory retains its name to preserve URLs; its lesson now teaches tools, workflows and agents. Do not create a duplicate Lesson 05 folder. Lesson 06 remains English-only.
+**Repo layout:** Keep exactly the six existing lesson directories. The `05-ai-retrieval` directory retains its name to preserve URLs; its lesson now teaches tool selection and agents. Do not create a duplicate Lesson 05 folder. Lesson 06 remains English-only.
 
 ### Hugging Face access token checklist
 

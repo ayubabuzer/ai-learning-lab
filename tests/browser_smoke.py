@@ -10,7 +10,7 @@ import shutil
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
-PAGES=['index.html','lessons/01-how-ai-reads-words/index.html','lessons/02-word-embeddings/index.html','lessons/04-ai-context-memory/index.html','lessons/05-ai-retrieval/index.html']
+PAGES=['index.html','lessons/01-how-ai-reads-words/index.html','lessons/02-word-embeddings/index.html','lessons/03-next-word-prediction/index.html','lessons/04-ai-context-memory/index.html','lessons/05-ai-retrieval/index.html']
 
 def check_calculator_matrix(page):
   """Exercise calculator parser directly; UI only offers prepared questions."""
@@ -54,14 +54,17 @@ def check_calculator_matrix(page):
   # Only prepared questions are shown to students.
   assert page.locator('#userQuestion').count()==0
   page.locator('[data-example="math"]').click()
-  assert '5 × 2 = 10' in page.locator('#toolChat').inner_text()
+  page.wait_for_function("document.querySelector('#toolChat .from-ai')?.textContent.includes('5 × 2 = 10')",timeout=5000)
+  page.wait_for_function("!document.querySelector('[data-example=math]').disabled",timeout=5000)
   page.locator('#configuredTools input').nth(1).uncheck()
   page.locator('[data-example="math"]').click()
-  assert 'no matching enabled tool' in page.locator('#toolChat').inner_text()
+  page.wait_for_function("document.querySelector('#toolChat .from-ai:last-child')?.textContent.includes('no matching enabled tool')",timeout=5000)
+  page.wait_for_function("!document.querySelector('[data-example=math]').disabled",timeout=5000)
   page.locator('#configuredTools input').nth(1).check()
   page.locator('#lang').click()
   page.locator('[data-example="math"]').click()
-  assert '5 × 2 = 10' in page.locator('#toolChat').inner_text()
+  page.wait_for_function("document.querySelector('#toolChat .from-ai:last-child')?.textContent.includes('5 × 2 = 10')",timeout=5000)
+  page.wait_for_function("!document.querySelector('[data-example=math]').disabled",timeout=5000)
   page.locator('#lang').click()
 
 def check_random_arithmetic(page):
@@ -113,14 +116,23 @@ def check():
           page.locator('#language').click()
           assert page.locator('html').get_attribute('dir')=='rtl'
           assert page.locator('#score').inner_text()==changed
+        if '03-' in path:
+          assert page.locator('#realTrainingHeading').is_visible()
+          assert 'books' in page.locator('.training-story').inner_text().lower()
+          page.locator('#starter').fill('The cat drinks')
+          page.locator('#predict').click()
+          page.wait_for_function("document.querySelector('#results').textContent.includes('%')",timeout=4000)
+          page.locator('#lang').click()
+          assert page.locator('html').get_attribute('dir')=='rtl'
+          assert 'الكتب' in page.locator('.training-story').inner_text() or 'كتب' in page.locator('.training-story').inner_text()
         if '04-' in path:
           page.locator('#factPalette .fact-card').first.click()
           assert page.locator('#context .fact').count()==1
           page.locator('#ask').click()
-          assert 'Your dog’s name is Milo.' in page.locator('#messages').inner_text()
+          page.wait_for_function("document.querySelector('#messages').textContent.includes('Your dog’s name is Milo.')",timeout=4000)
           page.locator('#clear').click()
           page.locator('#ask').click()
-          assert 'I don’t know that from the current context.' in page.locator('#messages').inner_text()
+          page.wait_for_function("document.querySelector('#messages').textContent.includes('I don’t know that from the current context.')",timeout=4000)
           assert page.locator('#context .fact').count()==0
           page.locator('#factPalette .fact-card').nth(1).drag_to(page.locator('#dropTarget'))
           assert page.locator('#context .fact').count()==1
