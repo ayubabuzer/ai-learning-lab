@@ -6,17 +6,20 @@ This is **one English-only generative AI chatbot**. The same `app.py` runs on yo
 
 ## Deploy your Digital Twin
 
-After creating a Hugging Face **Write** access token and connecting with `uvx hf auth login`, run this command **from this `gradio-app` folder**:
+After creating a Hugging Face **Write** access token and connecting with `uvx hf auth login`, run this command **from this `gradio-app` folder**. It installs only the small Hub client, not the model or PyTorch:
 
 ```bash
-uv run python deploy.py
+uv run deploy.py
 ```
 
-The script asks for your Space name once, remembers it locally in `.space-deploy.json`, creates or updates your Space, and uploads **only** `app.py`, `twin_core.py`, `about-me.txt`, `requirements.txt`, and a generated Hugging Face Space `README.md`. It excludes your 747 MB `.venv`, caches, test files, Git history, and credentials by construction. The local Space name file is excluded from Git and uploads. Subsequent deployments use the same command. **If an older Space already contains too many tracked files, deploy under a NEW Space name** rather than trying to upload to the oversized repository. The script does not delete old files.
+First you may check locally without uploading by running `uv run deploy.py --check`. The script asks for your Space name once, remembers it locally in `.space-deploy.json`, creates or updates your Space, and uploads **only** `app.py`, `twin_core.py`, `about-me.txt`, `requirements.txt`, and a generated Hugging Face Space `README.md`. It excludes your 747 MB `.venv`, caches, test files, Git history, and credentials by construction. The local Space name file is excluded from Git and uploads. Subsequent deployments use the same command. **If an older Space already contains too many tracked files, deploy under a NEW Space name** rather than trying to upload to the oversized repository. The script does not delete old files.
 
 Open the URL printed by the script. Wait for **Running**, open **App**, and test the chatbot. If it fails, inspect **Logs** and **Settings → Hardware**. The script requests ZeroGPU when creating the Space. Hugging Face must still approve account eligibility and start the app; uploading code does not guarantee GPU availability. Only use fictional profile information in `about-me.txt` because Space files may be public.
 
 The interactive prompts shown later in this guide are for the *optional, older Gradio CLI deployment method*, not this recommended script. Students using `deploy.py` do not need to answer GitHub Actions, Space app file, or git credential prompts during deployment.
+
+
+**Windows deployment is lightweight:** `deploy.py` includes uv inline script metadata, so `uv run deploy.py` creates a dedicated environment with only `huggingface_hub`. It does not run Qwen or download the 4 GB model on the student's PC. Local testing (`uv run python app.py`) is a separate, optional heavyweight step. A Windows user can complete the online deployment without running the AI locally.
 
 ## Why we test versions before deployment
 
@@ -32,17 +35,17 @@ For contributors, run `python space_compat.py` and the GitHub Actions dependency
 4. Copy the token privately. It may only be displayed once; if you lose it, generate a new token. **Never paste it into your source code, Git history, public screenshots, or `about-me.txt`.**
 5. In the project terminal, use `uvx hf auth login`. This uses `uv` to run the CLI without adding a separate project dependency. If offered a browser or token method, choose **access-token login**, paste the token at the hidden prompt, and press Enter. If the terminal asks `Add token as git credential? (Y/n)`, choose `n` for this CLI deployment, or `Y` if you also plan to push changes using Git from this computer. Git-credential storage is optional for Gradio deployment.
 6. Verify with `uvx hf auth whoami`. Your Hugging Face username should appear. If authentication fails, recheck your token, its role, and whether it has been revoked.
-7. Continue to `uv run python deploy.py` only after authentication succeeds. If you already have `huggingface_hub` in your project dependencies, `uv run hf auth login` and `uv run hf auth whoami` are valid alternatives; **do not install it twice**.
+7. Continue to `uv run deploy.py` only after authentication succeeds. If you already have `huggingface_hub` in your project dependencies, `uv run hf auth login` and `uv run hf auth whoami` are valid alternatives; **do not install it twice**.
 
 A public model download alone cannot verify the Write role. You can confirm the token role on the token settings page. ZeroGPU hosting also requires separate account eligibility and does not follow automatically from token permissions.
 
-## Windows setup
+## Windows setup (PowerShell, Windows 10/11)
 
 1. Open **PowerShell**.
-2. Check Git: `git --version`. If missing: `winget install --id Git.Git -e` (then reopen PowerShell).
-3. Install uv: `winget install --id astral-sh.uv -e`, reopen PowerShell, check `uv --version`.
+2. Check Git: `git --version`. If missing: `winget install --id Git.Git -e` (then reopen PowerShell). If `winget` is missing, use the [Git for Windows installer](https://git-scm.com/install/windows).
+3. Install uv: `winget install --id astral-sh.uv -e`, reopen PowerShell, then verify `uv --version`. If `winget` is missing, follow the [official uv Windows installer](https://docs.astral.sh/uv/getting-started/installation/). Do not use the macOS `curl | sh` command in PowerShell.
 4. Install Python: `uv python install 3.12`.
-5. Clone the full project in a **fresh folder**:
+5. Clone the full project in a **fresh folder**, then navigate to it:
 
 ```powershell
 git clone https://github.com/ayubabuzer/ai-learning-lab.git
@@ -51,10 +54,10 @@ cd lessons/06-digital-twin/gradio-app
 ```
 
 6. Edit `about-me.txt` (`notepad about-me.txt`).
-7. Test on a capable computer: `uv run app.py`. Open `http://127.0.0.1:7860`; stop with Ctrl+C.
+7. **Optional local model test:** only on a computer with sufficient memory, run `uv run python app.py`. This downloads the model and heavy packages. Windows students without suitable hardware can **skip** it and deploy directly. If you do run it, open `http://127.0.0.1:7860` and stop with Ctrl+C.
 8. Create/verify a Hugging Face account at https://huggingface.co/join.
 9. **First create the Write token using the guide above**, then run `uvx hf auth login`, paste the token when prompted, and verify with `uvx hf auth whoami`.
-10. Deploy from the folder containing `app.py`: `uv run python deploy.py`. Choose `zero-a10g` when possible.
+10. Verify deployment files with `uv run deploy.py --check` (optional), then publish from the folder containing `app.py` using `uv run deploy.py`. The script requests `zero-a10g` automatically; no manual hardware selection or GitHub Action prompts are required.
 11. Check Space settings and test the public link in English.
 
 ## Mac setup
@@ -63,7 +66,7 @@ cd lessons/06-digital-twin/gradio-app
 2. Check Git: `git --version`. If missing, install Command Line Tools: `xcode-select --install`.
 3. Install `uv` with `brew install uv` (if Homebrew is installed), **or** `curl -LsSf https://astral.sh/uv/install.sh | sh`. Reopen Terminal and check `uv --version`.
 4. Install Python: `uv python install 3.12`.
-5. Clone the full project in a **fresh folder**:
+5. Clone the full project in a **fresh folder**, then navigate to it:
 
 ```bash
 git clone https://github.com/ayubabuzer/ai-learning-lab.git
@@ -72,10 +75,10 @@ cd lessons/06-digital-twin/gradio-app
 ```
 
 6. Edit your fictional facts: `open -e about-me.txt`.
-7. Optionally test locally: `uv run app.py`; stop with Ctrl+C.
+7. Optionally test locally on a capable computer: `uv run python app.py`; stop with Ctrl+C.
 8. Create and verify your Hugging Face account.
 9. **First create the Write token using the guide above**, then log in with `uvx hf auth login` and verify with `uvx hf auth whoami`.
-10. Publish: `uv run python deploy.py`; select `zero-a10g` if available.
+10. Publish: `uv run deploy.py`; the script requests `zero-a10g` automatically for eligible accounts.
 11. Check Space settings, test and share your public link.
 
 **Already cloned?** Don't clone again; simply open the `lessons/06-digital-twin/gradio-app` folder of your existing repository.
@@ -106,11 +109,11 @@ If the upload actually fails because the folder is too large, consult the [offic
 
 ## After deployment: open and run your app
 
-1. **Find your Space link.** When `uv run python deploy.py` finishes successfully, open the URL printed by the terminal, usually `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE`. Replace both placeholders; do not copy them literally. If you lost the URL, log in to [Hugging Face Spaces](https://huggingface.co/spaces), open your profile and find the Space you own.
+1. **Find your Space link.** When `uv run deploy.py` finishes successfully, open the URL printed by the terminal, usually `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE`. Replace both placeholders; do not copy them literally. If you lost the URL, log in to [Hugging Face Spaces](https://huggingface.co/spaces), open your profile and find the Space you own.
 2. **Check its state.** Open the **App** tab. The page may say *Building* or *Starting* while dependencies and model files are prepared. If it fails, open the Space's **Logs** (build and runtime) to see why. Check **Settings → Hardware** for the expected eligible `zero-a10g` configuration.
 3. **Run a chat.** Once the app is Running, type an English question into the Gradio chat input such as `What is your name?`, then press **Enter** or **Send**. Ask another question about a fact in your fictional `about-me.txt`. Test one unknown fact too; the model may still hallucinate.
-4. **Share or return later.** Copy the Space page URL and open it in another browser tab to verify public access. You **do not have to keep your laptop, terminal, or `uv run app.py` running** after successful deployment: Hugging Face hosts it. On free/shared resources the Space may sleep, wait in a GPU queue or exhaust a quota. Return to the Space URL and check logs if it does not respond.
-5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run python deploy.py` (or use a configured Space/Git sync). Local file edits do not automatically update an existing Space when you answered `n` to the GitHub Action question.
+4. **Share or return later.** Copy the Space page URL and open it in another browser tab to verify public access. You **do not have to keep your laptop, terminal, or `uv run python app.py` running** after successful deployment: Hugging Face hosts it. On free/shared resources the Space may sleep, wait in a GPU queue or exhaust a quota. Return to the Space URL and check logs if it does not respond.
+5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run deploy.py` (or use a configured Space/Git sync). Local file edits do not automatically update the hosted Space; use the same script to redeploy after changing files.
 
 ## If a chat still fails after deployment
 
@@ -120,7 +123,7 @@ If the upload actually fails because the folder is too large, consult the [offic
 4. For `ZeroGPU quota exceeded`, the visitor's GPU allowance needs to reset. For `CUDA` or worker errors, use the runtime traceback to investigate the actual failure. Repeatedly redeploying without reading logs will not fix a quota or infrastructure error.
 5. The app uses one request at a time to reduce shared-GPU contention. A cold GPU or model load can still be slow. Don't claim a request succeeded until a real model reply appears.
 
-To republish the corrected code from this folder, use `uv run python deploy.py`, then open the existing Space URL and test **What is your name?** and **Where do you live?**.
+To republish the corrected code from this folder, use `uv run deploy.py`, then open the existing Space URL and test **What is your name?** and **Where do you live?**.
 
 ## About hosting and speed
 
@@ -148,4 +151,4 @@ Official docs: [uv](https://docs.astral.sh/uv/getting-started/installation/), [G
 
 ### Free ZeroGPU deployment (current hosting requirements)
 
-`uv run python deploy.py` explicitly requests `space_hardware="zero-a10g"` when creating the Gradio Space. This avoids the default CPU Basic creation request, which may return HTTP 402 for free accounts. Hugging Face currently permits up to two free ZeroGPU Spaces for eligible personal accounts (verified email, account older than 30 days). No new Space or successful build is guaranteed: account restrictions, queues, and runtime limits still apply. Existing Spaces are never switched to a different hardware type silently. The file allowlist excludes `.venv`.
+`uv run deploy.py` explicitly requests `space_hardware="zero-a10g"` when creating the Gradio Space. This avoids the default CPU Basic creation request, which may return HTTP 402 for free accounts. Hugging Face currently permits up to two free ZeroGPU Spaces for eligible personal accounts (verified email, account older than 30 days). No new Space or successful build is guaranteed: account restrictions, queues, and runtime limits still apply. Existing Spaces are never switched to a different hardware type silently. The file allowlist excludes `.venv`.

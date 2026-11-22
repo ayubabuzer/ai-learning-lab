@@ -24,7 +24,7 @@ Show that developers describe available tools and their expected inputs. Ask a w
 
 ## Lesson 06 — Real Digital Twin (30–45 min plus optional setup)
 
-Edit fictional `about-me.txt`, then `uv run app.py` on suitable hardware or publish using eligible Hugging Face ZeroGPU (model downloads and quotas apply). Use the complete [English-only setup, account, token and Gradio deployment guide](lessons/06-digital-twin/gradio-app/README.md); clone **the whole repository** with ordinary `git clone`. Students test supported and unsupported facts, note possible hallucinations and discuss why this is a chatbot rather than an autonomous agent. Never include private learner details or publish access tokens.
+Edit fictional `about-me.txt`, then `uv run python app.py` on suitable hardware or publish using eligible Hugging Face ZeroGPU (model downloads and quotas apply). Use the complete [English-only setup, account, token and Gradio deployment guide](lessons/06-digital-twin/gradio-app/README.md); clone **the whole repository** with ordinary `git clone`. Students test supported and unsupported facts, note possible hallucinations and discuss why this is a chatbot rather than an autonomous agent. Never include private learner details or publish access tokens.
 
 **Classroom safety:** Keep personal information fictional, distinguish actual computations from illustrative stories, and check internet and hardware limitations before teaching. All website files remain in the same six canonical lesson folders.
 

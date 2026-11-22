@@ -34,14 +34,14 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">02</span><div class="course-text">
 <h3>Install Git</h3>
-<p>Check whether Git is installed. If missing, install it with winget, then restart PowerShell.</p>
+<p>Check whether Git is installed. If missing, install it with winget, then reopen PowerShell. If winget is unavailable, use the Git for Windows link below.</p>
 <div class="course-command"><code dir="ltr">git --version</code><button aria-label="Copy command" class="copy copy-code" data-copy="git --version" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">winget install --id Git.Git -e</code><button aria-label="Copy command" class="copy copy-code" data-copy="winget install --id Git.Git -e" type="button">⧉</button></div>
 <div class="course-links"><a href="https://git-scm.com/downloads/win" rel="noopener noreferrer" target="_blank">Git for Windows</a></div>
 </div></article>
 <article class="course-step"><span class="course-number">03</span><div class="course-text">
 <h3>Install uv</h3>
-<p>uv manages Python and the app dependencies. Restart PowerShell after installation.</p>
+<p>uv manages Python and the app dependencies. Reopen PowerShell after installation. If winget is unavailable, use the official uv install guide linked below.</p>
 <div class="course-command"><code dir="ltr">winget install --id astral-sh.uv -e</code><button aria-label="Copy command" class="copy copy-code" data-copy="winget install --id astral-sh.uv -e" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">uv --version</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv --version" type="button">⧉</button></div>
 <div class="course-links"><a href="https://docs.astral.sh/uv/getting-started/installation/" rel="noopener noreferrer" target="_blank">uv install guide</a></div>
@@ -59,19 +59,19 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">06</span><div class="course-text">
 <h3>Open the Digital Twin folder</h3>
-<p>From the cloned project, open the Lesson 06 Gradio app folder. If you already cloned the repository, use your existing gradio-app folder.</p>
+<p>From the cloned project, enter the Lesson 06 Gradio app folder. Run both commands below only after cloning. If you already have the project, navigate to your existing folder instead.</p>
 <div class="course-command"><code dir="ltr">cd ai-learning-lab</code><button aria-label="Copy command" class="copy copy-code" data-copy="cd ai-learning-lab" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">cd lessons/06-digital-twin/gradio-app</code><button aria-label="Copy command" class="copy copy-code" data-copy="cd lessons/06-digital-twin/gradio-app" type="button">⧉</button></div>
 </div></article>
 <article class="course-step"><span class="course-number">07</span><div class="course-text">
 <h3>Personalise your knowledge file</h3>
 <p>Edit about-me.txt and save a fictional profile. Do not publish private information.</p>
-<div class="course-command"><code dir="ltr">open -e about-me.txt</code><button aria-label="Copy command" class="copy copy-code" data-copy="open -e about-me.txt" type="button">⧉</button></div>
+<div class="course-command"><code dir="ltr">notepad about-me.txt</code><button aria-label="Copy command" class="copy copy-code" data-copy="notepad about-me.txt" type="button">⧉</button></div>
 </div></article>
 <article class="course-step"><span class="course-number">08</span><div class="course-text">
 <h3>Try the chatbot locally (optional)</h3>
-<p>uv installs the dependencies and starts Gradio. The model download can be several gigabytes; on a basic computer, you may skip this test.</p>
-<div class="course-command"><code dir="ltr">uv run app.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run app.py" type="button">⧉</button></div>
+<p>Optional: this installs the full AI model and dependencies and may require significant memory and several gigabytes of downloads. Learners without a suitable machine should skip local inference and deploy the Space instead.</p>
+<div class="course-command"><code dir="ltr">uv run python app.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run python app.py" type="button">⧉</button></div>
 </div></article>
 <article class="course-step"><span class="course-number">09</span><div class="course-text">
 <h3>Create and verify your Hugging Face account</h3>
@@ -80,28 +80,26 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">10</span><div class="course-text">
 <h3>Sign in safely from the terminal</h3>
-<p>If asked, create a write-capable token. Keep it private; never paste it into public files.</p>
+<p><strong>Before running login:</strong> open Access tokens, create a token with <strong>Write</strong> permissions, and copy it privately. Then run the login command below and paste the token when prompted. Never put the token in the project or public files.</p>
 <div class="course-command"><code dir="ltr">uvx hf auth login</code><button aria-label="Copy command" class="copy copy-code" data-copy="uvx hf auth login" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">uvx hf auth whoami</code><button aria-label="Copy command" class="copy copy-code" data-copy="uvx hf auth whoami" type="button">⧉</button></div>
 <div class="course-links"><a href="https://huggingface.co/settings/tokens" rel="noopener noreferrer" target="_blank">Access tokens</a></div>
 
 </div></article>
 <article class="course-step"><span class="course-number">11</span><div class="course-text">
-<h3>Deploy with Gradio and choose ZeroGPU</h3>
+<h3>Publish with our safe script</h3>
 <p>From the Gradio project folder, run the same deployment command used in the course. Our deployment script requests ZeroGPU (zero-a10g) automatically when creating the Space. You do not need to select hardware in a terminal prompt.</p>
-<div class="course-command"><code dir="ltr">uv run python deploy.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run python deploy.py" type="button">⧉</button></div>
-<div class="hint"><strong>Interactive terminal prompts — answer them in order:</strong><ol>
-<li><code>Add token as git credential? (Y/n)</code> — Choose <strong>n</strong> for this course's CLI deployment. Choose <strong>Y</strong> only if you also intend to push to your Hugging Face Space using Git from this computer. This stores a credential for Git; it is not required for Gradio deployment.</li>
-<li><code>Enter Spaces app title [gradio-app]:</code> — Type a distinctive public title such as <code>my-ai-digital-twin</code>, or press <strong>Enter</strong> to keep <code>gradio-app</code>.</li>
-<li><code>Enter Gradio app file [app.py]:</code> — Press <strong>Enter</strong>; this project uses <code>app.py</code>.</li>
-<li><code>Create Github Action to automatically update Space on 'git push'? [n]:</code> — Press <strong>Enter</strong> to select <strong>n</strong>. This course uses manual deployment; choosing yes requires maintaining a GitHub Action and its credentials.</li>
-<li>For subsequent prompts about visibility, choose <strong>public</strong> only if your fictional profile is safe to publish. Confirm the account/Space owner, then check the proposed hardware and choose <code>zero-a10g</code> if available. Other prompts vary by Gradio version; read them before accepting a default.</li>
-</ol><p><strong>These prompts are not errors.</strong> Metadata collection creates a new Space and uploads the app. A Write token grants permission for resources your account controls, but does not create the Space until you deploy.</p></div>
-<p class="hint"><strong>Large-folder warning:</strong> If the CLI says it is trying to upload a large folder, this is not necessarily a failure. Let the command finish, and check the Space/build logs. Confirm the current folder is <code>lessons/06-digital-twin/gradio-app</code>, and do not upload virtual environments, caches, local model weights or tokens. If it really fails due to size, use the <a href="https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder" target="_blank" rel="noopener noreferrer">official large-folder upload guide</a> for a deliberate upload to the existing Space.</p>
+<p class="course-hint">Optional check before publishing: <code>uv run deploy.py --check</code> validates the files without contacting Hugging Face.</p>
+<div class="course-command"><code dir="ltr">uv run deploy.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run deploy.py" type="button">⧉</button></div>
+<div class="hint"><strong>What our deployment script will ask:</strong><ol>
+<li><strong>Choose a Space name</strong> — Enter a simple name such as <code>my-ai-digital-twin</code>, or press Enter for the suggested name.</li>
+<li>The script selects the five app files, requests free <code>zero-a10g</code> hardware for eligible accounts, and prints your Space URL. <strong>No Git credential, GitHub Action or app-file selection prompts are part of this command.</strong></li>
+</ol><p><strong>Before deployment:</strong> Create a Hugging Face Write token at the linked page, log in using <code>uvx hf auth login</code>, and verify with <code>uvx hf auth whoami</code>. Keep your token private.</p></div>
+<p class="hint"><strong>Safe upload:</strong> <code>deploy.py</code> stages only five source files. Your local <code>.venv</code>, model downloads, and Git history are never uploaded. A large-folder warning belongs to the older <code>gradio deploy</code> workflow, not our recommended script.</p>
 <p class="course-alert">⚠️ The script requests <strong>zero-a10g</strong> automatically, not <strong>cpu-basic</strong>. Free hosting requires an eligible account; queues and limits apply. The deploy tool may not offer hardware selection in every version—verify it on Hugging Face.</p></div></article>
 <article class="course-step"><span class="course-number">12</span><div class="course-text">
 <h3>Test your public link and share it</h3>
-<p><strong>Open and run the deployed app:</strong> At the end of a successful deploy, open the Space URL shown in the terminal (typically <code>https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE</code>). If you missed it, sign in to Hugging Face → profile → Spaces → choose your Space. Click the <strong>App</strong> tab. If it says Building or Starting, view the build/runtime logs and return when the app is Running. Type an English question about the fictional character in the chat box and press Enter/Send. Try a question the profile does not answer as well. Hugging Face runs the deployed app: you do <strong>not</strong> need to keep <code>uv run app.py</code> running locally. If it sleeps, queues for GPU or shows an error, reload the Space and inspect <strong>Logs</strong> and <strong>Settings → Hardware</strong>. Share your link only after confirming the chat works.</p>
+<p><strong>Open and run the deployed app:</strong> At the end of a successful deploy, open the Space URL shown in the terminal (typically <code>https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE</code>). If you missed it, sign in to Hugging Face → profile → Spaces → choose your Space. Click the <strong>App</strong> tab. If it says Building or Starting, view the build/runtime logs and return when the app is Running. Type an English question about the fictional character in the chat box and press Enter/Send. Try a question the profile does not answer as well. Hugging Face runs the deployed app: you do <strong>not</strong> need to keep <code>uv run python app.py</code> running locally. If it sleeps, queues for GPU or shows an error, reload the Space and inspect <strong>Logs</strong> and <strong>Settings → Hardware</strong>. Share your link only after confirming the chat works.</p>
 <div class="course-links"><a href="https://huggingface.co/spaces" rel="noopener noreferrer" target="_blank">Your Spaces</a></div>
 </div></article>
 </div><div class="os-panel" data-os-panel="mac" hidden="">
@@ -138,7 +136,7 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">06</span><div class="course-text">
 <h3>Open the Digital Twin folder</h3>
-<p>From the cloned project, open the Lesson 06 Gradio app folder. If you already cloned the repository, use your existing gradio-app folder.</p>
+<p>From the cloned project, enter the Lesson 06 Gradio app folder. Run both commands below only after cloning. If you already have the project, navigate to your existing folder instead.</p>
 <div class="course-command"><code dir="ltr">cd ai-learning-lab</code><button aria-label="Copy command" class="copy copy-code" data-copy="cd ai-learning-lab" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">cd lessons/06-digital-twin/gradio-app</code><button aria-label="Copy command" class="copy copy-code" data-copy="cd lessons/06-digital-twin/gradio-app" type="button">⧉</button></div>
 </div></article>
@@ -149,8 +147,8 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">08</span><div class="course-text">
 <h3>Try the chatbot locally (optional)</h3>
-<p>uv installs the dependencies and starts Gradio. The model download can be several gigabytes; on a basic computer, you may skip this test.</p>
-<div class="course-command"><code dir="ltr">uv run app.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run app.py" type="button">⧉</button></div>
+<p>Optional: this installs the full AI model and dependencies and may require significant memory and several gigabytes of downloads. Learners without a suitable machine should skip local inference and deploy the Space instead.</p>
+<div class="course-command"><code dir="ltr">uv run python app.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run python app.py" type="button">⧉</button></div>
 </div></article>
 <article class="course-step"><span class="course-number">09</span><div class="course-text">
 <h3>Create and verify your Hugging Face account</h3>
@@ -159,34 +157,32 @@ button,input{font:inherit}a{color:#a7c5ff;text-decoration:none}a:hover{text-deco
 </div></article>
 <article class="course-step"><span class="course-number">10</span><div class="course-text">
 <h3>Sign in safely from the terminal</h3>
-<p>If asked, create a write-capable token. Keep it private; never paste it into public files.</p>
+<p><strong>Before running login:</strong> open Access tokens, create a token with <strong>Write</strong> permissions, and copy it privately. Then run the login command below and paste the token when prompted. Never put the token in the project or public files.</p>
 <div class="course-command"><code dir="ltr">uvx hf auth login</code><button aria-label="Copy command" class="copy copy-code" data-copy="uvx hf auth login" type="button">⧉</button></div>
 <div class="course-command"><code dir="ltr">uvx hf auth whoami</code><button aria-label="Copy command" class="copy copy-code" data-copy="uvx hf auth whoami" type="button">⧉</button></div>
 <div class="course-links"><a href="https://huggingface.co/settings/tokens" rel="noopener noreferrer" target="_blank">Access tokens</a></div>
 
 </div></article>
 <article class="course-step"><span class="course-number">11</span><div class="course-text">
-<h3>Deploy with Gradio and choose ZeroGPU</h3>
+<h3>Publish with our safe script</h3>
 <p>From the Gradio project folder, run the same deployment command used in the course. Our deployment script requests ZeroGPU (zero-a10g) automatically when creating the Space. You do not need to select hardware in a terminal prompt.</p>
-<div class="course-command"><code dir="ltr">uv run python deploy.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run python deploy.py" type="button">⧉</button></div>
-<div class="hint"><strong>Interactive terminal prompts — answer them in order:</strong><ol>
-<li><code>Add token as git credential? (Y/n)</code> — Choose <strong>n</strong> for this course's CLI deployment. Choose <strong>Y</strong> only if you also intend to push to your Hugging Face Space using Git from this computer. This stores a credential for Git; it is not required for Gradio deployment.</li>
-<li><code>Enter Spaces app title [gradio-app]:</code> — Type a distinctive public title such as <code>my-ai-digital-twin</code>, or press <strong>Enter</strong> to keep <code>gradio-app</code>.</li>
-<li><code>Enter Gradio app file [app.py]:</code> — Press <strong>Enter</strong>; this project uses <code>app.py</code>.</li>
-<li><code>Create Github Action to automatically update Space on 'git push'? [n]:</code> — Press <strong>Enter</strong> to select <strong>n</strong>. This course uses manual deployment; choosing yes requires maintaining a GitHub Action and its credentials.</li>
-<li>For subsequent prompts about visibility, choose <strong>public</strong> only if your fictional profile is safe to publish. Confirm the account/Space owner, then check the proposed hardware and choose <code>zero-a10g</code> if available. Other prompts vary by Gradio version; read them before accepting a default.</li>
-</ol><p><strong>These prompts are not errors.</strong> Metadata collection creates a new Space and uploads the app. A Write token grants permission for resources your account controls, but does not create the Space until you deploy.</p></div>
-<p class="hint"><strong>Large-folder warning:</strong> If the CLI says it is trying to upload a large folder, this is not necessarily a failure. Let the command finish, and check the Space/build logs. Confirm the current folder is <code>lessons/06-digital-twin/gradio-app</code>, and do not upload virtual environments, caches, local model weights or tokens. If it really fails due to size, use the <a href="https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder" target="_blank" rel="noopener noreferrer">official large-folder upload guide</a> for a deliberate upload to the existing Space.</p>
+<p class="course-hint">Optional check before publishing: <code>uv run deploy.py --check</code> validates the files without contacting Hugging Face.</p>
+<div class="course-command"><code dir="ltr">uv run deploy.py</code><button aria-label="Copy command" class="copy copy-code" data-copy="uv run deploy.py" type="button">⧉</button></div>
+<div class="hint"><strong>What our deployment script will ask:</strong><ol>
+<li><strong>Choose a Space name</strong> — Enter a simple name such as <code>my-ai-digital-twin</code>, or press Enter for the suggested name.</li>
+<li>The script selects the five app files, requests free <code>zero-a10g</code> hardware for eligible accounts, and prints your Space URL. <strong>No Git credential, GitHub Action or app-file selection prompts are part of this command.</strong></li>
+</ol><p><strong>Before deployment:</strong> Create a Hugging Face Write token at the linked page, log in using <code>uvx hf auth login</code>, and verify with <code>uvx hf auth whoami</code>. Keep your token private.</p></div>
+<p class="hint"><strong>Safe upload:</strong> <code>deploy.py</code> stages only five source files. Your local <code>.venv</code>, model downloads, and Git history are never uploaded. A large-folder warning belongs to the older <code>gradio deploy</code> workflow, not our recommended script.</p>
 <p class="course-alert">⚠️ The script requests <strong>zero-a10g</strong> automatically, not <strong>cpu-basic</strong>. Free hosting requires an eligible account; queues and limits apply. The deploy tool may not offer hardware selection in every version—verify it on Hugging Face.</p></div></article>
 <article class="course-step"><span class="course-number">12</span><div class="course-text">
 <h3>Test your public link and share it</h3>
-<p><strong>Open and run the deployed app:</strong> At the end of a successful deploy, open the Space URL shown in the terminal (typically <code>https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE</code>). If you missed it, sign in to Hugging Face → profile → Spaces → choose your Space. Click the <strong>App</strong> tab. If it says Building or Starting, view the build/runtime logs and return when the app is Running. Type an English question about the fictional character in the chat box and press Enter/Send. Try a question the profile does not answer as well. Hugging Face runs the deployed app: you do <strong>not</strong> need to keep <code>uv run app.py</code> running locally. If it sleeps, queues for GPU or shows an error, reload the Space and inspect <strong>Logs</strong> and <strong>Settings → Hardware</strong>. Share your link only after confirming the chat works.</p>
+<p><strong>Open and run the deployed app:</strong> At the end of a successful deploy, open the Space URL shown in the terminal (typically <code>https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE</code>). If you missed it, sign in to Hugging Face → profile → Spaces → choose your Space. Click the <strong>App</strong> tab. If it says Building or Starting, view the build/runtime logs and return when the app is Running. Type an English question about the fictional character in the chat box and press Enter/Send. Try a question the profile does not answer as well. Hugging Face runs the deployed app: you do <strong>not</strong> need to keep <code>uv run python app.py</code> running locally. If it sleeps, queues for GPU or shows an error, reload the Space and inspect <strong>Logs</strong> and <strong>Settings → Hardware</strong>. Share your link only after confirming the chat works.</p>
 <div class="course-links"><a href="https://huggingface.co/spaces" rel="noopener noreferrer" target="_blank">Your Spaces</a></div>
 </div></article>
 </div><div class="course-disclaimer">Local model testing is optional for basic school laptops. Publishing requires an eligible Hugging Face account; a live ZeroGPU deployment has not yet been verified for this project. Use fictional profiles only.</div></div>
 <div class="privacy" data-i="notice">🔒 Keep your Hugging Face access token private. Use a fictional profile. The chatbot may make mistakes; compare generated answers with the original facts. Busy/free-quota messages mean you should try again later.</div>
 <section class="final" id="finish"><h2 data-i="finishTitle">🏅 You've reached the finish line!</h2><p data-i="finishIntro">After completing the project, you can create a personal completion certificate. This is self-reported participation, not an independently verified qualification.</p><div class="cert-actions"><input aria-label="Name for certificate" id="studentName" maxlength="60" placeholder="Name or nickname (optional)" style="padding:11px;border:1px solid #628ab0;border-radius:11px;background:#0c2036;color:white;min-width:200px"/><button class="link-button primary" data-i="certButton" id="showCert" type="button">🏅 Create completion certificate</button><button class="link-button" data-i="print" id="printCert" style="display:none" type="button">Print certificate</button></div><div class="certificate" id="certificate" role="status"><div class="seal">🏅</div><p data-i="certHeader">AI Learning Lab</p><h3 data-i="certTitle">Certificate of Completion</h3><p id="certRecipient">Awarded to: AI Explorer</p><p data-i="certDetail">For exploring six lessons and completing the Digital Twin project.</p><strong data-i="certFooter">Keep experimenting. Keep learning.</strong></div></section>
-<section class="panel" style="border-color:#55b5a8"><h2><span class="only-en">📖 Safe one-command deployment</span><span class="only-ar">📖 نشر آمن بأمر واحد</span></h2><p><span class="only-en">Run <code dir="ltr">uv run python deploy.py</code> inside <code>gradio-app</code>. The script uploads only <code>app.py</code>, <code>twin_core.py</code>, <code>about-me.txt</code>, <code>requirements.txt</code> and a generated Space README. It never uploads <code>.venv</code>, local tokens, caches or Git history. First authenticate using <code>uvx hf auth login</code> with a Write token. On first run, choose a Space name. Future runs update the same Space. After upload, open the printed URL and wait for the App to be Running; check Logs and hardware if needed. If an older Space already contains thousands of tracked files, choose a fresh Space name for a clean deployment.</span><span class="only-ar">شغّل <code dir="ltr">uv run python deploy.py</code> داخل مجلد <code>gradio-app</code>. يرفع السكربت ملفات التطبيق المطلوبة فقط، ولا يرفع <code>.venv</code> أو الرموز السرية أو الذاكرة المؤقتة أو سجل Git. سجّل الدخول أولاً باستخدام <code dir="ltr">uvx hf auth login</code> ورمز بصلاحية كتابة. في أول تشغيل اختر اسم مساحة؛ وفي التشغيل التالي تُحدّث المساحة نفسها. افتح الرابط المطبوع وانتظر تشغيل التطبيق، وراجع السجلات والعتاد إذا لزم. إذا احتوت مساحة قديمة آلاف الملفات المتتبعة، اختر اسماً جديداً لمساحة نظيفة.</span></p></section></main>
+<section class="panel" style="border-color:#55b5a8"><h2><span class="only-en">📖 Safe one-command deployment</span><span class="only-ar">📖 نشر آمن بأمر واحد</span></h2><p><span class="only-en">Run <code dir="ltr">uv run deploy.py</code> inside <code>gradio-app</code>. The script uploads only <code>app.py</code>, <code>twin_core.py</code>, <code>about-me.txt</code>, <code>requirements.txt</code> and a generated Space README. It never uploads <code>.venv</code>, local tokens, caches or Git history. First authenticate using <code>uvx hf auth login</code> with a Write token. On first run, choose a Space name. Future runs update the same Space. After upload, open the printed URL and wait for the App to be Running; check Logs and hardware if needed. If an older Space already contains thousands of tracked files, choose a fresh Space name for a clean deployment.</span><span class="only-ar">شغّل <code dir="ltr">uv run deploy.py</code> داخل مجلد <code>gradio-app</code>. يرفع السكربت ملفات التطبيق المطلوبة فقط، ولا يرفع <code>.venv</code> أو الرموز السرية أو الذاكرة المؤقتة أو سجل Git. سجّل الدخول أولاً باستخدام <code dir="ltr">uvx hf auth login</code> ورمز بصلاحية كتابة. في أول تشغيل اختر اسم مساحة؛ وفي التشغيل التالي تُحدّث المساحة نفسها. افتح الرابط المطبوع وانتظر تشغيل التطبيق، وراجع السجلات والعتاد إذا لزم. إذا احتوت مساحة قديمة آلاف الملفات المتتبعة، اختر اسماً جديداً لمساحة نظيفة.</span></p></section></main>
 <footer class="footer"><div class="wrap"><a data-i="previousFooter" href="../05-ai-retrieval/">← Lesson 05</a><a data-i="back" href="../../">All lessons</a><a href="README.md" id="lessonReadme">Lesson guide</a><a href="gradio-app/README.md" id="sourceReadme">Deployment guide</a><p data-i="footer">The web lesson is a tutorial. The real AI model runs inside the separate Gradio application after setup or deployment.</p></div></footer>
 <script>
 const translations={

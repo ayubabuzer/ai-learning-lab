@@ -1,3 +1,20 @@
+## Version 7.3 — Lesson 05 tool and agent regression
+
+- **28/28** course structural tests passed and **11/11** Digital Twin unit tests passed.
+- Focused Playwright/Chromium test: desktop 1280 px and mobile 390 px passed; checks prepared weather/calculator/search questions, tool-toggle changes without stale answers, all eight tool ON/OFF combinations, guided agent runs and Reset, English/Arabic states and no horizontal overflow. The broader site browser smoke passed at desktop width but exceeded the execution limit during the mobile run; the targeted mobile Lesson 05 browser regression passed.
+- A disabled weather tool does not provide a fictional forecast; an enabled weather tool allows an illustrative Sunday recommendation. Without search the headphones agent gives general selection advice but no fictional product; with search it repeats the search before identifying fictional Option C. A disabled calculator does not block basic arithmetic.
+- The lesson is a scripted educational simulation, not live weather, shopping or AI inference. No live external service check performed.
+
+## Version 7.2 — Windows deployment review and King / Queen vector wording
+
+- Windows PowerShell instructions audited against current official uv, Git and Hugging Face CLI documentation; invalid macOS `open -e` command is confined to the Mac tab, while Windows uses `notepad about-me.txt`.
+- Recommended online deployment is a standalone `uv run deploy.py` PEP 723 script that installs only the Hugging Face client. Optional local inference still requires the larger project dependencies.
+- `uv run deploy.py --check` introduced for safe file staging. `python deploy.py --check` passed locally, proving only the intended five upload files are selected.
+- Added a GitHub Actions `windows-latest` job to exercise PowerShell deployment preflight and tests. **Its Windows execution is pending a GitHub Actions run.**
+- Live `uv run deploy.py --check` could not run in the current Linux container because uv needed to fetch Python 3.12 and outbound DNS/network access is disabled. This is not a Windows-specific failure or a demonstrated bug in the command.
+- Lesson 01 vector arithmetic now shows the calculated vector point near, but not identical to, Queen. Both English and Arabic explanations say Queen is the nearest example word and use ≈, not =.
+- All course and Digital Twin unit tests passed; the English figure was checked by rendering it in Chromium. No live Space deployment was attempted.
+
 ## Version 7.1 — Lesson 02 contextual meaning update
 
 - **26/26** course structural tests passed (`python -m unittest discover -s tests -v`).

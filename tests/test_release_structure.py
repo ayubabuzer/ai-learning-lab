@@ -95,6 +95,15 @@ class TestRelease(unittest.TestCase):
         self.assertIn('id="vectors"',t)
         self.assertNotIn('Optional deep dive · Unicode',t)
 
+    def test_vector_arithmetic_is_approximate_and_translated(self):
+        t=(LESSONS/FOLDERS[0]/"index.html").read_text(encoding="utf-8")
+        for value in ('King − Man + Woman ≈ Queen', 'ملك − رجل + امرأة ≈ ملكة',
+                      'Queen is the closest example word', 'أقرب كلمة في المثال هي ملكة',
+                      'data-t="analogyResult"', 'cx="326" cy="43"',
+                      'cx="286" cy="53" r="7"'):
+            with self.subTest(value=value): self.assertIn(value,t)
+        self.assertNotIn('King − Man + Woman = Queen', t)
+
     def test_lesson05_tool_and_agent_chat(self):
         t=(LESSONS/FOLDERS[4]/"index.html").read_text(encoding="utf-8")
         for value in ('How Does AI Use Tools and Work Towards a Goal?',
@@ -121,18 +130,35 @@ class TestRelease(unittest.TestCase):
         self.assertIn('TemporaryDirectory',text)
         self.assertIn('stage_files',text)
         self.assertNotIn('shutil.copytree',text)
-        self.assertIn('uv run python deploy.py',(LESSONS/FOLDERS[5]/'gradio-app'/'README.md').read_text())
+        self.assertIn('uv run deploy.py',(LESSONS/FOLDERS[5]/'gradio-app'/'README.md').read_text())
 
-    def test_gradio_deployment_prompt_guidance(self):
-        # Deployment prompts belong in Lesson 06, not the marketing homepage.
+    def test_windows_deployment_guide_and_legacy_prompts(self):
+        # The recommended script does not produce Gradio CLI metadata prompts.
         lesson=(LESSONS/FOLDERS[5]/'index.html').read_text(encoding='utf-8')
         home=(ROOT/'index.html').read_text(encoding='utf-8')
-        for phrase in ('Add token as git credential?',
-                       'Enter Spaces app title [gradio-app]:',
-                       'Enter Gradio app file [app.py]:'):
+        advanced=(LESSONS/FOLDERS[5]/'gradio-app'/'README.md').read_text(encoding='utf-8')
+        windows=lesson.split('data-os-panel="windows"',1)[1].split('data-os-panel="mac"',1)[0]
+        for command in ('winget install --id Git.Git -e', 'winget install --id astral-sh.uv -e',
+                        'uv python install 3.12', 'notepad about-me.txt',
+                        'uvx hf auth login', 'uv run deploy.py'):
+            with self.subTest(command=command): self.assertIn(command, windows)
+        self.assertNotIn('open -e about-me.txt', windows)
+        for phrase in ('Add token as git credential?', 'Enter Spaces app title [gradio-app]:',
+                       'Enter Gradio app file [app.py]:', 'Create Github Action'):
             with self.subTest(phrase=phrase):
-                self.assertIn(phrase,lesson)
-                self.assertNotIn(phrase,home)
+                self.assertNotIn(phrase, lesson)
+                self.assertNotIn(phrase, home)
+                self.assertIn(phrase, advanced)
+
+    def test_deploy_is_standalone_lightweight_uv_script(self):
+        script=(LESSONS/FOLDERS[5]/'gradio-app'/'deploy.py').read_text(encoding='utf-8')
+        self.assertTrue(script.startswith('# /// script'))
+        self.assertIn('huggingface_hub>=1.31,<3', script)
+        self.assertIn("sys.argv[1:] != ['--check']", script)
+        self.assertIn('stage_files(Path(temp)', script)
+        workflow=(ROOT/'.github/workflows/validate.yml').read_text(encoding='utf-8')
+        self.assertIn('runs-on: windows-latest',workflow)
+        self.assertIn('uv run deploy.py --check',workflow)
 
     def test_lesson03_training_before_misleading_challenge(self):
         t=(LESSONS/FOLDERS[2]/"index.html").read_text(encoding="utf-8")
@@ -250,7 +276,7 @@ class TestRelease(unittest.TestCase):
                       'data-os-panel="mac" hidden', 'uv python install 3.12',
                       'winget install --id Git.Git -e', 'git --version',
                       'brew install uv', 'uvx hf auth whoami',
-                      'uv run python deploy.py', 'zero-a10g'):
+                      'uv run deploy.py', 'zero-a10g'):
             with self.subTest(value=value): self.assertIn(value,t)
 
     def test_english_only_lesson6_and_image(self):
@@ -279,7 +305,7 @@ class TestRelease(unittest.TestCase):
         for value in ('AI doesn', 'id="lessons"', 'id="how"', 'id="bonus"',
                       'Share it with the world.', 'assets/language-navigation.js'):
             with self.subTest(value=value): self.assertIn(value,t)
-        for forbidden in ('id="deploy-guide"', 'uvx hf auth login', 'uv run python deploy.py'):
+        for forbidden in ('id="deploy-guide"', 'uvx hf auth login', 'uv run deploy.py'):
             with self.subTest(forbidden=forbidden): self.assertNotIn(forbidden,t)
 
     def test_gradio_project_valid(self):

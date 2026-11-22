@@ -1,7 +1,15 @@
+# /// script
+# requires-python = ">=3.12,<3.13"
+# dependencies = ["huggingface_hub>=1.31,<3"]
+# ///
+
 """Publish only the Digital Twin app files to a Hugging Face Space.
 
-Run from any directory with: uv run python lessons/06-digital-twin/gradio-app/deploy.py
-(or from this folder: uv run python deploy.py).
+Run from any directory with: uv run lessons/06-digital-twin/gradio-app/deploy.py
+(or from this folder: uv run deploy.py).
+
+PEP 723 script metadata installs only huggingface_hub for this command,
+not local Gradio, Transformers, PyTorch, or the Qwen model.
 """
 from __future__ import annotations
 
@@ -65,6 +73,21 @@ def main() -> int:
         print('This check reads project configuration files; it does not check installed packages in .venv.', file=sys.stderr)
         print('Update requirements.txt, pyproject.toml and space_compat.py together from the course release.', file=sys.stderr)
         return 1
+    if len(sys.argv) > 1:
+        if sys.argv[1:] != ['--check']:
+            print('Usage: uv run deploy.py [--check]', file=sys.stderr)
+            return 2
+        # Offline check: exercise the same file allowlist as deployment,
+        # without contacting Hugging Face or installing local model libraries.
+        with tempfile.TemporaryDirectory(prefix='ai-lab-preflight-') as temp:
+            files = stage_files(Path(temp), 'AI Learning Lab Check')
+            staged = {path.name for path in Path(temp).iterdir()}
+            if staged != set(files) or any(path.is_dir() for path in Path(temp).iterdir()):
+                print('Deployment preflight failed: unexpected files staged.', file=sys.stderr)
+                return 1
+            print('✓ Deployment preflight passed: ' + ', '.join(files))
+            print('✓ .venv, Git files, caches and secrets are not staged')
+            return 0
     try:
         api = HfApi()
         who = api.whoami()

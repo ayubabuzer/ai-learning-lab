@@ -22,10 +22,10 @@ Each lesson follows **short explanation → meaningful experiment or illustrated
 ```bash
 git clone https://github.com/ayubabuzer/ai-learning-lab.git
 cd ai-learning-lab/lessons/06-digital-twin/gradio-app
-uv run app.py
+uv run python app.py
 ```
 
-Local model inference can be slow and requires a capable computer. For optional Hugging Face deployment, read [the full account, token and deployment guide](lessons/06-digital-twin/gradio-app/README.md). Use `uvx hf auth login` followed by `uv run python deploy.py` when eligible; never put tokens or private personal data into public project files. The Digital Twin is a conversational chatbot, **not an autonomous agent**. ZeroGPU account eligibility, quotas and availability must be checked before deployment; successful public deployment has **not** been verified as part of this release.
+Local model inference can be slow and requires a capable computer. For optional Hugging Face deployment, read [the full account, token and deployment guide](lessons/06-digital-twin/gradio-app/README.md). Use `uvx hf auth login` followed by `uv run deploy.py` when eligible; never put tokens or private personal data into public project files. The Digital Twin is a conversational chatbot, **not an autonomous agent**. ZeroGPU account eligibility, quotas and availability must be checked before deployment; successful public deployment has **not** been verified as part of this release.
 
 **Repo layout:** Keep exactly the six existing lesson directories. The `05-ai-retrieval` directory retains its name to preserve URLs; its lesson now teaches tool selection and agents. Do not create a duplicate Lesson 05 folder. Lesson 06 remains English-only.
 
@@ -36,7 +36,7 @@ Before `uvx hf auth login`, open [Hugging Face tokens](https://huggingface.co/se
 
 ## Safe deployment
 
-Use `uv run python deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.
+Use `uv run deploy.py` from `lessons/06-digital-twin/gradio-app`. It sends only the required app source files, not `.venv` or secrets. Create a Hugging Face Write token first, authenticate using `uvx hf auth login`, then open the Space URL printed by the script. The first run asks for a Space name; subsequent runs update it. An existing oversized Space may require a clean new Space name.
 
 > Deployment update: the supplied `deploy.py` explicitly requests ZeroGPU (`zero-a10g`) rather than the default CPU Basic hardware when creating a new Space. Hosting eligibility is controlled by Hugging Face; no live deployment has been verified.
 
