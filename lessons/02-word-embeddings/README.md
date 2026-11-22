@@ -2,14 +2,14 @@
 
 [Arabic guide](README.ar.md) · [Open lesson](index.html)
 
-**Simple question:** Why do related words often appear close together in an AI word map?
+**Simple question:** How do related words—and the same word in two different situations—connect to meaning?
 
-**Guided experiment:** Choose a prepared comparison (cat/dog, cat/car, car/bus, or apple/banana) or any two words in the included map. The highlighted link and example similarity score update immediately. You can also select a dot. The percentage is calculated from the distance in this classroom illustration; **it is not a similarity score produced by a pretrained model**. There is no misleading free-text retraining control.
+**Experiment 1 — Word map:** Choose prepared pairs such as cat/dog or cat/car, select any map point, and watch the example connection and similarity score update together. The points and percentages come from an **invented classroom map**, not a pretrained embedding model.
 
-**More examples:** A compact king/man/woman/queen diagram shows possible directions between concepts. Side-by-side ball/bag illustrations show how *too small* versus *too big* changes what *it* likely refers to.
+**Experiment 2 — One word, two meanings:** Choose between a bank beside a river and a bank where money is deposited. The sentence clues, explanation, and illustrated position of **bank** switch together. This is a guided illustration of context, not a claim that a real model has two fixed bank locations.
 
-**Discovery:** Related word representations can share patterns, and surrounding words can change interpretation. This page does not run a real embedding or attention model.
+**Experiment 3 — Ball and bag:** Compare “too small” and “too big” to discover how context changes the likely referent of *it*.
 
-**Next:** Lesson 03 explores next-token prediction.
+**Discovery:** Related words can have similar representations, but meaning also depends on surrounding words.
 
-**Updated classroom illustration:** The first screen compares ready-made word pairs and updates both the map connection and similarity indicator. The compact king/queen example depicts each word as a dot with directional arrows. Scores and coordinates are explanatory examples, not model embeddings.
+**Next:** Lesson 03 explores how models learn patterns for predicting what comes next.

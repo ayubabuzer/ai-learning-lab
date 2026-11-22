@@ -76,10 +76,17 @@ class TestRelease(unittest.TestCase):
         t=(LESSONS/FOLDERS[1]/"index.html").read_text(encoding="utf-8")
         for value in ('id="plot"','id="wordA"','id="wordB"','id="score"','id="scoreFill"','id="presets"',
                       'Math.exp(-dist/160)', 'aria-pressed', 'attentionStory', 'smallSentence', 'bigSentence',
-                      'analogyTitle', 'not a probability or a measurement from a real AI model'):
+                      'bankStory', 'bankRiver', 'bankMoney', 'bankDot', 'drawBank()', 'not a probability or a measurement from a real AI model'):
             with self.subTest(value=value):self.assertIn(value,t)
         self.assertNotIn('id="rebuild"',t)
         self.assertNotIn('id="examples"',t)
+        self.assertNotIn('analogyTitle',t)
+        self.assertIn("bankRiverSentence:'We sat on the bank of the river.'",t)
+        self.assertIn("bankMoneySentence:'I deposited money at the bank.'",t)
+        self.assertIn('bankRiverAnswer',t)
+        self.assertIn('bankMoneyAnswer',t)
+        # Do not reintroduce the vector analogy taught in Lesson 01.
+        self.assertNotIn('King and queen: another kind of relationship',t)
 
     def test_lesson01_tokens_and_vectors(self):
         t=(LESSONS/FOLDERS[0]/"index.html").read_text(encoding="utf-8")

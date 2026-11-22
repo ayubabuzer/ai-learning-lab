@@ -8,7 +8,7 @@ Type a short message. The page illustrates small text pieces, stable teaching ID
 
 ## Lesson 02 — Word relationships and context (20 min)
 
-Choose cat/dog, cat/car and car/bus. Learners observe the line and example percentage change together, or click map dots to compare other prepared words. The score is a **distance on an invented 2D classroom map**, not model-derived semantic similarity. Discuss the small king/queen illustration and the side-by-side ball/bag examples to show how one adjective changes the likely reference. Do not call the illustrations real attention weights.
+Choose cat/dog, cat/car and car/bus. Learners observe the line and example percentage change together, or click map dots to compare other prepared words. The score is a **distance on an invented 2D classroom map**, not model-derived semantic similarity. Then use the bank experiment to compare a riverbank with a financial bank; ask which surrounding words provide the clues. Finish with the side-by-side ball/bag examples to show how one adjective changes the likely reference. The king/queen vector equation is taught once in Lesson 01. Do not call the illustrations real attention weights.
 
 ## Lesson 03 — Teach, test, retrain, then challenge (25 min)
 

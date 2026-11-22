@@ -113,9 +113,26 @@ def check():
           changed=page.locator('#score').inner_text()
           assert original!=changed,(original,changed)
           assert 'car' in page.locator('#wordPair').inner_text()
+          assert page.locator('#bankAnswer').inner_text()=='Land beside a river'
+          assert page.locator('#bankDot').get_attribute('cx')=='83'
+          page.locator('#bankMoney').click()
+          assert page.locator('#bankAnswer').inner_text()=='A place for money'
+          assert page.locator('#bankDot').get_attribute('cx')=='268'
+          assert page.locator('#bankMoney').get_attribute('aria-pressed')=='true'
+          assert page.locator('#bankRiver').get_attribute('aria-pressed')=='false'
+          page.locator('#bankRiver').click()
+          assert page.locator('#bankDot').get_attribute('cx')=='83'
+          page.locator('#bankMoney').click()
           page.locator('#language').click()
           assert page.locator('html').get_attribute('dir')=='rtl'
+          assert page.locator('#bankAnswer').inner_text()=='بنك للمال'
+          assert page.locator('#bankMoney').get_attribute('aria-pressed')=='true'
+          assert page.locator('#bankDot').get_attribute('cx')=='268'
           assert page.locator('#score').inner_text()==changed
+          page.locator('#bankRiver').click()
+          assert page.locator('#bankAnswer').inner_text()=='ضفة النهر'
+          assert page.locator('#bankDot').get_attribute('cx')=='83'
+          assert not page.locator('[data-t="analogyTitle"]').count()
         if '03-' in path:
           assert page.locator('#realTrainingHeading').is_visible()
           assert 'books' in page.locator('.training-story').inner_text().lower()

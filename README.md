@@ -9,7 +9,7 @@ AI Learning Lab is a free, open-source learning website for people of all ages. 
 | Lesson | Simple question | What is real and what is illustrative? |
 |---|---|---|
 | [01 · How Does AI Read Our Words?](lessons/01-how-ai-reads-words/) | How does a message become numbers? | Illustrative text pieces, token IDs and number patterns, followed by a conceptual word map |
-| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Interactive example map with curated word comparisons; compact king/queen and ball/bag illustrations, **not** measured pretrained embeddings |
+| [02 · How Does AI Connect Words?](lessons/02-word-embeddings/) | How can numbers relate words? | Interactive example map with curated word comparisons; a bank/river-versus-money context experiment and ball/bag illustrations, **not** measured pretrained embeddings |
 | [03 · How Does AI Learn to Predict?](lessons/03-next-word-prediction/) | How do examples change predictions? | A genuine count-based mini predictor: **teach → test → change → teach again**, a brief explanation of how large models learn from text, then an optional misleading-data challenge |
 | [04 · How Does AI Remember?](lessons/04-ai-context-memory/) | Where does its memory come from? | Guided chat: tap or drag prepared fact cards into context, ask a supported question, clear the context and ask again; **not a live LLM** |
 | [05 · How Does AI Use Tools and Work Towards a Goal?](lessons/05-ai-retrieval/) | How do tools and goal-seeking agents work? | Offline tool-call activity trace with real arithmetic and two replayable agent scenarios; illustrative external data |

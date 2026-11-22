@@ -1,3 +1,12 @@
+## Version 7.1 — Lesson 02 contextual meaning update
+
+- **26/26** course structural tests passed (`python -m unittest discover -s tests -v`).
+- **11/11** Digital Twin unit tests passed (`python -m unittest discover -s lessons/06-digital-twin/gradio-app/tests -v`).
+- JavaScript for Lesson 02 parsed successfully in Node.
+- Targeted Chromium interaction checks passed at **1280px and 390px**: map score selection, bank river ↔ money selection, changing map dot coordinates and answer, correct `aria-pressed`, switching to Arabic, translated answers, and no horizontal overflow or JavaScript errors.
+- The existing wider browser suite stalled while testing later lessons, so this release does not claim a fresh full-site browser pass. The change is isolated to Lesson 02 and its documentation/tests.
+- Word-map positions and similarity percentages are **illustrative**, not pretrained-model embeddings.
+
 ## Version 7 validation
 
 - 26/26 structural and documentation tests passed.
