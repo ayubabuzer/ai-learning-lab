@@ -6,4 +6,4 @@ Run from the `gradio-app` folder without downloading model weights:
 python -m unittest discover -s tests -v
 ```
 
-These test only the deterministic helper functions. Real GPU inference and account eligibility must be tested after deployment.
+The suite tests helper functions, the GPU-decorated Gradio handler with a mocked model, and the Transformers 5 `BatchEncoding` return contract. It does **not** download Qwen weights or execute a live ZeroGPU request. Test the deployed Space after publishing changes.

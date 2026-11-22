@@ -13,6 +13,10 @@ HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 
 
+class DummyBatchEncoding(dict):
+    """Transformers 5-style tokenizer return object: mapping, not tensor."""
+
+
 class DummyTokenizer:
     eos_token_id = 0
 
@@ -20,10 +24,13 @@ class DummyTokenizer:
     def from_pretrained(cls, _model_id):
         return cls()
 
-    def apply_chat_template(self, messages, **_kwargs):
+    def apply_chat_template(self, messages, **kwargs):
         import torch
-        # A tiny tensor with a stable prompt length, regardless of the profile.
-        return torch.tensor([[1, 2, 3]])
+        # v5 returns a BatchEncoding mapping by default. Deliberately do not
+        # expose .shape or .to so tests catch treating it as a Tensor.
+        assert kwargs["return_dict"] is True
+        ids = torch.tensor([[1, 2, 3]])
+        return DummyBatchEncoding(input_ids=ids, attention_mask=torch.ones_like(ids))
 
     def decode(self, tokens, **_kwargs):
         return "Hello! I'm Alex, an imaginary robot."
@@ -40,9 +47,10 @@ class DummyModel:
     def eval(self):
         return self
 
-    def generate(self, inputs, **_kwargs):
+    def generate(self, *, input_ids, attention_mask, **_kwargs):
         import torch
-        return torch.cat([inputs, torch.tensor([[4]])], dim=1)
+        assert torch.equal(attention_mask, torch.ones_like(input_ids))
+        return torch.cat([input_ids, torch.tensor([[4]])], dim=1)
 
 
 def load_app():
@@ -88,6 +96,24 @@ class StaticHandlerTest(unittest.TestCase):
                             for k in interfaces[0].keywords))
 
 
+    def test_transformers5_tokenizer_contract_is_explicit_in_source(self):
+        """Run on CI even if the heavyweight UI dependencies aren't installed."""
+        tree = ast.parse((HERE / "app.py").read_text(encoding="utf-8"))
+        calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call)]
+        template_calls = [n for n in calls if isinstance(n.func, ast.Attribute)
+                          and n.func.attr == "apply_chat_template"]
+        self.assertEqual(len(template_calls), 1)
+        self.assertTrue(any(k.arg == "return_dict" and isinstance(k.value, ast.Constant)
+                            and k.value.value is True for k in template_calls[0].keywords))
+        model_generate = [n for n in calls if isinstance(n.func, ast.Attribute)
+                          and n.func.attr == "generate"]
+        self.assertEqual(len(model_generate), 1)
+        self.assertTrue(any(k.arg is None for k in model_generate[0].keywords),
+                        "Generation must unpack named model inputs, not pass BatchEncoding as one tensor")
+        source = (HERE / "app.py").read_text(encoding="utf-8")
+        self.assertIn('encoded["input_ids"]', source)
+
+
 class ChatAppTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -113,6 +139,13 @@ class ChatAppTest(unittest.TestCase):
         config = self.app.demo.get_config_file()
         names = [d.get("api_name") for d in config["dependencies"]]
         self.assertIn("chat", names)
+
+    def test_transformers5_batchencoding_model_inputs(self):
+        import torch
+        model_inputs = self.app._inputs("Hello", [])
+        self.assertEqual(set(model_inputs), {"input_ids", "attention_mask"})
+        self.assertTrue(torch.equal(model_inputs["input_ids"], torch.tensor([[1, 2, 3]])))
+        self.assertEqual(model_inputs["input_ids"].shape, model_inputs["attention_mask"].shape)
 
     def test_genuine_model_response_and_context(self):
         answer = self.app.respond("What is your name?", [])

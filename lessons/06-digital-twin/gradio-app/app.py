@@ -45,19 +45,29 @@ logger.info("Model initialised on %s", DEVICE)
 MAX_CONTEXT_TOKENS = 3000
 
 
-def _inputs(message: str, history: list[dict]) -> torch.Tensor:
-    """Keep the fictional profile and latest question; shorten *history* first."""
+def _inputs(message: str, history: list[dict]) -> dict[str, torch.Tensor]:
+    """Build model inputs; trim old messages while preserving profile and question.
+
+    Transformers 5 returns a BatchEncoding (a mapping with ``input_ids`` and
+    ``attention_mask``), NOT a tensor, from ``apply_chat_template``. Access the
+    tensor by key and pass the complete mapping to ``generate``.
+    """
     messages = build_messages(message, history, PROFILE[:MAX_PROFILE_CHARS])
     while True:
-        ids = TOKENIZER.apply_chat_template(
+        encoded = TOKENIZER.apply_chat_template(
             messages,
             tokenize=True,
             add_generation_prompt=True,
             enable_thinking=False,
             return_tensors="pt",
+            return_dict=True,
         )
-        if ids.shape[-1] <= MAX_CONTEXT_TOKENS:
-            return ids.to(DEVICE)
+        input_ids = encoded["input_ids"]
+        if input_ids.shape[-1] <= MAX_CONTEXT_TOKENS:
+            # BatchEncoding.to() returns the mapping with all tensors moved;
+            # using a normal dict also makes the model's inputs explicit.
+            return {key: value.to(DEVICE) for key, value in encoded.items()
+                    if isinstance(value, torch.Tensor)}
         if len(messages) <= 2:
             raise ValueError("The character profile is too long for this chat. Shorten about-me.txt.")
         # Keep the system message and the latest user question intact.
@@ -75,13 +85,13 @@ def respond(message: str, history: list[dict] | None) -> str:
         inputs = _inputs(question, list(history or []))
         with torch.inference_mode():
             output = MODEL.generate(
-                inputs,
+                **inputs,
                 max_new_tokens=160,
                 do_sample=False,
                 pad_token_id=TOKENIZER.eos_token_id,
                 eos_token_id=TOKENIZER.eos_token_id,
             )
-        generated = output[0, inputs.shape[-1]:]
+        generated = output[0, inputs["input_ids"].shape[-1]:]
         answer = TOKENIZER.decode(generated, skip_special_tokens=True).strip()
         if "</think>" in answer:
             answer = answer.split("</think>", 1)[-1].strip()

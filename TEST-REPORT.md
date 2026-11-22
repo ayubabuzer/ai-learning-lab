@@ -1,3 +1,14 @@
+# AI Learning Lab — Version 6.3 regression validation
+
+- Diagnosed the reported live Space exception at `app.py:_inputs`: Transformers 5 returns `BatchEncoding`, not a bare tensor. Confirmed in the official Transformers v5 migration guide.
+- Changed token preparation to use `return_dict=True` and `encoded["input_ids"]`, passing all supported model inputs as named arguments.
+- **25/25** course structure tests passed.
+- **11/11** Digital Twin tests passed (including a Transformers 5 `BatchEncoding`-shaped mock, an attention-mask assertion, and an AST contract test that runs on lighter CI runners).
+- `app.py`, `deploy.py`, `space_compat.py`, and `twin_core.py` compile; the offline Space dependency compatibility check passed.
+- **Not verified:** a full model inference request on an actual Hugging Face ZeroGPU device, and the Space UI after uploading this fix.
+
+---
+
 # AI Learning Lab — Version 6.2 validation
 
 - **25/25** course structure/unit tests passed.
