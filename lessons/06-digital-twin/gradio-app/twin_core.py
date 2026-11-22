@@ -4,7 +4,6 @@ This module does not download models or contact an inference provider.
 """
 from __future__ import annotations
 
-import re
 from typing import Any
 
 MAX_PROFILE_CHARS = 8_000
@@ -15,7 +14,7 @@ MAX_HISTORY_MESSAGES = 12
 def system_prompt(profile: str) -> str:
     """Tell the model to use the *untrusted* fictional profile as reference data.
 
-    Prompting alone cannot guarantee factuality; source hints remain visible to users.
+    Prompting alone cannot guarantee factuality; character facts stay server-side.
     """
     return (
         "You are a friendly fictional character answering in the first person. "
@@ -47,35 +46,20 @@ def build_messages(question: str, history: list[dict[str, Any]] | None, profile:
     return messages
 
 
-STOPWORDS = {
-    "the", "a", "an", "is", "are", "what", "when", "where", "why", "who", "how", "do", "does", "i", "you",
-    "your", "my", "me", "tell", "about", "in", "at", "to", "on", "of", "and", "can", "please",
-}
-
-
-def tokens(text: str) -> list[str]:
-    return re.findall(r"[^\W_]+", (text or "").casefold(), flags=re.UNICODE)
-
-
-def candidate_source(profile: str, question: str) -> str:
-    """Return a candidate profile sentence for inspection, not verified evidence."""
-    terms = {t for t in tokens(question) if t not in STOPWORDS and len(t) > 1}
-    if not terms:
-        return ""
-    lines = [line.strip() for line in profile.splitlines() if line.strip()]
-    ranked = sorted(((len(terms & set(tokens(line))), index, line)
-                     for index, line in enumerate(lines)), reverse=True)
-    if not ranked or ranked[0][0] <= 0:
-        return ""
-    return ranked[0][2]
 
 
 def friendly_error(error: Exception, question: str = "") -> str:
     """Give a short, English-only message without exposing service details."""
     name = type(error).__name__.lower()
     description = str(error).lower()
-    busy = any(part in name or part in description for part in
-               ("quota", "rate", "limit", "queue", "busy", "timeout", "duration"))
-    if busy:
-        return "🤖 The AI is busy or its free allowance is reached. Please try again later."
-    return "🤖 The AI could not answer just now. Please try again later."
+    if any(part in name or part in description for part in ("quota", "allowance", "rate limit", "zero gpu quota")):
+        return "The free GPU allowance for this session may be exhausted. Please try again later."
+    if "duration" in description or "timeout" in name or "timed out" in description:
+        return "The model took too long to respond. Try a shorter question or try again later."
+    if any(part in name or part in description for part in ("cuda", "gpu", "device", "out of memory")):
+        return "The model couldn't access its GPU. The Space owner can check the runtime logs."
+    if any(part in name or part in description for part in ("queue", "busy")):
+        return "The model is busy. Please try again shortly."
+    if "profile is too long" in description:
+        return "The character profile is too long. The Space owner needs to shorten about-me.txt."
+    return "A model server error occurred. Please ask the Space owner to check runtime logs."

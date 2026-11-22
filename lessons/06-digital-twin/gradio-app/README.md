@@ -112,6 +112,16 @@ If the upload actually fails because the folder is too large, consult the [offic
 4. **Share or return later.** Copy the Space page URL and open it in another browser tab to verify public access. You **do not have to keep your laptop, terminal, or `uv run app.py` running** after successful deployment: Hugging Face hosts it. On free/shared resources the Space may sleep, wait in a GPU queue or exhaust a quota. Return to the Space URL and check logs if it does not respond.
 5. **When you edit the profile or code:** Save the local changes and redeploy with `uv run python deploy.py` (or use a configured Space/Git sync). Local file edits do not automatically update an existing Space when you answered `n` to the GitHub Action question.
 
+## If a chat still fails after deployment
+
+1. Open your Space → **Logs** → **Runtime** (not just Build logs). Send a question in the chat while viewing the log.
+2. If the answer contains a code such as `Reference: a1b2c3d4`, search the runtime logs for that code. The original Python exception and traceback are logged there; the public chat never reveals the traceback.
+3. Confirm **Settings → Hardware** shows the eligible **ZeroGPU** hardware. If the log mentions `No @spaces.GPU function detected`, verify that the updated `app.py` was uploaded, not the old version.
+4. For `ZeroGPU quota exceeded`, the visitor's GPU allowance needs to reset. For `CUDA` or worker errors, use the runtime traceback to investigate the actual failure. Repeatedly redeploying without reading logs will not fix a quota or infrastructure error.
+5. The app uses one request at a time to reduce shared-GPU contention. A cold GPU or model load can still be slow. Don't claim a request succeeded until a real model reply appears.
+
+To republish the corrected code from this folder, use `uv run python deploy.py`, then open the existing Space URL and test **What is your name?** and **Where do you live?**.
+
 ## About hosting and speed
 
 - Local inference first downloads model files and can be very slow on a Mac without suitable acceleration. You can skip the local model test on a weak laptop.
@@ -122,12 +132,14 @@ If the upload actually fails because the folder is too large, consult the [offic
 
 ## What the Digital Twin actually does
 
-The app creates a system instruction from the fictional facts, sends recent chat messages and the new question to a real text-generation model, and shows its freshly generated reply. Separately, it suggests a potentially related line from the profile. This is **not proof** the answer is correct. Unknown facts should produce “I don't know”, though real language models can still hallucinate.
+The public app is **chat only**: a conversation, one message composer, and suggested starter questions. It reads the fictional facts from `about-me.txt` on the server, combines them with recent chat messages, and asks the real Qwen model to generate its next response. Visitors cannot edit or view the profile *through the chat interface*. Remember that `about-me.txt` is still a file in a public Space repository — **never put private information in it**. Unknown facts should produce “I don't know”, although real language models can still make mistakes.
+
+**Why the previous version always replied with a generic error:** the GPU decoration was on an internal inference helper, not on Gradio's registered event handler, and a blanket exception handler hid the actual traceback. The new `respond()` function is both `@spaces.GPU`-decorated and directly registered in `gr.ChatInterface`. Each caught error now includes a short reference code; search for it in the Space **Logs → Runtime** to see the real underlying exception. This is a diagnosed code issue, not confirmation that the remote Space has been repaired until you redeploy and test it.
 
 ## Files
 
 - `app.py` — English-only Gradio chatbot with real model inference and ZeroGPU decorator
-- `twin_core.py` — prompt, conversation handling, source hints, error messages
+- `twin_core.py` — profile grounding, conversation history and error messages
 - `about-me.txt` — editable default fictional knowledge file
 - `pyproject.toml`, `.python-version`, `requirements.txt` — dependencies
 - `tests/` — quick tests without model downloads

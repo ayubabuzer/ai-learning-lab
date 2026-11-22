@@ -1,6 +1,6 @@
 # Lesson 06 — Build and Deploy Your AI Digital Twin (English only)
 
-This final lesson uses **one real English-language chatbot**, not an illustrative rule-based app. The model reads an editable fictional profile in `about-me.txt`, recent conversation history and the visitor's question, and generates an answer. The app shows a *possible matching source line* separately from the model's response.
+This final lesson uses **one real English-language chatbot**, not an illustrative rule-based app. The model reads an editable fictional profile in `about-me.txt`, recent conversation history and the visitor's question, and generates an answer. Visitors see a single modern chat screen; the character facts stay in the app file `about-me.txt` and are not displayed or editable in the public chat. The public Space repository may still expose that file, so use fictional facts only.
 
 On the [Lesson 06 page](./) choose **Windows** (default) or **Mac** for a short, guided setup. Git, Python 3.12, `uv`, the profile editor, local testing, Hugging Face login and `uv run python deploy.py` are all covered.
 
@@ -25,7 +25,7 @@ uv run python deploy.py
 
 Local inference can be slow and initially downloads model weights; local testing is optional on low-powered computers. On Hugging Face, choose **ZeroGPU (`zero-a10g`)** if your account is eligible. Check the Space settings if the deployment prompt does not offer hardware selection. No paid external model API key is needed, but GPU queues and free usage limits apply.
 
-Read the [full English project guide](gradio-app/README.md). Use only fictional information; a public Space's files are publicly accessible. The model can be wrong, and a possible source line is not proof of an accurate answer.
+Read the [full English project guide](gradio-app/README.md). Use only fictional information; a public Space's files are publicly accessible. The model can still make mistakes; check replies against the facts in `about-me.txt`.
 
 [← Lesson 05](../05-ai-retrieval/) · [All lessons](../../)
 

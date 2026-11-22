@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from twin_core import build_messages, candidate_source, friendly_error, system_prompt
+from twin_core import build_messages, friendly_error, system_prompt
 
 
 class TestCore(unittest.TestCase):
@@ -23,15 +23,21 @@ class TestCore(unittest.TestCase):
         self.assertIn("untrusted DATA", prompt)
         self.assertIn("<profile>", prompt)
 
-    def test_source_is_not_answer(self):
-        source = candidate_source("My name is Alex.\nI like science experiments.", "What science do you like?")
-        self.assertEqual(source, "I like science experiments.")
-        self.assertEqual(candidate_source("I like science.", "What is your age?"), "")
+    def test_context_keeps_relevant_turns_without_sources(self):
+        history = [
+            {"role": "user", "content": "My name is Alex."},
+            {"role": "assistant", "content": "Nice to meet you, Alex."},
+        ]
+        messages = build_messages("What is my name?", history, "I am a fictional robot.")
+        self.assertEqual(messages[-1]["content"], "What is my name?")
+        self.assertEqual(messages[1]["content"], "My name is Alex.")
+        self.assertEqual(len(messages), 4)
 
     def test_english_only_and_errors(self):
         self.assertIn("English only", system_prompt("My name is Alex."))
-        self.assertIn("try again", friendly_error(RuntimeError("GPU quota exceeded")).lower())
+        self.assertIn("allowance", friendly_error(RuntimeError("GPU quota exceeded")).lower())
         self.assertIn("try again", friendly_error(RuntimeError("queue is busy")).lower())
+        self.assertIn("gpu", friendly_error(RuntimeError("CUDA initialization failed")).lower())
 
 
 if __name__ == "__main__":

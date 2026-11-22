@@ -1,3 +1,14 @@
+# AI Learning Lab — Version 6.2 validation
+
+- **25/25** course structure/unit tests passed.
+- **9/9** Digital Twin unit tests passed, including a fast mocked-model Gradio integration check. If Gradio/PyTorch are missing on CI, the dependency-free AST registration check still runs and the heavyweight UI tests skip.
+- Real Gradio 6.x `/chat` API response verified with a mocked model; model weights were not downloaded.
+- `app.py`, `deploy.py`, `twin_core.py` and `space_compat.py` pass Python compilation, and the compatibility matrix passes the offline configuration check.
+- Strict Space deployment allowlist remains five files; `.venv`, private data and tests are excluded.
+- **Unverified:** live ZeroGPU inference in the owner's Hugging Face Space, on-device desktop/mobile visual screenshots (browser policy blocks opening localhost), external build/package resolution and service quotas. Ask for the actual Space Runtime Logs if the new deploy still fails.
+
+---
+
 # AI Learning Lab — Version 6.1 validation
 
 - Structural/unit tests: 25 course checks + 4 Digital Twin core tests passed.
